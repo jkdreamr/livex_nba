@@ -25,6 +25,7 @@ describe('select', () => {
     expect(out[0]).toBe('plc_40_flamingo');
     expect(out).toContain('plc_66_mavericks');   // remaining team (not the #1 back team)
     expect(new Set(out).size).toBe(out.length);    // deduped
+    expect(out.every((id) => isHarmonious('black', placementById(id)!.dominantColors))).toBe(true);
   });
   it('filters out low-contrast candidates for the chosen hoodie', () => {
     const out = buildCandidates({ hoodieColor: 'white', teamsRanked: [], density: 'maximal', vibe: 'playful' });
