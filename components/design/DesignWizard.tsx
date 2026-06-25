@@ -6,7 +6,7 @@ import { generate } from '@/lib/engine/generate';
 import { densityBudget } from '@/lib/engine/select';
 import type { Density, DesignSpec, HoodieColor, QuestionnaireAnswers, Vibe } from '@/lib/catalog/types';
 import { HOODIE_COLORS } from '@/lib/catalog/hoodie-colors';
-import { TEAMS, FEATURED_PATCHES } from '@/lib/catalog/teams';
+import { TEAMS, FEATURE_OPTIONS, FEATURED_PATCHES } from '@/lib/catalog/teams';
 import { VIBE_OPTIONS, DENSITY_OPTIONS } from '@/lib/questionnaire/options';
 import { StepHeading, PrimaryButton, GhostButton, SelectTile } from './primitives';
 import { Reveal } from './Reveal';
@@ -14,6 +14,32 @@ import { LandingLink } from '@/components/navigation/LandingLink';
 
 const STEPS = ['Team', 'Color', 'Style', 'Patches', 'Extras'] as const;
 const MAX_TEAMS = 3;
+
+// A full-bleed, low-opacity backdrop of Summer League gameplay shown only while
+// the fan is picking patches (the Extras step), so the moment feels immersive
+// without hurting tile legibility. Swap PATCH_BACKDROP_SRC for other footage
+// (drop it in /public/videos and point this at it). Degrades to the scrim alone
+// if the file is missing.
+const PATCH_BACKDROP_SRC = '/videos/patch-bg.mp4';
+
+function PatchBackdrop() {
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        className="absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 object-cover opacity-[0.18]"
+      >
+        <source src={PATCH_BACKDROP_SRC} type="video/mp4" />
+      </video>
+      {/* scrim keeps the patch tiles readable over the footage */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.45)_0%,rgba(0,0,0,0.84)_100%)]" />
+    </div>
+  );
+}
 
 export function DesignWizard() {
   const [step, setStep] = useState(0);
@@ -89,6 +115,7 @@ export function DesignWizard() {
 
   return (
     <main className="relative flex min-h-dvh flex-col px-5 pb-8 pt-6">
+      {step === 4 && <PatchBackdrop />}
       <div className="pointer-events-none absolute inset-0" style={{ background: 'var(--lx-glow)' }} />
       <LandingLink />
 
@@ -119,9 +146,41 @@ export function DesignWizard() {
             <StepHeading
               eyebrow="Who do you rep?"
               title="Who are you wearing?"
-              subtitle={`Your first team goes on the back. Add up to ${MAX_TEAMS} teams; tap order sets the rank.`}
+              subtitle={`Your first pick goes on the back. Rep the league or pick up to ${MAX_TEAMS} teams — tap order sets the rank.`}
             />
-            <div className="mx-auto mt-6 max-w-md">
+
+            {/* League / event options for fans who don't rep a single franchise. */}
+            <div className="mx-auto mt-6 w-full max-w-xl">
+              <p className="mb-2.5 text-center font-sans text-[11px] uppercase tracking-[0.25em] text-ink-muted">
+                No single team? Rep the league
+              </p>
+              <div className="grid grid-cols-3 gap-2.5">
+                {FEATURE_OPTIONS.map((o) => {
+                  const rank = teams.indexOf(o.slug);
+                  return (
+                    <SelectTile
+                      key={o.slug}
+                      selected={rank >= 0}
+                      onClick={() => toggleTeam(o.slug)}
+                      badge={rank >= 0 ? rank + 1 : undefined}
+                      className="items-center"
+                    >
+                      <div className="relative mx-auto h-12 w-full">
+                        <Image src={o.logo} alt="" fill sizes="140px" className="object-contain" />
+                      </div>
+                      <span className="mt-2 w-full text-center font-sans text-xs font-medium text-ink">{o.label}</span>
+                    </SelectTile>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="mx-auto mt-6 flex max-w-md items-center gap-3">
+              <span className="h-px flex-1 bg-line" />
+              <span className="font-sans text-[11px] uppercase tracking-[0.25em] text-ink-muted">or pick a franchise</span>
+              <span className="h-px flex-1 bg-line" />
+            </div>
+            <div className="mx-auto mt-4 max-w-md">
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
@@ -129,7 +188,7 @@ export function DesignWizard() {
                 className="w-full rounded-full border border-line bg-surface-raised px-5 py-3 font-sans text-sm text-ink outline-none placeholder:text-ink-muted/60 focus:border-brand"
               />
             </div>
-            <div className="mt-6 grid max-h-[46vh] grid-cols-2 gap-2.5 overflow-y-auto pr-1 sm:grid-cols-3 md:grid-cols-4">
+            <div className="mt-4 grid max-h-[36vh] grid-cols-2 gap-2.5 overflow-y-auto pr-1 sm:grid-cols-3 md:grid-cols-4">
               {filteredTeams.map((t) => {
                 const rank = teams.indexOf(t.slug);
                 return (

@@ -1,10 +1,12 @@
 import type { Graphic } from './types';
 import { PLACEMENT_GRAPHIC_CATALOG } from './placement-graphics';
+import { BACK_GRAPHIC_CATALOG } from './back-graphics';
 
 export interface TeamOption {
   slug: string;
   label: string;
-  /** Canonical franchise logo (the single `team`-tagged placement graphic). */
+  /** Picker thumbnail — a franchise logo, or a non-team back graphic for the
+   *  league/event "rep" options. */
   logo: string;
 }
 
@@ -19,6 +21,24 @@ export const TEAMS: TeamOption[] = PLACEMENT_GRAPHIC_CATALOG
   .filter((g): g is Graphic & { team: string } => Boolean(g.team))
   .map((g) => ({ slug: g.team, label: g.label, logo: g.file }))
   .sort((a, b) => a.label.localeCompare(b.label));
+
+/**
+ * League / event "rep" options for fans who don't want a single franchise on
+ * the back. Each maps 1:1 to a non-team back graphic, and the option's `slug`
+ * IS that back graphic's id — so `resolveBack()` can place it directly with no
+ * extra mapping. Validated against the live back catalog at module load, so a
+ * renamed/removed graphic surfaces immediately instead of 404-ing later.
+ */
+const FEATURE_BACK_IDS = [
+  'back_01_las-vegas-summer-league',
+  'back_02_summer-league',
+  'back_03_nba',
+] as const;
+
+export const FEATURE_OPTIONS: TeamOption[] = FEATURE_BACK_IDS
+  .map((id) => BACK_GRAPHIC_CATALOG.find((g) => g.id === id))
+  .filter((g): g is Graphic => Boolean(g))
+  .map((g) => ({ slug: g.id, label: g.label, logo: g.file }));
 
 const FEATURED_PATCH_IDS = [
   'plc_40_flamingo',

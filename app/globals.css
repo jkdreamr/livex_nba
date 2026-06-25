@@ -29,6 +29,16 @@ body {
 }
 
 @media (pointer: fine) { html.lx-cursor, html.lx-cursor * { cursor: none; } }
+/* The chat widget is a normal UI surface — restore the native cursor over it
+   even on the landing (where the custom dot otherwise hides every cursor).
+   Higher specificity than the rule above so it wins; the custom dot also hides
+   itself over [data-chat-cursor] (see Cursor.tsx). */
+@media (pointer: fine) {
+  html.lx-cursor [data-chat-cursor], html.lx-cursor [data-chat-cursor] * { cursor: auto; }
+  html.lx-cursor [data-chat-cursor] button, html.lx-cursor button[data-chat-cursor] { cursor: pointer; }
+  html.lx-cursor [data-chat-cursor] input,
+  html.lx-cursor [data-chat-cursor] textarea { cursor: text; }
+}
 
 .lx-grain::after {
   content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 60; opacity: 0.05;

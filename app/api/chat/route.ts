@@ -73,7 +73,7 @@ export async function POST(req: NextRequest): Promise<Response> {
         Authorization: `Bearer ${key}`,
         'Content-Type': 'application/json',
         'HTTP-Referer': process.env.OPENROUTER_SITE_URL || 'https://livex.ai',
-        'X-Title': 'LiveX × NBA Summer League',
+        'X-Title': 'LiveX x NBA Summer League', // ASCII only — header values must not carry non-Latin-1 chars
       },
       body: JSON.stringify({
         model: MODEL,
@@ -87,7 +87,20 @@ export async function POST(req: NextRequest): Promise<Response> {
   }
 
   if (!upstream.ok || !upstream.body) {
-    return textResponse('The assistant hit a snag reaching the model. Please try again.');
+    // Surface the real reason: log the full upstream error (visible in Vercel
+    // function logs) and return an actionable message instead of a generic one.
+    const detail = await upstream.text().catch(() => '');
+    console.error(`[chat] OpenRouter ${upstream.status} for model "${MODEL}": ${detail.slice(0, 800)}`);
+    let msg = 'The assistant hit a snag reaching the model. Please try again.';
+    if (upstream.status === 401 || upstream.status === 403) {
+      msg = 'The assistant is misconfigured — the OpenRouter API key looks invalid.';
+    } else if (upstream.status === 404) {
+      // Free / stealth models (owl-alpha) need prompt logging enabled.
+      msg = 'No model endpoint is available. For a free model, enable prompt logging under OpenRouter → Settings → Privacy, then try again.';
+    } else if (upstream.status === 429) {
+      msg = 'The assistant is busy right now (rate limited) — please try again in a moment.';
+    }
+    return textResponse(msg);
   }
 
   // Parse OpenRouter's SSE and re-stream just the text deltas as plain text.

@@ -29,7 +29,9 @@ const ANGLES: { label: string; y: number }[] = [
   { label: 'Left', y: Math.PI / 2 },
 ];
 
-const teamLabel = (slug: string) => TEAMS.find((t) => t.slug === slug)?.label ?? slug;
+// Franchise picks resolve to a TEAMS label; league/event "rep" picks use a
+// back-graphic-id slug, so fall back to that graphic's label (never the raw id).
+const teamLabel = (slug: string) => TEAMS.find((t) => t.slug === slug)?.label ?? backById(slug)?.label ?? slug;
 
 export function Reveal({
   spec,
@@ -46,6 +48,7 @@ export function Reveal({
   const [spin, setSpin] = useState(0);
   const [auto, setAuto] = useState(true);
 
+  const title = answers.teamsRanked[0] ? teamLabel(answers.teamsRanked[0]) : 'Summer League';
   const colorLabel = HOODIE_COLORS.find((c) => c.id === spec.hoodieColor)?.label ?? spec.hoodieColor;
   const backLabel = backById(spec.backGraphic.id)?.label ?? spec.backGraphic.id;
   const patchLabels = spec.patches
@@ -94,8 +97,8 @@ export function Reveal({
         <div>
           <p className="font-sans text-xs uppercase tracking-[0.3em] text-ink-muted">Your hoodie is ready</p>
           <h1 className="mt-2 font-display text-4xl font-semibold leading-tight text-ink sm:text-5xl">
-            {answers.teamsRanked[0] ? teamLabel(answers.teamsRanked[0]) : 'Summer League'}
-            <span className="block text-ink-muted">Summer League hoodie</span>
+            {title}
+            <span className="block text-ink-muted">{/summer league/i.test(title) ? 'Hoodie' : 'Summer League hoodie'}</span>
           </h1>
           <p className="mt-4 max-w-md font-sans text-sm leading-relaxed text-ink-muted">{spec.rationale}</p>
         </div>

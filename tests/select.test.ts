@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { resolveBack, densityBudget, buildCandidates } from '@/lib/engine/select';
-import { placementById } from '@/lib/catalog';
+import { placementById, teamPatch } from '@/lib/catalog';
 import { isHarmonious } from '@/lib/engine/harmony';
 import type { QuestionnaireAnswers } from '@/lib/catalog/types';
 
@@ -12,6 +12,15 @@ describe('select', () => {
   });
   it('resolveBack falls back to a Summer League back graphic with no team', () => {
     expect(resolveBack(base)).toBe('back_01_las-vegas-summer-league');
+  });
+  it('resolveBack places a league/event "rep" option directly (slug is a back id)', () => {
+    expect(resolveBack({ ...base, teamsRanked: ['back_02_summer-league'] })).toBe('back_02_summer-league');
+    expect(resolveBack({ ...base, teamsRanked: ['back_03_nba'] })).toBe('back_03_nba');
+  });
+  it('a league pick at #1 still uses a franchise at #2 for patches', () => {
+    const answers = { ...base, teamsRanked: ['back_02_summer-league', 'lakers'] };
+    expect(resolveBack(answers)).toBe('back_02_summer-league');           // back graphic = the league option
+    expect(buildCandidates(answers)).toContain(teamPatch('lakers')!.id);  // #2 franchise still patched
   });
   it('densityBudget maps tiers to caps (1/4/10)', () => {
     expect(densityBudget('minimal')).toBe(1);

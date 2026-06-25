@@ -73,7 +73,7 @@ export function ChatWidget() {
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-label={open ? 'Close assistant' : 'Open assistant'}
-        data-cursor="grow"
+        data-chat-cursor
         className="fixed bottom-5 right-5 z-[120] grid h-14 w-14 place-items-center rounded-full bg-brand text-white shadow-[0_14px_44px_-10px_rgba(40,69,231,0.8)] ring-1 ring-white/15 transition hover:brightness-110"
       >
         {open ? (
@@ -88,7 +88,7 @@ export function ChatWidget() {
       </button>
 
       {open && (
-        <div className="fixed bottom-24 right-5 z-[120] flex h-[min(72vh,560px)] w-[min(92vw,380px)] flex-col overflow-hidden rounded-2xl border border-line bg-surface/95 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] backdrop-blur-xl">
+        <div data-chat-cursor className="fixed bottom-24 right-5 z-[120] flex h-[min(72vh,560px)] w-[min(92vw,380px)] flex-col overflow-hidden rounded-2xl border border-line bg-surface/95 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] backdrop-blur-xl">
           <header className="flex items-center justify-between border-b border-line px-4 py-3">
             <div>
               <p className="font-display text-sm font-semibold text-ink">Ask the Drop</p>

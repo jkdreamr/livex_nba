@@ -9,6 +9,10 @@ export function Cursor() {
     document.documentElement.classList.add('lx-cursor');
     const move = (e: MouseEvent) => {
       gsap.to(dot.current, { x: e.clientX, y: e.clientY, duration: 0.25, ease: 'power3.out' });
+      // Over the chat widget, yield to the native cursor (see globals.css) and
+      // hide the dot so it never sits behind the panel or vanishes.
+      const overChat = !!(e.target as HTMLElement)?.closest('[data-chat-cursor]');
+      gsap.to(dot.current, { autoAlpha: overChat ? 0 : 1, duration: 0.15 });
       const t = (e.target as HTMLElement)?.closest('[data-cursor]') as HTMLElement | null;
       const mode = t?.dataset.cursor;
       gsap.to(dot.current, { scale: mode ? 3.2 : 1, duration: 0.3 });

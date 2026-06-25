@@ -1,7 +1,7 @@
 import type { QuestionnaireAnswers, Density, Graphic } from '@/lib/catalog/types';
 import {
   BACK_GRAPHIC_CATALOG, PLACEMENT_GRAPHIC_CATALOG,
-  teamBackGraphic, teamPatch, placementById,
+  teamBackGraphic, teamPatch, placementById, backById,
 } from '@/lib/catalog';
 import { isHarmonious, paletteDistance } from './harmony';
 
@@ -14,6 +14,8 @@ export const densityBudget = (d: Density): number => DENSITY_TARGET[d];
 export function resolveBack(answers: QuestionnaireAnswers): string {
   const top = answers.teamsRanked[0];
   if (top) {
+    // League/event "rep" option: the slug is itself a back-graphic id.
+    if (backById(top)) return top;
     const g = teamBackGraphic(top);
     if (g) return g.id;
   }
@@ -38,10 +40,13 @@ export function buildCandidates(answers: QuestionnaireAnswers): string[] {
     ordered.push(g.id);
   };
 
-  // Colour reference = the #1 team's palette, so the auto/"surprise" fillers are
-  // chosen to look good with the team the fan reps. Empty when no team is picked.
+  // Colour reference = the #1 pick's palette, so the auto/"surprise" fillers are
+  // chosen to look good with what the fan reps. For a franchise that's the team
+  // patch; for a league/event "rep" option it's the back graphic's colours.
+  // Empty when nothing is picked.
   const topTeam = answers.teamsRanked[0];
-  const teamColors = (topTeam ? teamPatch(topTeam)?.dominantColors : undefined) ?? [];
+  const teamColors =
+    (topTeam ? teamPatch(topTeam)?.dominantColors ?? backById(topTeam)?.dominantColors : undefined) ?? [];
 
   // 1. TEAM picks take priority over the optional add-ons: the remaining ranked
   //    teams (#2..; the #1 team already owns the back). They claim the prime
