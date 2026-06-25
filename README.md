@@ -22,7 +22,6 @@ Because the hoodies are physically manufactured, what the viewer shows is what g
 - [Configuration](#configuration)
 - [Testing](#testing)
 - [Deployment](#deployment)
-- [Working With Assets](#working-with-assets)
 - [Brand](#brand)
 
 ## Features
@@ -273,13 +272,6 @@ The app deploys cleanly to **Vercel** (or any Next.js host).
 3. Deploy. Environment-variable changes only take effect on the **next** deployment.
 
 For a high-traffic public launch, put a rate limiter in front of `POST /api/chat` (e.g. Vercel KV / Upstash) — it currently relies on bounded history and a max-token cap only.
-
-## Working With Assets
-
-- **Add a landing video:** drop `<id>.mp4` into `/public/videos/` (optional poster at `/public/videos/posters/<id>.jpg`), then set `videoSrc`/`poster`/`videoMode` on the matching entry in `LANDING_SECTIONS` (`lib/landing/landing.config.ts`).
-- **Patch-selection backdrop:** the Extras step plays `/public/videos/patch-bg.mp4` at low opacity. Swap that file (or point `PATCH_BACKDROP_SRC` in `components/design/DesignWizard.tsx` elsewhere) to change it.
-- **Swap the hero model:** `node scripts/build-lebron.mjs --src=<path/to/source.fbx>` (requires Blender at `/Applications/Blender.app` + `@gltf-transform/cli`). Replace `public/models/lebron.glb` and update `public/models/lebron-LICENSE.txt`.
-- **Brand logos:** `BrandLockup` reads `/public/logos/livex-ai.svg` and `/public/logos/nba-summer-league.svg`. If either is missing, a mono text fallback renders.
 
 ## Brand
 

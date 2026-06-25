@@ -15,14 +15,15 @@ import { LandingLink } from '@/components/navigation/LandingLink';
 const STEPS = ['Team', 'Color', 'Style', 'Patches', 'Extras'] as const;
 const MAX_TEAMS = 3;
 
-// A full-bleed, low-opacity backdrop of Summer League gameplay shown only while
-// the fan is picking patches (the Extras step), so the moment feels immersive
-// without hurting tile legibility. Swap PATCH_BACKDROP_SRC for other footage
-// (drop it in /public/videos and point this at it). Degrades to the scrim alone
-// if the file is missing.
-const PATCH_BACKDROP_SRC = '/videos/patch-bg.mp4';
+// A full-bleed, low-opacity backdrop of Summer League gameplay that runs behind
+// the whole questionnaire (every step, "Who are you wearing?" → "Want specific
+// patches?"), so the flow feels immersive without hurting legibility. Mounted
+// once for the wizard so it plays continuously across steps. Swap BACKDROP_SRC
+// for other footage (drop it in /public/videos). Degrades to the scrim alone if
+// the file is missing.
+const BACKDROP_SRC = '/videos/patch-bg.mp4';
 
-function PatchBackdrop() {
+function FlowBackdrop() {
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
       <video
@@ -33,7 +34,7 @@ function PatchBackdrop() {
         preload="auto"
         className="absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 object-cover opacity-[0.6]"
       >
-        <source src={PATCH_BACKDROP_SRC} type="video/mp4" />
+        <source src={BACKDROP_SRC} type="video/mp4" />
       </video>
       {/* light scrim so the gameplay reads clearly, with a touch more darkening
           at the very top/bottom edges to keep the heading and footer legible */}
@@ -116,7 +117,7 @@ export function DesignWizard() {
 
   return (
     <main className="relative flex min-h-dvh flex-col px-5 pb-8 pt-6">
-      {step === 4 && <PatchBackdrop />}
+      <FlowBackdrop />
       <div className="pointer-events-none absolute inset-0" style={{ background: 'var(--lx-glow)' }} />
       <LandingLink />
 
@@ -217,7 +218,7 @@ export function DesignWizard() {
 
         {step === 1 && (
           <div>
-            <StepHeading eyebrow="Color" title="Choose the hoodie color" subtitle="Four heavyweight fleece options." />
+            <StepHeading eyebrow="Color" title="Choose the hoodie color" subtitle="Three heavyweight fleece options." />
             <div className="mx-auto mt-8 grid max-w-3xl grid-cols-2 gap-3 sm:grid-cols-4">
               {HOODIE_COLORS.map((c) => (
                 <SelectTile key={c.id} selected={hoodieColor === c.id} onClick={() => setHoodieColor(c.id)}>

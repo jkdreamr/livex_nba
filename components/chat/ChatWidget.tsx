@@ -88,7 +88,11 @@ export function ChatWidget() {
       </button>
 
       {open && (
-        <div data-chat-cursor className="fixed bottom-24 right-5 z-[120] flex h-[min(72vh,560px)] w-[min(92vw,380px)] flex-col overflow-hidden rounded-2xl border border-line bg-surface/95 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] backdrop-blur-xl">
+        <div
+          data-chat-cursor
+          data-lenis-prevent
+          className="fixed bottom-24 right-5 z-[120] flex h-[min(72vh,560px)] w-[min(92vw,380px)] flex-col overflow-hidden rounded-2xl border border-line bg-surface/95 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)] backdrop-blur-xl"
+        >
           <header className="flex items-center justify-between border-b border-line px-4 py-3">
             <div>
               <p className="font-display text-sm font-semibold text-ink">Ask the Drop</p>
@@ -97,7 +101,7 @@ export function ChatWidget() {
             <span className="h-2 w-2 rounded-full bg-[#15B981] shadow-[0_0_10px_#15B981]" aria-hidden />
           </header>
 
-          <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
+          <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto overscroll-contain px-4 py-4">
             {messages.length === 0 ? (
               <div className="space-y-2.5">
                 <p className="font-sans text-sm text-ink-muted">
