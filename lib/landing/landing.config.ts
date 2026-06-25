@@ -23,9 +23,9 @@ export interface ActKeyframe {
 /** Edit sections/order/video-slots HERE only. */
 export const LANDING_SECTIONS: LandingSection[] = [
   { id: 'hero', kind: 'hero', headline: 'DESIGN YOUR DROP', body: 'NBA SUMMER LEAGUE · LAS VEGAS 2026' },
-  { id: 'reel-1', kind: 'video', headline: 'BUILT FOR THE MOMENT', theme: 'dark' /* videoSrc: '/videos/reel-1.mp4' */ },
+  { id: 'reel-1', kind: 'video', headline: 'BUILT FOR THE MOMENT', theme: 'dark', videoSrc: '/videos/reel-1.mp4' },
   { id: 'how', kind: 'content', headline: 'ANSWER A FEW QUESTIONS.', body: 'Get a hoodie made for you — designed in 3D, made for real.' },
-  { id: 'reel-2', kind: 'video', headline: 'YOUR TEAM. YOUR CITY.', theme: 'dark' /* videoSrc: '/videos/reel-2.mp4' */ },
+  { id: 'reel-2', kind: 'video', headline: 'YOUR TEAM. YOUR CITY.', theme: 'dark', videoSrc: '/videos/reel-2.mp4' },
   { id: 'cta', kind: 'cta', headline: 'START DESIGNING', body: 'Your drop is one scroll away.' },
 ];
 
