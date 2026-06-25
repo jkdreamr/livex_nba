@@ -9,6 +9,7 @@ import { Marquee } from '@/components/landing/Marquee';
 import { DevActOverlay } from '@/components/landing/DevActOverlay';
 import { SectionRenderer } from '@/components/landing/SectionRenderer';
 import { useLebronActs } from '@/components/landing/useLebronActs';
+import { usePageTransition } from '@/components/landing/PageTransition';
 import { LANDING_SECTIONS } from '@/lib/landing/landing.config';
 
 const HeroCanvas = dynamic(
@@ -19,7 +20,8 @@ const HeroCanvas = dynamic(
 export default function Home() {
   const [ready, setReady] = useState(false);
   useLebronActs(ready);
-  const onStart = useCallback(() => { window.location.href = '/design'; }, []); // replaced by PageTransition in Task 11
+  const { start, Overlay } = usePageTransition();
+  const onStart = useCallback(() => start('/design'), [start]);
   return (
     <SmoothScroll>
       <Preloader onDone={() => setReady(true)} />
@@ -31,6 +33,7 @@ export default function Home() {
         <Marquee items={['NBA SUMMER LEAGUE', 'LAS VEGAS 2026', 'DESIGN YOUR DROP', 'LIVEX AI']} />
       </main>
       <DevActOverlay />
+      <Overlay />
     </SmoothScroll>
   );
 }
