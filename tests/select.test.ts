@@ -1,5 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { resolveBack, densityBudget, buildCandidates } from '@/lib/engine/select';
+import { placementById } from '@/lib/catalog';
+import { isHarmonious } from '@/lib/engine/harmony';
 import type { QuestionnaireAnswers } from '@/lib/catalog/types';
 
 const base: QuestionnaireAnswers = { hoodieColor: 'black', teamsRanked: [], density: 'balanced', vibe: 'vegas' };
@@ -22,8 +24,16 @@ describe('select', () => {
     });
     expect(out[0]).toBe('plc_40_flamingo');
     expect(out).toContain('plc_66_mavericks');   // remaining team (not the #1 back team)
-    expect(out).not.toContain('plc_90_eclipse');  // low-contrast on black → filtered
     expect(new Set(out).size).toBe(out.length);    // deduped
+  });
+  it('filters out low-contrast candidates for the chosen hoodie', () => {
+    const out = buildCandidates({ hoodieColor: 'white', teamsRanked: [], density: 'maximal', vibe: 'playful' });
+    // every surviving candidate must be harmonious on white
+    for (const id of out) {
+      const g = placementById(id)!;
+      expect(isHarmonious('white', g.dominantColors)).toBe(true);
+    }
+    expect(out).not.toContain('plc_25_star-yellow'); // concrete real low-contrast item on white
   });
   it('vegas vibe surfaces vegas-mood graphics', () => {
     const out = buildCandidates(base);

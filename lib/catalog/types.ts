@@ -12,7 +12,7 @@ export type GraphicCategory =
 
 export interface Graphic {
   id: string; label: string; category: GraphicCategory;
-  mood: Mood[]; dominantColors: string[]; team?: string;
+  mood: Mood[]; dominantColors: string[]; file: string; team?: string;
 }
 export interface HoodieColorDef { id: HoodieColor; label: string; hex: string; }
 export interface QuestionnaireAnswers {

@@ -38,10 +38,12 @@ describe('schema + invariants', () => {
     ]};
     expect(checkInvariants(s).some(e => e.startsWith('patch count'))).toBe(true);
   });
-  it('rejects a low-contrast patch (eclipse on black)', () => {
-    const s: DesignSpec = { ...valid, patches: [
-      { id: 'plc_90_eclipse', zone: 'front_chest', scale: 0.5, rotationDeg: 0 },
-    ]};
+  it('rejects a low-contrast patch (yellow star on white)', () => {
+    const s: DesignSpec = {
+      ...valid, hoodieColor: 'white',
+      backGraphic: { id: 'back_01_las-vegas-summer-league', zone: 'back_center' },
+      patches: [{ id: 'plc_25_star-yellow', zone: 'front_chest', scale: 0.5, rotationDeg: 0 }],
+    };
     expect(checkInvariants(s).some(e => e.startsWith('low-contrast patch'))).toBe(true);
   });
   it('checkInvariants flags a patch placed in back_center (runtime guard)', () => {
