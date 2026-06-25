@@ -128,7 +128,7 @@ export function MyLookExperience() {
       <section className="relative h-[58vh] min-h-[430px] overflow-hidden lg:h-dvh">
         <MyLookViewer spec={spec} />
         <div
-          className={`absolute left-1/2 top-[7.8%] z-10 aspect-[0.72/1] w-[clamp(94px,25vw,132px)] -translate-x-1/2 overflow-hidden rounded-[48%] border border-white/25 bg-[#05060b] shadow-[0_18px_70px_rgba(0,0,0,0.55)] transition sm:top-[7%] sm:w-[clamp(104px,19vw,148px)] lg:top-[6.8%] lg:w-[clamp(104px,9.2vw,145px)] ${
+          className={`absolute left-1/2 top-[16%] z-10 aspect-[0.72/1] w-[clamp(88px,22vw,116px)] -translate-x-1/2 overflow-hidden rounded-[48%] border border-white/25 bg-[#05060b] shadow-[0_18px_70px_rgba(0,0,0,0.55)] transition sm:top-[15.6%] sm:w-[clamp(94px,15vw,124px)] lg:top-[15.8%] lg:w-[clamp(96px,7.8vw,118px)] ${
             cameraReady ? 'opacity-100' : 'opacity-55'
           }`}
         >
