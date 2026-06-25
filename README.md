@@ -86,7 +86,11 @@ Request body: `QuestionnaireAnswers` (JSON)
 }
 ```
 
-Response: `DesignSpec` (JSON) or `{ "error": "..." }` with status 400/500.
+Response:
+- **200 (success):** `{ "spec": { ...DesignSpec } }` (the spec is nested under a `spec` key)
+- **400 (invalid JSON):** `{ "error": "invalid JSON" }`
+- **400 (schema-invalid input):** `{ "error": <structured zod error object from .flatten()> }` (e.g., `{ formErrors: [], fieldErrors: {...} }`)
+- **500 (unexpected engine error):** `{ "error": "<message>" }`
 
 ## Environment Variables
 
