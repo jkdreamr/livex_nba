@@ -40,3 +40,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# asset pipeline QA intermediates (regenerable; PDFs not in repo)
+assets/contact_*.png
+assets/extract_raw.json
+assets/raw/

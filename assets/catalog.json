@@ -1,0 +1,2195 @@
+{
+  "back": [
+    {
+      "id": "back_01_las-vegas-summer-league",
+      "num": 1,
+      "file": "/logos/back/back_01_las-vegas-summer-league.png",
+      "label": "Las Vegas Summer League",
+      "category": "summer_league",
+      "mood": [
+        "classic",
+        "vegas"
+      ],
+      "dominantColors": [
+        "#F03030",
+        "#F05030",
+        "#F07050",
+        "#F0F0F0"
+      ]
+    },
+    {
+      "id": "back_02_summer-league",
+      "num": 2,
+      "file": "/logos/back/back_02_summer-league.png",
+      "label": "Summer League",
+      "category": "summer_league",
+      "mood": [
+        "classic",
+        "vegas"
+      ],
+      "dominantColors": [
+        "#105090",
+        "#305090",
+        "#103090",
+        "#103070"
+      ]
+    },
+    {
+      "id": "back_03_nba",
+      "num": 3,
+      "file": "/logos/back/back_03_nba.png",
+      "label": "NBA",
+      "category": "nba_league",
+      "mood": [
+        "classic"
+      ],
+      "dominantColors": [
+        "#105090",
+        "#D03030",
+        "#D01030",
+        "#305090"
+      ]
+    },
+    {
+      "id": "back_04_los-angeles",
+      "num": 4,
+      "file": "/logos/back/back_04_los-angeles.png",
+      "label": "Los Angeles",
+      "category": "city_text",
+      "mood": [
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#303070",
+        "#F0B030",
+        "#F0B010",
+        "#F0D030"
+      ]
+    },
+    {
+      "id": "back_05_hawks",
+      "num": 5,
+      "file": "/logos/back/back_05_hawks.png",
+      "label": "Atlanta Hawks",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#D01030",
+        "#D03030",
+        "#F05050",
+        "#F07070"
+      ],
+      "team": "hawks"
+    },
+    {
+      "id": "back_06_nets",
+      "num": 6,
+      "file": "/logos/back/back_06_nets.png",
+      "label": "Brooklyn Nets",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#101010",
+        "#303030",
+        "#D0D0D0",
+        "#505050"
+      ],
+      "team": "nets"
+    },
+    {
+      "id": "back_07_celtics",
+      "num": 7,
+      "file": "/logos/back/back_07_celtics.png",
+      "label": "Boston Celtics",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#109050",
+        "#101030",
+        "#B03030",
+        "#103030"
+      ],
+      "team": "celtics"
+    },
+    {
+      "id": "back_08_hornets",
+      "num": 8,
+      "file": "/logos/back/back_08_hornets.png",
+      "label": "Charlotte Hornets",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#301050",
+        "#101050",
+        "#107090",
+        "#B0B0B0"
+      ],
+      "team": "hornets"
+    },
+    {
+      "id": "back_09_mavericks",
+      "num": 9,
+      "file": "/logos/back/back_09_mavericks.png",
+      "label": "Dallas Mavericks",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#101030",
+        "#1070B0",
+        "#101010",
+        "#B0D0D0"
+      ],
+      "team": "mavericks"
+    },
+    {
+      "id": "back_10_nuggets",
+      "num": 10,
+      "file": "/logos/back/back_10_nuggets.png",
+      "label": "Denver Nuggets",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#103030",
+        "#F0D030",
+        "#903030",
+        "#101030"
+      ],
+      "team": "nuggets"
+    },
+    {
+      "id": "back_11_pistons",
+      "num": 11,
+      "file": "/logos/back/back_11_pistons.png",
+      "label": "Detroit Pistons",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#D01030",
+        "#105090",
+        "#D03030",
+        "#B0B0B0"
+      ],
+      "team": "pistons"
+    },
+    {
+      "id": "back_12_warriors",
+      "num": 12,
+      "file": "/logos/back/back_12_warriors.png",
+      "label": "Golden State Warriors",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#305090",
+        "#F0D030",
+        "#505090",
+        "#D0B050"
+      ],
+      "team": "warriors"
+    },
+    {
+      "id": "back_13_pacers",
+      "num": 13,
+      "file": "/logos/back/back_13_pacers.png",
+      "label": "Indiana Pacers",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#103050",
+        "#F0D010",
+        "#D0D0D0",
+        "#103030"
+      ],
+      "team": "pacers"
+    },
+    {
+      "id": "back_14_clippers",
+      "num": 14,
+      "file": "/logos/back/back_14_clippers.png",
+      "label": "LA Clippers",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#103030",
+        "#103050",
+        "#101030",
+        "#303050"
+      ],
+      "team": "clippers"
+    },
+    {
+      "id": "back_15_rockets",
+      "num": 15,
+      "file": "/logos/back/back_15_rockets.png",
+      "label": "Houston Rockets",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#B03030",
+        "#D03030",
+        "#D05030",
+        "#D05050"
+      ],
+      "team": "rockets"
+    },
+    {
+      "id": "back_16_heat",
+      "num": 16,
+      "file": "/logos/back/back_16_heat.png",
+      "label": "Miami Heat",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#901030",
+        "#101030",
+        "#101010",
+        "#303030"
+      ],
+      "team": "heat"
+    },
+    {
+      "id": "back_17_bucks",
+      "num": 17,
+      "file": "/logos/back/back_17_bucks.png",
+      "label": "Milwaukee Bucks",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#105030",
+        "#F0F0D0",
+        "#105010",
+        "#305030"
+      ],
+      "team": "bucks"
+    },
+    {
+      "id": "back_18_timberwolves",
+      "num": 18,
+      "file": "/logos/back/back_18_timberwolves.png",
+      "label": "Minnesota Timberwolves",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#105090",
+        "#D0D0D0",
+        "#109050",
+        "#305090"
+      ],
+      "team": "timberwolves"
+    },
+    {
+      "id": "back_19_pelicans",
+      "num": 19,
+      "file": "/logos/back/back_19_pelicans.png",
+      "label": "New Orleans Pelicans",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#101050",
+        "#D09070",
+        "#D0B070",
+        "#303050"
+      ],
+      "team": "pelicans"
+    },
+    {
+      "id": "back_20_knicks",
+      "num": 20,
+      "file": "/logos/back/back_20_knicks.png",
+      "label": "New York Knicks",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#F09030",
+        "#105090",
+        "#909090",
+        "#305090"
+      ],
+      "team": "knicks"
+    },
+    {
+      "id": "back_21_thunder",
+      "num": 21,
+      "file": "/logos/back/back_21_thunder.png",
+      "label": "Oklahoma City Thunder",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#103070",
+        "#F03030",
+        "#1070D0",
+        "#103050"
+      ],
+      "team": "thunder"
+    },
+    {
+      "id": "back_22_suns",
+      "num": 22,
+      "file": "/logos/back/back_22_suns.png",
+      "label": "Phoenix Suns",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#F07030",
+        "#F0B010",
+        "#101030",
+        "#F0B030"
+      ],
+      "team": "suns"
+    },
+    {
+      "id": "back_23_trail-blazers",
+      "num": 23,
+      "file": "/logos/back/back_23_trail-blazers.png",
+      "label": "Portland Trail Blazers",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#101030",
+        "#F03030",
+        "#101010",
+        "#D03030"
+      ],
+      "team": "trail-blazers"
+    },
+    {
+      "id": "back_24_kings",
+      "num": 24,
+      "file": "/logos/back/back_24_kings.png",
+      "label": "Sacramento Kings",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#503090",
+        "#707070",
+        "#503070",
+        "#703090"
+      ],
+      "team": "kings"
+    },
+    {
+      "id": "back_25_spurs",
+      "num": 25,
+      "file": "/logos/back/back_25_spurs.png",
+      "label": "San Antonio Spurs",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#101030",
+        "#D0D0D0",
+        "#101010",
+        "#103030"
+      ],
+      "team": "spurs"
+    },
+    {
+      "id": "back_26_raptors",
+      "num": 26,
+      "file": "/logos/back/back_26_raptors.png",
+      "label": "Toronto Raptors",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#B03030",
+        "#B01010",
+        "#B01030",
+        "#D03030"
+      ],
+      "team": "raptors"
+    },
+    {
+      "id": "back_27_jazz",
+      "num": 27,
+      "file": "/logos/back/back_27_jazz.png",
+      "label": "Utah Jazz",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#503090",
+        "#9070B0",
+        "#501070",
+        "#503070"
+      ],
+      "team": "jazz"
+    },
+    {
+      "id": "back_28_wizards",
+      "num": 28,
+      "file": "/logos/back/back_28_wizards.png",
+      "label": "Washington Wizards",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#103050",
+        "#D0D0D0",
+        "#F01030",
+        "#F0F0F0"
+      ],
+      "team": "wizards"
+    },
+    {
+      "id": "back_29_lakers",
+      "num": 29,
+      "file": "/logos/back/back_29_lakers.png",
+      "label": "Los Angeles Lakers",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#F0B030",
+        "#303070",
+        "#F0D030",
+        "#503070"
+      ],
+      "team": "lakers"
+    },
+    {
+      "id": "back_30_cavaliers",
+      "num": 30,
+      "file": "/logos/back/back_30_cavaliers.png",
+      "label": "Cleveland Cavaliers",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#B09050",
+        "#901030",
+        "#D09070",
+        "#D0B070"
+      ],
+      "team": "cavaliers"
+    },
+    {
+      "id": "back_31_magic",
+      "num": 31,
+      "file": "/logos/back/back_31_magic.png",
+      "label": "Orlando Magic",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#3050B0",
+        "#101010",
+        "#1050B0",
+        "#303030"
+      ],
+      "team": "magic"
+    },
+    {
+      "id": "back_32_grizzlies",
+      "num": 32,
+      "file": "/logos/back/back_32_grizzlies.png",
+      "label": "Memphis Grizzlies",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#103050",
+        "#7090B0",
+        "#707070",
+        "#103030"
+      ],
+      "team": "grizzlies"
+    },
+    {
+      "id": "back_33_sixers",
+      "num": 33,
+      "file": "/logos/back/back_33_sixers.png",
+      "label": "Philadelphia 76ers",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#105090",
+        "#D01030",
+        "#101010",
+        "#D03030"
+      ],
+      "team": "sixers"
+    }
+  ],
+  "placement": [
+    {
+      "id": "plc_01_martini",
+      "num": 1,
+      "file": "/logos/placement/plc_01_martini.png",
+      "label": "Martini",
+      "category": "fun",
+      "mood": [
+        "vegas",
+        "playful"
+      ],
+      "dominantColors": [
+        "#101010",
+        "#303030",
+        "#F07030",
+        "#D0D0D0"
+      ]
+    },
+    {
+      "id": "plc_02_summer-league-2026",
+      "num": 2,
+      "file": "/logos/placement/plc_02_summer-league-2026.png",
+      "label": "Summer League 2026",
+      "category": "summer_league",
+      "mood": [
+        "classic",
+        "vegas"
+      ],
+      "dominantColors": [
+        "#101010",
+        "#303030",
+        "#505050",
+        "#707070"
+      ]
+    },
+    {
+      "id": "plc_03_welcome-to-las-vegas",
+      "num": 3,
+      "file": "/logos/placement/plc_03_welcome-to-las-vegas.png",
+      "label": "Welcome to Las Vegas",
+      "category": "vegas",
+      "mood": [
+        "vegas"
+      ],
+      "dominantColors": [
+        "#5070B0",
+        "#D0B070",
+        "#D05030",
+        "#F0F0D0"
+      ]
+    },
+    {
+      "id": "plc_04_what-happens-in-vegas",
+      "num": 4,
+      "file": "/logos/placement/plc_04_what-happens-in-vegas.png",
+      "label": "What Happens in Vegas",
+      "category": "vegas",
+      "mood": [
+        "vegas",
+        "playful"
+      ],
+      "dominantColors": [
+        "#F0F0D0",
+        "#D05030",
+        "#F0F0F0",
+        "#5070B0"
+      ]
+    },
+    {
+      "id": "plc_05_basketball",
+      "num": 5,
+      "file": "/logos/placement/plc_05_basketball.png",
+      "label": "Basketball",
+      "category": "fun",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#F09030",
+        "#101010",
+        "#F0B050",
+        "#F09050"
+      ]
+    },
+    {
+      "id": "plc_06_foam-finger",
+      "num": 6,
+      "file": "/logos/placement/plc_06_foam-finger.png",
+      "label": "Foam Finger",
+      "category": "fun",
+      "mood": [
+        "playful",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#105090",
+        "#103090",
+        "#305090",
+        "#103070"
+      ]
+    },
+    {
+      "id": "plc_07_sun",
+      "num": 7,
+      "file": "/logos/placement/plc_07_sun.png",
+      "label": "Sun",
+      "category": "fun",
+      "mood": [
+        "playful",
+        "vegas"
+      ],
+      "dominantColors": [
+        "#F0D090",
+        "#F09030",
+        "#101010",
+        "#F0F0B0"
+      ]
+    },
+    {
+      "id": "plc_08_planet-basketball",
+      "num": 8,
+      "file": "/logos/placement/plc_08_planet-basketball.png",
+      "label": "Planet Basketball",
+      "category": "fun",
+      "mood": [
+        "playful",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#105090",
+        "#B03030",
+        "#D03030",
+        "#103090"
+      ]
+    },
+    {
+      "id": "plc_09_flower",
+      "num": 9,
+      "file": "/logos/placement/plc_09_flower.png",
+      "label": "Flower",
+      "category": "fun",
+      "mood": [
+        "playful"
+      ],
+      "dominantColors": [
+        "#3090D0",
+        "#F0B0D0",
+        "#5090D0",
+        "#3070D0"
+      ]
+    },
+    {
+      "id": "plc_10_cherries",
+      "num": 10,
+      "file": "/logos/placement/plc_10_cherries.png",
+      "label": "Cherries",
+      "category": "fun",
+      "mood": [
+        "vegas",
+        "playful"
+      ],
+      "dominantColors": [
+        "#D03030",
+        "#509050",
+        "#B03030",
+        "#D05050"
+      ]
+    },
+    {
+      "id": "plc_11_pizza",
+      "num": 11,
+      "file": "/logos/placement/plc_11_pizza.png",
+      "label": "Pizza",
+      "category": "fun",
+      "mood": [
+        "playful"
+      ],
+      "dominantColors": [
+        "#F09030",
+        "#D09030",
+        "#F0B070",
+        "#F0B050"
+      ]
+    },
+    {
+      "id": "plc_12_summer-league-flames",
+      "num": 12,
+      "file": "/logos/placement/plc_12_summer-league-flames.png",
+      "label": "Summer League Flames",
+      "category": "summer_league",
+      "mood": [
+        "streetwear",
+        "classic"
+      ],
+      "dominantColors": [
+        "#F09030",
+        "#105090",
+        "#101010",
+        "#303030"
+      ]
+    },
+    {
+      "id": "plc_13_wave",
+      "num": 13,
+      "file": "/logos/placement/plc_13_wave.png",
+      "label": "Wave",
+      "category": "fun",
+      "mood": [
+        "playful",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#90B0D0",
+        "#105090",
+        "#D03030",
+        "#90B0F0"
+      ]
+    },
+    {
+      "id": "plc_14_western-conference",
+      "num": 14,
+      "file": "/logos/placement/plc_14_western-conference.png",
+      "label": "Western Conference",
+      "category": "conference",
+      "mood": [
+        "classic"
+      ],
+      "dominantColors": [
+        "#105090",
+        "#D03030",
+        "#103090",
+        "#305090"
+      ]
+    },
+    {
+      "id": "plc_15_eastern-conference",
+      "num": 15,
+      "file": "/logos/placement/plc_15_eastern-conference.png",
+      "label": "Eastern Conference",
+      "category": "conference",
+      "mood": [
+        "classic"
+      ],
+      "dominantColors": [
+        "#D03030",
+        "#105090",
+        "#D05050",
+        "#F0D0D0"
+      ]
+    },
+    {
+      "id": "plc_16_trophy",
+      "num": 16,
+      "file": "/logos/placement/plc_16_trophy.png",
+      "label": "Championship Trophy",
+      "category": "fun",
+      "mood": [
+        "classic"
+      ],
+      "dominantColors": [
+        "#101010",
+        "#F0B030",
+        "#F0D030",
+        "#303030"
+      ]
+    },
+    {
+      "id": "plc_17_evil-eye",
+      "num": 17,
+      "file": "/logos/placement/plc_17_evil-eye.png",
+      "label": "Evil Eye",
+      "category": "fun",
+      "mood": [
+        "streetwear",
+        "playful"
+      ],
+      "dominantColors": [
+        "#301010",
+        "#105090",
+        "#303030",
+        "#F09030"
+      ]
+    },
+    {
+      "id": "plc_18_summer-league-badge",
+      "num": 18,
+      "file": "/logos/placement/plc_18_summer-league-badge.png",
+      "label": "Summer League Badge",
+      "category": "summer_league",
+      "mood": [
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#90B0D0",
+        "#105090",
+        "#F09030",
+        "#103090"
+      ]
+    },
+    {
+      "id": "plc_19_lips",
+      "num": 19,
+      "file": "/logos/placement/plc_19_lips.png",
+      "label": "Lips",
+      "category": "fun",
+      "mood": [
+        "streetwear",
+        "playful"
+      ],
+      "dominantColors": [
+        "#F09030",
+        "#D03030",
+        "#301010",
+        "#105090"
+      ]
+    },
+    {
+      "id": "plc_20_nba-jersey",
+      "num": 20,
+      "file": "/logos/placement/plc_20_nba-jersey.png",
+      "label": "NBA Jersey",
+      "category": "nba_league",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#101010",
+        "#105090",
+        "#D01030",
+        "#305090"
+      ]
+    },
+    {
+      "id": "plc_21_hoop",
+      "num": 21,
+      "file": "/logos/placement/plc_21_hoop.png",
+      "label": "Hoop",
+      "category": "fun",
+      "mood": [
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#F09030",
+        "#305090",
+        "#5070B0",
+        "#7090B0"
+      ]
+    },
+    {
+      "id": "plc_22_net",
+      "num": 22,
+      "file": "/logos/placement/plc_22_net.png",
+      "label": "Net",
+      "category": "fun",
+      "mood": [
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#F0D0F0",
+        "#90D0F0",
+        "#705090",
+        "#B0D0F0"
+      ]
+    },
+    {
+      "id": "plc_23_rainbow",
+      "num": 23,
+      "file": "/logos/placement/plc_23_rainbow.png",
+      "label": "Rainbow",
+      "category": "fun",
+      "mood": [
+        "playful"
+      ],
+      "dominantColors": [
+        "#D0D0F0",
+        "#9050B0",
+        "#D0F0F0",
+        "#9070B0"
+      ]
+    },
+    {
+      "id": "plc_24_star-purple",
+      "num": 24,
+      "file": "/logos/placement/plc_24_star-purple.png",
+      "label": "Purple Star",
+      "category": "fun",
+      "mood": [
+        "streetwear",
+        "playful"
+      ],
+      "dominantColors": [
+        "#303070",
+        "#301070",
+        "#503070",
+        "#505090"
+      ]
+    },
+    {
+      "id": "plc_25_star-yellow",
+      "num": 25,
+      "file": "/logos/placement/plc_25_star-yellow.png",
+      "label": "Yellow Star",
+      "category": "fun",
+      "mood": [
+        "playful",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#F0D010",
+        "#F0F030",
+        "#F0F050",
+        "#F0F070"
+      ]
+    },
+    {
+      "id": "plc_26_star-blue",
+      "num": 26,
+      "file": "/logos/placement/plc_26_star-blue.png",
+      "label": "Blue Star",
+      "category": "fun",
+      "mood": [
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#105090",
+        "#305090",
+        "#103070",
+        "#103090"
+      ]
+    },
+    {
+      "id": "plc_27_star-green",
+      "num": 27,
+      "file": "/logos/placement/plc_27_star-green.png",
+      "label": "Green Star",
+      "category": "fun",
+      "mood": [
+        "streetwear",
+        "playful"
+      ],
+      "dominantColors": [
+        "#109050",
+        "#109030",
+        "#30B070",
+        "#10B050"
+      ]
+    },
+    {
+      "id": "plc_28_nba-logo",
+      "num": 28,
+      "file": "/logos/placement/plc_28_nba-logo.png",
+      "label": "NBA",
+      "category": "nba_league",
+      "mood": [
+        "classic"
+      ],
+      "dominantColors": [
+        "#105090",
+        "#D01030",
+        "#103090",
+        "#305090"
+      ]
+    },
+    {
+      "id": "plc_29_shamrock",
+      "num": 29,
+      "file": "/logos/placement/plc_29_shamrock.png",
+      "label": "Shamrock",
+      "category": "fun",
+      "mood": [
+        "playful"
+      ],
+      "dominantColors": [
+        "#109050",
+        "#101010",
+        "#107050",
+        "#107030"
+      ]
+    },
+    {
+      "id": "plc_30_palm-tree",
+      "num": 30,
+      "file": "/logos/placement/plc_30_palm-tree.png",
+      "label": "Palm Tree",
+      "category": "fun",
+      "mood": [
+        "vegas",
+        "playful"
+      ],
+      "dominantColors": [
+        "#109050",
+        "#109030",
+        "#905030",
+        "#30B070"
+      ]
+    },
+    {
+      "id": "plc_31_basketball-heart",
+      "num": 31,
+      "file": "/logos/placement/plc_31_basketball-heart.png",
+      "label": "Basketball Heart",
+      "category": "fun",
+      "mood": [
+        "streetwear",
+        "playful"
+      ],
+      "dominantColors": [
+        "#F09030",
+        "#301010",
+        "#303030",
+        "#101010"
+      ]
+    },
+    {
+      "id": "plc_32_flaming-heart",
+      "num": 32,
+      "file": "/logos/placement/plc_32_flaming-heart.png",
+      "label": "Flaming Heart",
+      "category": "fun",
+      "mood": [
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#105090",
+        "#F09030",
+        "#101010",
+        "#103090"
+      ]
+    },
+    {
+      "id": "plc_33_i-love-nba",
+      "num": 33,
+      "file": "/logos/placement/plc_33_i-love-nba.png",
+      "label": "I Love NBA",
+      "category": "nba_league",
+      "mood": [
+        "playful",
+        "classic"
+      ],
+      "dominantColors": [
+        "#105090",
+        "#F09030",
+        "#103090",
+        "#103070"
+      ]
+    },
+    {
+      "id": "plc_34_basketball-classic",
+      "num": 34,
+      "file": "/logos/placement/plc_34_basketball-classic.png",
+      "label": "Basketball",
+      "category": "fun",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#F09050",
+        "#101010",
+        "#F09030",
+        "#F0B050"
+      ]
+    },
+    {
+      "id": "plc_35_summer-league-script",
+      "num": 35,
+      "file": "/logos/placement/plc_35_summer-league-script.png",
+      "label": "Summer League Script",
+      "category": "summer_league",
+      "mood": [
+        "classic",
+        "vegas"
+      ],
+      "dominantColors": [
+        "#D03030",
+        "#105090",
+        "#103090",
+        "#305090"
+      ]
+    },
+    {
+      "id": "plc_36_summer-league-bar",
+      "num": 36,
+      "file": "/logos/placement/plc_36_summer-league-bar.png",
+      "label": "Summer League Bar",
+      "category": "summer_league",
+      "mood": [
+        "classic"
+      ],
+      "dominantColors": [
+        "#101010",
+        "#303030",
+        "#707070",
+        "#505050"
+      ]
+    },
+    {
+      "id": "plc_37_nevada-nba-plate",
+      "num": 37,
+      "file": "/logos/placement/plc_37_nevada-nba-plate.png",
+      "label": "Nevada NBA Plate",
+      "category": "vegas",
+      "mood": [
+        "vegas"
+      ],
+      "dominantColors": [
+        "#D0D0D0",
+        "#7090B0",
+        "#D03030",
+        "#507090"
+      ]
+    },
+    {
+      "id": "plc_38_poker-chips",
+      "num": 38,
+      "file": "/logos/placement/plc_38_poker-chips.png",
+      "label": "Poker Chips",
+      "category": "vegas",
+      "mood": [
+        "vegas",
+        "playful"
+      ],
+      "dominantColors": [
+        "#D03030",
+        "#F09030",
+        "#105090",
+        "#D05030"
+      ]
+    },
+    {
+      "id": "plc_39_summer-league-mascot",
+      "num": 39,
+      "file": "/logos/placement/plc_39_summer-league-mascot.png",
+      "label": "Summer League Mascot",
+      "category": "summer_league",
+      "mood": [
+        "playful"
+      ],
+      "dominantColors": [
+        "#F09030",
+        "#101010",
+        "#B05030",
+        "#D03030"
+      ]
+    },
+    {
+      "id": "plc_40_flamingo",
+      "num": 40,
+      "file": "/logos/placement/plc_40_flamingo.png",
+      "label": "Flamingo",
+      "category": "fun",
+      "mood": [
+        "vegas",
+        "playful"
+      ],
+      "dominantColors": [
+        "#D070B0",
+        "#F09030",
+        "#D05090",
+        "#F090B0"
+      ]
+    },
+    {
+      "id": "plc_41_summer-league-mini",
+      "num": 41,
+      "file": "/logos/placement/plc_41_summer-league-mini.png",
+      "label": "Summer League",
+      "category": "summer_league",
+      "mood": [
+        "classic"
+      ],
+      "dominantColors": [
+        "#F03030",
+        "#F0F0F0",
+        "#F05030",
+        "#F05050"
+      ]
+    },
+    {
+      "id": "plc_42_nba-stamp",
+      "num": 42,
+      "file": "/logos/placement/plc_42_nba-stamp.png",
+      "label": "NBA Stamp",
+      "category": "nba_league",
+      "mood": [
+        "classic"
+      ],
+      "dominantColors": [
+        "#F03030",
+        "#F0F0F0",
+        "#F05030",
+        "#F0D0D0"
+      ]
+    },
+    {
+      "id": "plc_43_los-angeles-lakers-text",
+      "num": 43,
+      "file": "/logos/placement/plc_43_los-angeles-lakers-text.png",
+      "label": "Los Angeles Lakers",
+      "category": "city_text",
+      "mood": [
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#F0B030",
+        "#303070",
+        "#301070",
+        "#503070"
+      ]
+    },
+    {
+      "id": "plc_44_surfboard",
+      "num": 44,
+      "file": "/logos/placement/plc_44_surfboard.png",
+      "label": "Surfboard",
+      "category": "fun",
+      "mood": [
+        "vegas",
+        "playful"
+      ],
+      "dominantColors": [
+        "#303070",
+        "#F0B030",
+        "#503070",
+        "#705050"
+      ]
+    },
+    {
+      "id": "plc_45_lakers-lips",
+      "num": 45,
+      "file": "/logos/placement/plc_45_lakers-lips.png",
+      "label": "Lakers Lips",
+      "category": "fun",
+      "mood": [
+        "streetwear",
+        "playful"
+      ],
+      "dominantColors": [
+        "#303070",
+        "#F0B030",
+        "#903030",
+        "#301010"
+      ]
+    },
+    {
+      "id": "plc_46_lakers-star",
+      "num": 46,
+      "file": "/logos/placement/plc_46_lakers-star.png",
+      "label": "Lakers Star",
+      "category": "fun",
+      "mood": [
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#303070",
+        "#F0B030",
+        "#301070",
+        "#503070"
+      ]
+    },
+    {
+      "id": "plc_47_los-angeles",
+      "num": 47,
+      "file": "/logos/placement/plc_47_los-angeles.png",
+      "label": "Los Angeles",
+      "category": "city_text",
+      "mood": [
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#303070",
+        "#301070",
+        "#505090",
+        "#503070"
+      ]
+    },
+    {
+      "id": "plc_48_bulls",
+      "num": 48,
+      "file": "/logos/placement/plc_48_bulls.png",
+      "label": "Chicago Bulls",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#D01050",
+        "#101030",
+        "#101010",
+        "#B01030"
+      ],
+      "team": "bulls"
+    },
+    {
+      "id": "plc_49_las-vegas-summer-league",
+      "num": 49,
+      "file": "/logos/placement/plc_49_las-vegas-summer-league.png",
+      "label": "Las Vegas Summer League",
+      "category": "summer_league",
+      "mood": [
+        "classic",
+        "vegas"
+      ],
+      "dominantColors": [
+        "#105090",
+        "#D03030",
+        "#305090",
+        "#103070"
+      ]
+    },
+    {
+      "id": "plc_50_las-vegas-summer-league-blue",
+      "num": 50,
+      "file": "/logos/placement/plc_50_las-vegas-summer-league-blue.png",
+      "label": "Las Vegas Summer League",
+      "category": "summer_league",
+      "mood": [
+        "classic",
+        "vegas"
+      ],
+      "dominantColors": [
+        "#105090",
+        "#D03030",
+        "#305090",
+        "#103070"
+      ]
+    },
+    {
+      "id": "plc_51_las-vegas-summer-league-gold",
+      "num": 51,
+      "file": "/logos/placement/plc_51_las-vegas-summer-league-gold.png",
+      "label": "Las Vegas Summer League",
+      "category": "summer_league",
+      "mood": [
+        "classic",
+        "vegas"
+      ],
+      "dominantColors": [
+        "#F0B030",
+        "#105090",
+        "#305090",
+        "#103070"
+      ]
+    },
+    {
+      "id": "plc_52_summer-league-heart",
+      "num": 52,
+      "file": "/logos/placement/plc_52_summer-league-heart.png",
+      "label": "Summer League Heart",
+      "category": "summer_league",
+      "mood": [
+        "playful",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#D03030",
+        "#105090",
+        "#F03030",
+        "#101010"
+      ]
+    },
+    {
+      "id": "plc_53_sunglasses",
+      "num": 53,
+      "file": "/logos/placement/plc_53_sunglasses.png",
+      "label": "Sunglasses",
+      "category": "fun",
+      "mood": [
+        "vegas",
+        "playful"
+      ],
+      "dominantColors": [
+        "#F0D0F0",
+        "#7090B0",
+        "#B090D0",
+        "#F0B0D0"
+      ]
+    },
+    {
+      "id": "plc_54_cactus",
+      "num": 54,
+      "file": "/logos/placement/plc_54_cactus.png",
+      "label": "Cactus",
+      "category": "fun",
+      "mood": [
+        "vegas",
+        "playful"
+      ],
+      "dominantColors": [
+        "#307030",
+        "#307050",
+        "#105030",
+        "#709070"
+      ]
+    },
+    {
+      "id": "plc_55_sugar-skull",
+      "num": 55,
+      "file": "/logos/placement/plc_55_sugar-skull.png",
+      "label": "Sugar Skull",
+      "category": "fun",
+      "mood": [
+        "playful",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#105090",
+        "#D03030",
+        "#305090",
+        "#103070"
+      ]
+    },
+    {
+      "id": "plc_56_sugar-skull-2",
+      "num": 56,
+      "file": "/logos/placement/plc_56_sugar-skull-2.png",
+      "label": "Sugar Skull",
+      "category": "fun",
+      "mood": [
+        "playful",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#105090",
+        "#F09030",
+        "#305090",
+        "#103070"
+      ]
+    },
+    {
+      "id": "plc_57_pennant-1",
+      "num": 57,
+      "file": "/logos/placement/plc_57_pennant-1.png",
+      "label": "Summer League Pennant",
+      "category": "summer_league",
+      "mood": [
+        "classic"
+      ],
+      "dominantColors": [
+        "#105090",
+        "#D03030",
+        "#305090",
+        "#103070"
+      ]
+    },
+    {
+      "id": "plc_58_pennant-2",
+      "num": 58,
+      "file": "/logos/placement/plc_58_pennant-2.png",
+      "label": "Summer League Pennant",
+      "category": "summer_league",
+      "mood": [
+        "classic"
+      ],
+      "dominantColors": [
+        "#105090",
+        "#D03030",
+        "#305090",
+        "#F05030"
+      ]
+    },
+    {
+      "id": "plc_59_pennant-3",
+      "num": 59,
+      "file": "/logos/placement/plc_59_pennant-3.png",
+      "label": "Summer League Pennant",
+      "category": "summer_league",
+      "mood": [
+        "classic"
+      ],
+      "dominantColors": [
+        "#D03030",
+        "#105090",
+        "#305090",
+        "#F05030"
+      ]
+    },
+    {
+      "id": "plc_60_pennant-4",
+      "num": 60,
+      "file": "/logos/placement/plc_60_pennant-4.png",
+      "label": "Summer League Pennant",
+      "category": "summer_league",
+      "mood": [
+        "classic"
+      ],
+      "dominantColors": [
+        "#105090",
+        "#D03030",
+        "#305090",
+        "#103070"
+      ]
+    },
+    {
+      "id": "plc_61_summer-league-text",
+      "num": 61,
+      "file": "/logos/placement/plc_61_summer-league-text.png",
+      "label": "Summer League",
+      "category": "summer_league",
+      "mood": [
+        "classic"
+      ],
+      "dominantColors": [
+        "#50B0F0",
+        "#1070F0",
+        "#1050D0",
+        "#3090F0"
+      ]
+    },
+    {
+      "id": "plc_62_hawks",
+      "num": 62,
+      "file": "/logos/placement/plc_62_hawks.png",
+      "label": "Atlanta Hawks",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#D01030",
+        "#D03030",
+        "#F05070",
+        "#F03050"
+      ],
+      "team": "hawks"
+    },
+    {
+      "id": "plc_63_nets",
+      "num": 63,
+      "file": "/logos/placement/plc_63_nets.png",
+      "label": "Brooklyn Nets",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#101010",
+        "#303030",
+        "#D0D0D0",
+        "#707070"
+      ],
+      "team": "nets"
+    },
+    {
+      "id": "plc_64_celtics",
+      "num": 64,
+      "file": "/logos/placement/plc_64_celtics.png",
+      "label": "Boston Celtics",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#109050",
+        "#101030",
+        "#B03030",
+        "#101010"
+      ],
+      "team": "celtics"
+    },
+    {
+      "id": "plc_65_hornets",
+      "num": 65,
+      "file": "/logos/placement/plc_65_hornets.png",
+      "label": "Charlotte Hornets",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#101050",
+        "#107090",
+        "#301050",
+        "#B0B0B0"
+      ],
+      "team": "hornets"
+    },
+    {
+      "id": "plc_66_mavericks",
+      "num": 66,
+      "file": "/logos/placement/plc_66_mavericks.png",
+      "label": "Dallas Mavericks",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#101030",
+        "#1070B0",
+        "#B0D0D0",
+        "#101010"
+      ],
+      "team": "mavericks"
+    },
+    {
+      "id": "plc_67_nuggets",
+      "num": 67,
+      "file": "/logos/placement/plc_67_nuggets.png",
+      "label": "Denver Nuggets",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#101030",
+        "#F0D030",
+        "#903030",
+        "#103030"
+      ],
+      "team": "nuggets"
+    },
+    {
+      "id": "plc_68_pistons",
+      "num": 68,
+      "file": "/logos/placement/plc_68_pistons.png",
+      "label": "Detroit Pistons",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#D01030",
+        "#105090",
+        "#B0B0B0",
+        "#103090"
+      ],
+      "team": "pistons"
+    },
+    {
+      "id": "plc_69_warriors",
+      "num": 69,
+      "file": "/logos/placement/plc_69_warriors.png",
+      "label": "Golden State Warriors",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#305090",
+        "#F0D030",
+        "#103090",
+        "#105090"
+      ],
+      "team": "warriors"
+    },
+    {
+      "id": "plc_70_pacers",
+      "num": 70,
+      "file": "/logos/placement/plc_70_pacers.png",
+      "label": "Indiana Pacers",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#103030",
+        "#F0D010",
+        "#B0B0D0",
+        "#103050"
+      ],
+      "team": "pacers"
+    },
+    {
+      "id": "plc_71_clippers",
+      "num": 71,
+      "file": "/logos/placement/plc_71_clippers.png",
+      "label": "LA Clippers",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#103050",
+        "#101030",
+        "#103030",
+        "#505070"
+      ],
+      "team": "clippers"
+    },
+    {
+      "id": "plc_72_rockets",
+      "num": 72,
+      "file": "/logos/placement/plc_72_rockets.png",
+      "label": "Houston Rockets",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#B03030",
+        "#F0D050",
+        "#D05030",
+        "#F0B050"
+      ],
+      "team": "rockets"
+    },
+    {
+      "id": "plc_73_heat",
+      "num": 73,
+      "file": "/logos/placement/plc_73_heat.png",
+      "label": "Miami Heat",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#901030",
+        "#101030",
+        "#101010",
+        "#F0B010"
+      ],
+      "team": "heat"
+    },
+    {
+      "id": "plc_74_bucks",
+      "num": 74,
+      "file": "/logos/placement/plc_74_bucks.png",
+      "label": "Milwaukee Bucks",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#105010",
+        "#F0D0D0",
+        "#F0F0D0",
+        "#103010"
+      ],
+      "team": "bucks"
+    },
+    {
+      "id": "plc_75_timberwolves",
+      "num": 75,
+      "file": "/logos/placement/plc_75_timberwolves.png",
+      "label": "Minnesota Timberwolves",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#105090",
+        "#B0D0D0",
+        "#109050",
+        "#103090"
+      ],
+      "team": "timberwolves"
+    },
+    {
+      "id": "plc_76_pelicans",
+      "num": 76,
+      "file": "/logos/placement/plc_76_pelicans.png",
+      "label": "New Orleans Pelicans",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#101050",
+        "#D09070",
+        "#D0B070",
+        "#B09070"
+      ],
+      "team": "pelicans"
+    },
+    {
+      "id": "plc_77_knicks",
+      "num": 77,
+      "file": "/logos/placement/plc_77_knicks.png",
+      "label": "New York Knicks",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#F09030",
+        "#105090",
+        "#909090",
+        "#103090"
+      ],
+      "team": "knicks"
+    },
+    {
+      "id": "plc_78_thunder",
+      "num": 78,
+      "file": "/logos/placement/plc_78_thunder.png",
+      "label": "Oklahoma City Thunder",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#103070",
+        "#F03030",
+        "#1070D0",
+        "#103050"
+      ],
+      "team": "thunder"
+    },
+    {
+      "id": "plc_79_suns",
+      "num": 79,
+      "file": "/logos/placement/plc_79_suns.png",
+      "label": "Phoenix Suns",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#F09010",
+        "#F05010",
+        "#101030",
+        "#B05010"
+      ],
+      "team": "suns"
+    },
+    {
+      "id": "plc_80_trail-blazers",
+      "num": 80,
+      "file": "/logos/placement/plc_80_trail-blazers.png",
+      "label": "Portland Trail Blazers",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#101030",
+        "#D03030",
+        "#101010",
+        "#F03030"
+      ],
+      "team": "trail-blazers"
+    },
+    {
+      "id": "plc_81_kings",
+      "num": 81,
+      "file": "/logos/placement/plc_81_kings.png",
+      "label": "Sacramento Kings",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#503090",
+        "#507070",
+        "#503070",
+        "#501070"
+      ],
+      "team": "kings"
+    },
+    {
+      "id": "plc_82_spurs",
+      "num": 82,
+      "file": "/logos/placement/plc_82_spurs.png",
+      "label": "San Antonio Spurs",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#101030",
+        "#D0D0D0",
+        "#101010",
+        "#103030"
+      ],
+      "team": "spurs"
+    },
+    {
+      "id": "plc_83_raptors",
+      "num": 83,
+      "file": "/logos/placement/plc_83_raptors.png",
+      "label": "Toronto Raptors",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#B01030",
+        "#B01010",
+        "#D03030",
+        "#D05050"
+      ],
+      "team": "raptors"
+    },
+    {
+      "id": "plc_84_jazz",
+      "num": 84,
+      "file": "/logos/placement/plc_84_jazz.png",
+      "label": "Utah Jazz",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#503090",
+        "#501070",
+        "#9070B0",
+        "#B090D0"
+      ],
+      "team": "jazz"
+    },
+    {
+      "id": "plc_85_wizards",
+      "num": 85,
+      "file": "/logos/placement/plc_85_wizards.png",
+      "label": "Washington Wizards",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#103050",
+        "#D0D0D0",
+        "#F01030",
+        "#F0F0F0"
+      ],
+      "team": "wizards"
+    },
+    {
+      "id": "plc_86_knicks-wordmark",
+      "num": 86,
+      "file": "/logos/placement/plc_86_knicks-wordmark.png",
+      "label": "New York Knicks",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#105090",
+        "#F09030",
+        "#909090",
+        "#103090"
+      ]
+    },
+    {
+      "id": "plc_87_warriors-the-bay",
+      "num": 87,
+      "file": "/logos/placement/plc_87_warriors-the-bay.png",
+      "label": "The Bay",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#305090",
+        "#F0D030",
+        "#103090",
+        "#105090"
+      ]
+    },
+    {
+      "id": "plc_88_lakers-wordmark",
+      "num": 88,
+      "file": "/logos/placement/plc_88_lakers-wordmark.png",
+      "label": "Los Angeles Lakers",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#F0B030",
+        "#303070",
+        "#301070",
+        "#101030"
+      ]
+    },
+    {
+      "id": "plc_89_cavaliers",
+      "num": 89,
+      "file": "/logos/placement/plc_89_cavaliers.png",
+      "label": "Cleveland Cavaliers",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#B09050",
+        "#901030",
+        "#B07050",
+        "#D0B070"
+      ],
+      "team": "cavaliers"
+    },
+    {
+      "id": "plc_90_magic",
+      "num": 90,
+      "file": "/logos/placement/plc_90_magic.png",
+      "label": "Orlando Magic",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#3050B0",
+        "#101010",
+        "#1050B0",
+        "#105090"
+      ],
+      "team": "magic"
+    },
+    {
+      "id": "plc_91_grizzlies",
+      "num": 91,
+      "file": "/logos/placement/plc_91_grizzlies.png",
+      "label": "Memphis Grizzlies",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#103050",
+        "#7090B0",
+        "#507070",
+        "#5090B0"
+      ],
+      "team": "grizzlies"
+    },
+    {
+      "id": "plc_92_sixers",
+      "num": 92,
+      "file": "/logos/placement/plc_92_sixers.png",
+      "label": "Philadelphia 76ers",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#105090",
+        "#D01030",
+        "#103090",
+        "#3070B0"
+      ],
+      "team": "sixers"
+    },
+    {
+      "id": "plc_93_lakers",
+      "num": 93,
+      "file": "/logos/placement/plc_93_lakers.png",
+      "label": "Los Angeles Lakers",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#303070",
+        "#F0B030",
+        "#301070",
+        "#F0D030"
+      ],
+      "team": "lakers"
+    },
+    {
+      "id": "plc_94_celtics-alt",
+      "num": 94,
+      "file": "/logos/placement/plc_94_celtics-alt.png",
+      "label": "Boston Celtics",
+      "category": "team",
+      "mood": [
+        "classic",
+        "streetwear"
+      ],
+      "dominantColors": [
+        "#109050",
+        "#107030",
+        "#107050",
+        "#309070"
+      ]
+    }
+  ]
+}
