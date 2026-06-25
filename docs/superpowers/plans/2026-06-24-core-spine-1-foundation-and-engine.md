@@ -10,7 +10,7 @@
 
 ## Global Constraints
 
-- **Brand (verified, locked):** primary blue `#2845E7`; background `#000000`; UI/body font **Poppins**; display font **Clash Display**; the LiveX wordmark is always the exact SVG, never re-typeset.
+- **Brand (verified, locked):** primary blue `#2845E7`; background `#000000`; UI/body font **Poppins**; display font **Archivo** (athletic grotesque, loaded via `next/font/google`); the LiveX wordmark is always the exact SVG, never re-typeset.
 - **Hard invariants (every generated spec):** exactly one back graphic, `zone === "back_center"`; all graphic IDs ∈ catalog; every patch zone ∈ patch-zone set and **never** `back_center`; **no duplicate patch zone**; patch count ≤ density cap; color-harmony passes for every patch vs hoodie color; `scale`/`rotationDeg` in range.
 - **Zones are PDF-faithful (PDF 3 Step 2):** `back_center`, `front_chest`, `back_upper`, `left_sleeve_1..4`, `right_sleeve_1..4`. **No `hood` zone. One `front_chest`** (not left/right).
 - **Density caps:** `minimal` 0–1 (target 1) · `balanced` 2–4 (target 3) · `maximal` 6–10 (target 8). Questionnaire "Loaded" → `maximal`.
@@ -193,7 +193,7 @@ export default {
       },
       fontFamily: {
         sans: ['var(--font-poppins)', 'system-ui', 'sans-serif'],
-        display: ['var(--font-clash)', 'var(--font-poppins)', 'sans-serif'],
+        display: ['var(--font-archivo)', 'var(--font-poppins)', 'sans-serif'],
       },
     },
   },
@@ -201,16 +201,15 @@ export default {
 } satisfies Config;
 ```
 
-- [ ] **Step 3: Load fonts in `app/layout.tsx`.** Poppins via `next/font/google`; Clash Display via `next/font/local` (download `ClashDisplay-Variable.woff2` from Fontshare into `app/fonts/`).
+- [ ] **Step 3: Load fonts in `app/layout.tsx`.** Both via `next/font/google` — no manual font files: **Poppins** (UI/body) + **Archivo** (display headlines; athletic grotesque for NBA energy).
 
 ```tsx
 import type { Metadata } from 'next';
-import { Poppins } from 'next/font/google';
-import localFont from 'next/font/local';
+import { Poppins, Archivo } from 'next/font/google';
 import './globals.css';
 
 const poppins = Poppins({ subsets: ['latin'], weight: ['400','500','600','700'], variable: '--font-poppins' });
-const clash = localFont({ src: './fonts/ClashDisplay-Variable.woff2', variable: '--font-clash' });
+const archivo = Archivo({ subsets: ['latin'], weight: ['400','600','700','800','900'], variable: '--font-archivo' });
 
 export const metadata: Metadata = {
   title: 'NBA Summer League × LiveX — Design Your Drop',
@@ -219,7 +218,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${poppins.variable} ${clash.variable}`}>
+    <html lang="en" className={`${poppins.variable} ${archivo.variable}`}>
       <body className="min-h-dvh bg-bg text-ink font-sans antialiased">{children}</body>
     </html>
   );
@@ -260,7 +259,7 @@ export default function Home() {
 }
 ```
 
-- [ ] **Step 6: Verify.** Run `npm run dev`, open `/`, confirm true-black bg, blue glow, Clash headline, Poppins body. Run `npm run lint` and `npm run typecheck` — both clean.
+- [ ] **Step 6: Verify.** Run `npm run dev`, open `/`, confirm true-black bg, blue glow, Archivo headline, Poppins body. Run `npm run lint` and `npm run typecheck` — both clean.
 
 - [ ] **Step 7: Commit.**
 
@@ -1193,7 +1192,7 @@ git add -A && git commit -m "feat: inert persistence + curation seams (local + i
 - Consumes: everything above.
 - Produces: project docs + a verified all-green state.
 
-- [ ] **Step 1: Create `CLAUDE.md`** capturing: stack; verified brand tokens (`#2845E7` on `#000000`, Poppins + Clash Display, wordmark = exact SVG); catalog/zone data model (4 colors; 33 back / 94 placement *target*; PDF-faithful zones, no hood); hard constraints (one back graphic, approved-IDs-only, valid+unique zones, density caps, harmony); commands (`dev`/`build`/`test`/`lint`/`typecheck`); and **patterns to avoid** (no `Math.random`/time in engine; no secrets client-side; never invent catalog items/zones; don't add a hood zone; don't use Inter/Roboto/Arial for display).
+- [ ] **Step 1: Create `CLAUDE.md`** capturing: stack; verified brand tokens (`#2845E7` on `#000000`, Poppins + Archivo, wordmark = exact SVG); catalog/zone data model (4 colors; 33 back / 94 placement *target*; PDF-faithful zones, no hood); hard constraints (one back graphic, approved-IDs-only, valid+unique zones, density caps, harmony); commands (`dev`/`build`/`test`/`lint`/`typecheck`); and **patterns to avoid** (no `Math.random`/time in engine; no secrets client-side; never invent catalog items/zones; don't add a hood zone; don't use Inter/Roboto/Arial for display).
 
 - [ ] **Step 2: Create `README.md`** with: project summary; setup (`npm i`, copy `.env.example`); architecture (engine core → API → shell; seed catalog now, PDF pipeline in Plan 2); how to run + test; env vars (all optional in M1); link to the spec and this plan.
 
