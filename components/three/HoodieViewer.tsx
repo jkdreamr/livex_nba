@@ -4,7 +4,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, ContactShadows, Center, Environment, Lightformer } from '@react-three/drei';
 import { Suspense } from 'react';
 import type { DesignSpec } from '@/lib/catalog/types';
-import { Hoodie } from './Hoodie';
+import { HoodieGLB } from './HoodieGLB';
 
 /** Premium turntable viewer. A procedural studio Environment (Lightformers —
  *  no external HDRI) gives reflections + brand-blue/violet rim light that
@@ -26,30 +26,32 @@ export function HoodieViewer({
       gl={{ antialias: true, preserveDrawingBuffer: true }}
     >
       <color attach="background" args={['#070811']} />
-      <fog attach="fog" args={['#070811', 7, 13]} />
-      <ambientLight intensity={0.18} />
-      {/* key light for soft form shadow */}
+      <fog attach="fog" args={['#070811', 8, 14]} />
+      <ambientLight intensity={0.45} />
+      {/* neutral key light for soft form shadow + accurate colour */}
       <directionalLight
         position={[3.5, 6, 4]}
-        intensity={1.6}
+        intensity={2.4}
         castShadow
         shadow-mapSize={[2048, 2048]}
         shadow-bias={-0.0004}
       />
+      <directionalLight position={[-4, 3, 2]} intensity={0.6} />
 
       <Suspense fallback={null}>
         <Center>
-          <group rotation={[0, spinY, 0]}>
-            <Hoodie spec={spec} />
+          <group rotation={[0, spinY, 0]} scale={2.2}>
+            <HoodieGLB spec={spec} />
           </group>
         </Center>
 
-        {/* Procedural studio env: bright key + coloured rim strips. */}
+        {/* Studio env: bright neutral key + SUBTLE brand-coloured rim accents
+            (kept low so the hoodie colour stays accurate). */}
         <Environment resolution={256} frames={1}>
-          <Lightformer intensity={2.2} position={[0, 3, 4]} scale={[7, 7, 1]} color="#ffffff" />
-          <Lightformer intensity={2.6} position={[-5, 1, -2]} scale={[3, 9, 1]} color="#2845E7" />
-          <Lightformer intensity={2.2} position={[5, 1.5, -2]} scale={[3, 9, 1]} color="#7B5CFF" />
-          <Lightformer intensity={1.1} position={[0, -3, 3]} scale={[7, 4, 1]} color="#3a4a80" />
+          <Lightformer intensity={3.2} position={[0, 3, 4]} scale={[8, 8, 1]} color="#ffffff" />
+          <Lightformer intensity={1.6} position={[0, 0, 5]} scale={[8, 8, 1]} color="#ffffff" />
+          <Lightformer intensity={0.9} position={[-5, 1, -2]} scale={[2, 8, 1]} color="#2845E7" />
+          <Lightformer intensity={0.7} position={[5, 1.5, -2]} scale={[2, 8, 1]} color="#7B5CFF" />
         </Environment>
       </Suspense>
 

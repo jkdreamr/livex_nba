@@ -18,10 +18,10 @@ const COLORS: HoodieColor[] = ['bone', 'black', 'grey', 'white'];
 const DENSITIES: Density[] = ['minimal', 'balanced', 'maximal'];
 const VIBES: Vibe[] = ['classic', 'vegas', 'streetwear', 'playful'];
 const ANGLES: { label: string; y: number }[] = [
-  { label: 'front', y: 0 },
-  { label: 'right', y: -Math.PI / 2 },
-  { label: 'back', y: Math.PI },
-  { label: 'left', y: Math.PI / 2 },
+  { label: 'front', y: Math.PI },
+  { label: 'right', y: Math.PI / 2 },
+  { label: 'back', y: 0 },
+  { label: 'left', y: -Math.PI / 2 },
 ];
 
 const chip = (active: boolean) =>
