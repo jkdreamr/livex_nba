@@ -1,29 +1,36 @@
-import Link from 'next/link';
+'use client';
+import { useState, useCallback } from 'react';
+import dynamic from 'next/dynamic';
+import { SmoothScroll } from '@/components/landing/SmoothScroll';
+import { Preloader } from '@/components/landing/Preloader';
+import { Cursor } from '@/components/landing/Cursor';
+import { GrainOverlay } from '@/components/landing/GrainOverlay';
+import { Marquee } from '@/components/landing/Marquee';
+import { DevActOverlay } from '@/components/landing/DevActOverlay';
+import { SectionRenderer } from '@/components/landing/SectionRenderer';
+import { useLebronActs } from '@/components/landing/useLebronActs';
+import { LANDING_SECTIONS } from '@/lib/landing/landing.config';
+
+const HeroCanvas = dynamic(
+  () => import('@/components/landing/HeroCanvas').then((m) => m.HeroCanvas),
+  { ssr: false },
+);
 
 export default function Home() {
+  const [ready, setReady] = useState(false);
+  useLebronActs(ready);
+  const onStart = useCallback(() => { window.location.href = '/design'; }, []); // replaced by PageTransition in Task 11
   return (
-    <main className="relative grid min-h-dvh place-items-center overflow-hidden px-6">
-      <div className="pointer-events-none absolute inset-0" style={{ background: 'var(--lx-glow)' }} />
-      <div className="relative text-center">
-        <p className="font-sans text-sm uppercase tracking-[0.3em] text-ink-muted">NBA Summer League × LiveX</p>
-        <h1 className="mt-3 font-display text-6xl font-semibold leading-[0.95] text-ink sm:text-8xl">
-          Design
-          <br />
-          Your Drop
-        </h1>
-        <p className="mx-auto mt-5 max-w-md font-sans text-base text-ink-muted">
-          Answer five quick questions and watch your custom Summer League hoodie come to life in 3D — then we make it real.
-        </p>
-        <div className="mt-9">
-          <Link
-            href="/design"
-            className="inline-flex items-center gap-2 rounded-full bg-brand px-8 py-4 font-sans text-base font-semibold text-white transition hover:brightness-110"
-          >
-            Start designing →
-          </Link>
-        </div>
-        <p className="mt-5 font-sans text-xs text-ink-muted">No account needed · about a minute</p>
-      </div>
-    </main>
+    <SmoothScroll>
+      <Preloader onDone={() => setReady(true)} />
+      <Cursor />
+      <GrainOverlay />
+      <HeroCanvas />
+      <main className="relative z-10">
+        {LANDING_SECTIONS.map((s) => <SectionRenderer key={s.id} section={s} onStart={onStart} />)}
+        <Marquee items={['NBA SUMMER LEAGUE', 'LAS VEGAS 2026', 'DESIGN YOUR DROP', 'LIVEX AI']} />
+      </main>
+      <DevActOverlay />
+    </SmoothScroll>
   );
 }
