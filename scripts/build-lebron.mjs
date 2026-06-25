@@ -1,8 +1,8 @@
 import { execFileSync } from 'node:child_process';
 import { writeFileSync, mkdirSync } from 'node:fs';
 
-const SRC = process.argv.find(a => a.startsWith('--src='))?.slice(6)
-  ?? '/Users/joshuakoo/Downloads/76c95916f04d4339b403b3a87ab07ca7.fbx';
+const SRC = process.argv.find(a => a.startsWith('--src='))?.slice(6);
+if (!SRC) { console.error('build-lebron: --src=<path/to/source.fbx> is required'); process.exit(1); }
 const BLENDER = '/Applications/Blender.app/Contents/MacOS/Blender';
 mkdirSync('public/models', { recursive: true });
 

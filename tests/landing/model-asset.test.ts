@@ -3,8 +3,11 @@ import { statSync, existsSync } from 'node:fs';
 
 describe('lebron model asset', () => {
   it('exists and is reasonably sized (<3.5MB)', () => {
-    expect(existsSync('public/models/lebron.glb')).toBe(true);
-    expect(statSync('public/models/lebron.glb').size).toBeLessThan(3.5 * 1024 * 1024);
+    const path = 'public/models/lebron.glb';
+    expect(existsSync(path)).toBe(true);
+    if (existsSync(path)) {
+      expect(statSync(path).size).toBeLessThan(3.5 * 1024 * 1024);
+    }
   });
   it('ships a license/attribution note', () => {
     expect(existsSync('public/models/lebron-LICENSE.txt')).toBe(true);
