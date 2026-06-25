@@ -26,5 +26,5 @@ export function isHarmonious(hoodie: HoodieColor, dominantColors: string[]): boo
   const fabric = FABRIC_HEX[hoodie];
   return dominantColors.some(c => contrastRatio(c, fabric) >= CONTRAST_THRESHOLD);
 }
-/** Exposed for testing — validates the 6-hex guard. */
+/** Exposed for testing; validates the 6-hex guard. */
 export { luminance as luminanceOf };

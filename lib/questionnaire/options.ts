@@ -10,9 +10,9 @@ export interface VibeOption {
 
 export const VIBE_OPTIONS: VibeOption[] = [
   { id: 'classic', label: 'Classic', blurb: 'Clean team pride. Logos and league marks, nothing loud.', accent: '#2845E7' },
-  { id: 'vegas', label: 'Vegas', blurb: 'Summer League city energy — neon, dice, the Strip.', accent: '#E7456B' },
-  { id: 'streetwear', label: 'Streetwear', blurb: 'Bold graphics and patch-heavy, off-the-court fits.', accent: '#15B981' },
-  { id: 'playful', label: 'Playful', blurb: 'Fun icons and color — flamingos, rainbows, palm trees.', accent: '#F5A524' },
+  { id: 'vegas', label: 'Vegas', blurb: 'Neon, dice, Strip signs, and Summer League marks.', accent: '#E7456B' },
+  { id: 'streetwear', label: 'Streetwear', blurb: 'Bolder graphics with a patch-heavy look.', accent: '#15B981' },
+  { id: 'playful', label: 'Playful', blurb: 'Flamingos, rainbows, palm trees, and brighter colors.', accent: '#F5A524' },
 ];
 
 export interface DensityOption {
@@ -26,5 +26,5 @@ export interface DensityOption {
 export const DENSITY_OPTIONS: DensityOption[] = [
   { id: 'minimal', label: 'Minimal', blurb: 'One hero graphic. Let it breathe.', max: 1 },
   { id: 'balanced', label: 'Balanced', blurb: 'A few well-placed patches.', max: 4 },
-  { id: 'maximal', label: 'Maximal', blurb: 'Cover it — chest, back and both sleeves.', max: 10 },
+  { id: 'maximal', label: 'Maximal', blurb: 'Chest, back, and both sleeves.', max: 10 },
 ];

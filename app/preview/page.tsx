@@ -11,7 +11,7 @@ const HoodieViewer = dynamic<{
   spinY?: number;
 }>(() => import('@/components/three/HoodieViewer').then((m) => m.HoodieViewer), {
   ssr: false,
-  loading: () => <div className="grid h-full place-items-center text-ink-muted">Loading 3D…</div>,
+  loading: () => <div className="grid h-full place-items-center text-ink-muted">Loading 3D</div>,
 });
 
 const COLORS: HoodieColor[] = ['bone', 'black', 'grey', 'white'];
@@ -51,11 +51,11 @@ export default function PreviewPage() {
   return (
     <main className="relative h-dvh w-full overflow-hidden">
       <div className="pointer-events-none absolute left-6 top-6 z-10 max-w-sm">
-        <p className="font-sans text-xs uppercase tracking-[0.3em] text-ink-muted">Preview · dev</p>
+        <p className="font-sans text-xs uppercase tracking-[0.3em] text-ink-muted">Preview / dev</p>
         <h1 className="font-display text-3xl capitalize text-ink">{color} hoodie</h1>
         <p className="mt-1 font-sans text-sm text-ink-muted">{spec.rationale}</p>
         <p className="mt-1 font-sans text-xs text-ink-muted">
-          back: {spec.backGraphic.id} · {spec.patches.length} patches
+          back: {spec.backGraphic.id} / {spec.patches.length} patches
         </p>
       </div>
 
@@ -92,7 +92,7 @@ export default function PreviewPage() {
           </button>
         ))}
         <button data-spin="auto" onClick={() => setAuto((v) => !v)} className={chip(auto)}>
-          ⟳ spin
+          spin
         </button>
       </div>
 

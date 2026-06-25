@@ -1,4 +1,4 @@
-/** Persisted design-system constants — the shared motion/color language. */
+/** Persisted design-system constants for shared motion and color. */
 export const LANDING_COLORS = {
   void: '#04050A', surface: '#0B0D14', brand: '#2845E7',
   brandGlow: '#4F6BFF', gold: '#F5C24B', ink: '#F5F7FA', inkMuted: '#9AA3B2',

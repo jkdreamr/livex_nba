@@ -15,7 +15,7 @@ const HoodieViewer = dynamic<{
 }>(() => import('@/components/three/HoodieViewer').then((m) => m.HoodieViewer), {
   ssr: false,
   loading: () => (
-    <div className="grid h-full place-items-center font-sans text-sm text-ink-muted">Rendering your hoodie…</div>
+    <div className="grid h-full place-items-center font-sans text-sm text-ink-muted">Loading your hoodie</div>
   ),
 });
 
@@ -74,7 +74,7 @@ export function Reveal({
             </button>
           ))}
           <button onClick={() => setAuto((v) => !v)} className={chip(auto)}>
-            ⟳ Spin
+            Spin
           </button>
         </div>
       </section>
@@ -82,7 +82,7 @@ export function Reveal({
       {/* details */}
       <section className="relative flex flex-col justify-center gap-6 px-6 py-10 lg:px-10">
         <div>
-          <p className="font-sans text-xs uppercase tracking-[0.3em] text-ink-muted">Your drop is ready</p>
+          <p className="font-sans text-xs uppercase tracking-[0.3em] text-ink-muted">Your hoodie is ready</p>
           <h1 className="mt-2 font-display text-4xl font-semibold leading-tight text-ink sm:text-5xl">
             {answers.teamsRanked[0] ? teamLabel(answers.teamsRanked[0]) : 'Summer League'}
             <span className="block text-ink-muted">Summer League hoodie</span>
@@ -91,10 +91,10 @@ export function Reveal({
         </div>
 
         <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line">
-          <SpecCell label="Colorway" value={colorLabel} />
-          <SpecCell label="Back hero" value={backLabel} />
-          <SpecCell label="Vibe" value={cap(spec.meta.vibe)} />
-          <SpecCell label="Density" value={`${cap(spec.densityTier)} · ${spec.patches.length} patch${spec.patches.length === 1 ? '' : 'es'}`} />
+          <SpecCell label="Color" value={colorLabel} />
+          <SpecCell label="Back graphic" value={backLabel} />
+          <SpecCell label="Style" value={cap(spec.meta.vibe)} />
+          <SpecCell label="Patch count" value={`${cap(spec.densityTier)} / ${spec.patches.length} patch${spec.patches.length === 1 ? '' : 'es'}`} />
         </dl>
 
         {patchLabels.length > 0 && (
@@ -111,11 +111,11 @@ export function Reveal({
         )}
 
         <p className="font-sans text-xs text-ink-muted">
-          Every graphic is pulled from the approved Summer League catalog and placed for embroidery — what you see is what gets made.
+          Approved Summer League graphics, placed for embroidery. The preview matches the final layout.
         </p>
 
         <div className="flex flex-wrap gap-3">
-          <PrimaryButton onClick={onEdit}>← Tweak answers</PrimaryButton>
+          <PrimaryButton onClick={onEdit}>Edit answers</PrimaryButton>
           <GhostButton onClick={onRestart}>Start over</GhostButton>
         </div>
       </section>

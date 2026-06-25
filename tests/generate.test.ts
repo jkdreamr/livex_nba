@@ -38,8 +38,8 @@ describe('generate', () => {
       mustHaveIds: ['plc_40_flamingo', 'plc_38_poker-chips'],
     });
     const byZone = Object.fromEntries(spec.patches.map((p) => [p.zone, p.id]));
-    expect(byZone['front_chest']).toBe('plc_40_flamingo');  // #1 pick → chest
-    expect(byZone['back_upper']).toBe('plc_38_poker-chips'); // #2 pick → next zone
+    expect(byZone['front_chest']).toBe('plc_40_flamingo');  // #1 pick goes to chest
+    expect(byZone['back_upper']).toBe('plc_38_poker-chips'); // #2 pick goes to next zone
   });
   it('honours the density cap even when more must-haves are picked', () => {
     const spec = generate({

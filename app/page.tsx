@@ -32,7 +32,7 @@ export default function Home() {
       <HeroCanvas tier={cap.tier} reducedMotion={cap.reducedMotion} />
       <main className="relative z-10">
         {LANDING_SECTIONS.map((s) => <SectionRenderer key={s.id} section={s} onStart={onStart} />)}
-        <Marquee items={['NBA SUMMER LEAGUE', 'LAS VEGAS 2026', 'DESIGN YOUR DROP', 'LIVEX AI']} />
+        <Marquee items={['NBA SUMMER LEAGUE', 'LAS VEGAS 2026', 'MAKE YOUR HOODIE', 'LIVEX']} />
       </main>
       <DevActOverlay />
       <Overlay />

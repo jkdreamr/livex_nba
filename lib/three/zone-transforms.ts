@@ -2,7 +2,7 @@ import type { BackZone, PatchZone } from '@/lib/catalog/types';
 
 /**
  * Decal placement on the GLB body mesh, in the BAKED (clean-world) space of the
- * renderer — each zone is a surface POINT + outward NORMAL raycast from the real
+ * renderer. Each zone is a surface point plus outward normal raycast from the real
  * mesh. A shallow projector then embroiders the logo onto the local surface.
  * Matches the PDF Step-2 layout: front chest (1, RIGHT chest), upper back (2),
  * centre back (3, the hero), and patches down the OUTER side of each sleeve.
@@ -16,7 +16,7 @@ export interface GlbZone {
 
 export const ZONE_GLB: Record<BackZone | PatchZone, GlbZone> = {
   back_center: { position: [0, 1.2, -0.115], normal: [0, 0, -1], scale: 0.26 },
-  // The hood meets the back in a horizontal ridge (~y1.37–1.40): the surface
+  // The hood meets the back in a horizontal ridge (~y1.37-1.40): the surface
   // rolls from straight-back, over the ridge, to down-facing by y1.43. Centred
   // just below the ridge with a deeper projector so the box reaches across the
   // fold and the TOP of the logo isn't clipped on the down-curving far side.

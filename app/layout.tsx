@@ -8,8 +8,8 @@ const anton = Anton({ subsets: ['latin'], weight: '400', variable: '--font-anton
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], weight: ['400', '500', '700'], variable: '--font-jetbrains' });
 
 export const metadata: Metadata = {
-  title: 'NBA Summer League × LiveX — Design Your Drop',
-  description: 'Design your custom NBA Summer League hoodie.',
+  title: 'NBA Summer League x LiveX | Custom Hoodie',
+  description: 'Build a Summer League hoodie with team graphics, colors, and patches.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

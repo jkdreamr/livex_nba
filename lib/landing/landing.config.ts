@@ -22,14 +22,14 @@ export interface ActKeyframe {
 
 /** Edit sections/order/video-slots HERE only. */
 export const LANDING_SECTIONS: LandingSection[] = [
-  { id: 'hero', kind: 'hero', headline: 'DESIGN YOUR DROP', body: 'NBA SUMMER LEAGUE · LAS VEGAS 2026' },
-  { id: 'reel-1', kind: 'video', headline: 'BUILT FOR THE MOMENT', theme: 'dark', videoSrc: '/videos/reel-1.mp4' },
-  { id: 'how', kind: 'content', headline: 'ANSWER A FEW QUESTIONS.', body: 'Get a hoodie made for you — designed in 3D, made for real.' },
-  { id: 'reel-2', kind: 'video', headline: 'YOUR TEAM. YOUR CITY.', theme: 'dark', videoSrc: '/videos/reel-2.mp4' },
-  { id: 'cta', kind: 'cta', headline: 'START DESIGNING', body: 'Your drop is one scroll away.' },
+  { id: 'hero', kind: 'hero', headline: 'MAKE YOUR HOODIE', body: 'NBA SUMMER LEAGUE / LAS VEGAS 2026' },
+  { id: 'reel-1', kind: 'video', headline: 'BUILT FOR JULY', theme: 'dark', videoSrc: '/videos/reel-1.mp4' },
+  { id: 'how', kind: 'content', headline: 'PICK TEAM, COLOR, PATCHES.', body: "Choose the details. We'll show the hoodie before it goes into production." },
+  { id: 'reel-2', kind: 'video', headline: 'TEAM COLORS. VEGAS PATCHES.', theme: 'dark', videoSrc: '/videos/reel-2.mp4' },
+  { id: 'cta', kind: 'cta', headline: 'START YOUR DESIGN', body: "Make the hoodie you'd wear in Vegas." },
 ];
 
-/** The LeBron choreography — keyframes across full-page scroll (0..720deg, lands front). */
+/** The LeBron choreography: keyframes across full-page scroll (0..720deg, lands front). */
 export const ACT_KEYFRAMES: ActKeyframe[] = [
   { at: 0.00, rotationY: 0,   position: [0, 0, 0],      scale: 1.00, intensity: 1.0 },
   { at: 0.14, rotationY: 120, position: [0, 0, 0],      scale: 1.00, intensity: 1.0 },

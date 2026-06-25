@@ -30,7 +30,7 @@ export function Preloader({ onDone }: { onDone: () => void }) {
 
   // Safety net: cached/instant loads never push useProgress to 100 (load events
   // can fire before this subscribes). Once the loader is idle, reveal so the
-  // preloader can never stick — e.g. on reload with a warm cache.
+  // preloader can never stick, e.g. on reload with a warm cache.
   useEffect(() => {
     const t = setTimeout(() => { if (!active) reveal(); }, 2000);
     return () => clearTimeout(t);

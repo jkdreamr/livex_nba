@@ -12,7 +12,7 @@ import { ZONE_GLB, type GlbZone } from '@/lib/three/zone-transforms';
 const MODEL = '/models/hoodie.glb';
 const FABRIC_RE = /fleece|rib|fabric/i;
 const BODY_MESH = 'Object_8';
-// Shallow projector depth (world units) → conforms to the LOCAL surface curve
+// Shallow projector depth (world units) conforms to the local surface curve
 // only, so a back logo can't punch through a thin layer (hood) to the front.
 const DEPTH = 0.08;
 
@@ -20,13 +20,13 @@ const DEPTH = 0.08;
 // DEPTH) so it sits just inside every outer surface. It backs every opening
 // (zipper slit, hood face-hole) with opaque fabric, so a back-panel logo can
 // never be seen from the front. Because it stays strictly inside the outer
-// shell, it's hidden from every exterior angle — and being inset in depth it
+// shell, it's hidden from every exterior angle. Being inset in depth, it
 // always sits IN FRONT of the back logos from the cavity side but BEHIND them
 // from the back, so the back graphics still read perfectly from behind.
 const SHELL_SCALE: [number, number, number] = [0.9, 1.0, 0.68];
 
 /** Tangent-frame Euler from a surface normal: local +z = outward normal
- *  (projection axis), local +y = world-up projected onto the tangent plane —
+ *  (projection axis), local +y = world-up projected onto the tangent plane.
  *  so the logo conforms AND stays upright (never upside-down). */
 function tangentEuler(n: THREE.Vector3): THREE.Euler {
   const z = n.clone().normalize();
@@ -61,7 +61,7 @@ export function HoodieGLB({ spec }: { spec: DesignSpec }) {
 
   // Bake every mesh's world transform into its geometry and reparent into a flat
   // identity-space group. Now the body's geometry, the decals, and the rendered
-  // mesh all share ONE coordinate frame — no double-transform, no floating.
+  // mesh all share one coordinate frame: no double-transform, no floating.
   const { flat, body } = useMemo(() => {
     const c = scene.clone(true);
     c.updateMatrixWorld(true);

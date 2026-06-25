@@ -15,7 +15,7 @@ export function usePageTransition() {
   }, [router]);
   const Overlay = () => (
     <div ref={overlay} className="fixed inset-0 z-[95] hidden bg-brand">
-      <div className="grid h-full place-items-center font-[family-name:var(--font-anton)] text-6xl uppercase text-white">Design Your Drop</div>
+      <div className="grid h-full place-items-center font-[family-name:var(--font-anton)] text-6xl uppercase text-white">Make Your Hoodie</div>
     </div>
   );
   return { start, Overlay };

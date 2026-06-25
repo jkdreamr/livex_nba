@@ -1,5 +1,5 @@
 /**
- * Catalog integrity tests — asserts the real facts of catalog.json
+ * Catalog integrity tests for the real facts of catalog.json
  * so any future pipeline re-run that breaks a constraint is caught immediately.
  */
 import { describe, it, expect } from 'vitest';
@@ -24,7 +24,7 @@ const ALL_30_FRANCHISE_SLUGS = [
 ] as const;
 
 /**
- * 29 back-graphic team slugs — all 30 franchises EXCEPT 'bulls'
+ * 29 back-graphic team slugs: all 30 franchises except 'bulls'
  * (Chicago Bulls is intentionally absent from the back catalog per the source PDF).
  */
 const BACK_29_TEAM_SLUGS = ALL_30_FRANCHISE_SLUGS.filter(s => s !== 'bulls');
@@ -104,7 +104,7 @@ describe('catalog-full integrity', () => {
     for (const slug of BACK_29_TEAM_SLUGS) {
       expect(backTeamSet.has(slug), `back missing team: ${slug}`).toBe(true);
     }
-    // Bulls intentionally absent from back catalog (Chicago Bulls — per source PDF)
+    // Bulls intentionally absent from back catalog (Chicago Bulls, per source PDF)
     expect(backTeamSet.has('bulls'), 'bulls must NOT appear in back catalog').toBe(false);
   });
 });

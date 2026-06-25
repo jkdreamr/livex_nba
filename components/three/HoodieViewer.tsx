@@ -8,7 +8,7 @@ import type { DesignSpec } from '@/lib/catalog/types';
 import { HoodieGLB } from './HoodieGLB';
 
 /** The hoodie on a turntable. We spin/orient the GROUP (camera stays fixed at
- *  the front) so the angle buttons are deterministic — "Back" always shows the
+ *  the front) so the angle buttons are deterministic. "Back" always shows the
  *  back regardless of where a prior auto-spin left things. Rotating the outer
  *  group (not the Centered child) keeps <Center> from re-measuring every frame. */
 function Turntable({ spec, autoRotate, spinY }: { spec: DesignSpec; autoRotate: boolean; spinY: number }) {
@@ -30,7 +30,7 @@ function Turntable({ spec, autoRotate, spinY }: { spec: DesignSpec; autoRotate: 
   );
 }
 
-/** Premium turntable viewer. A procedural studio Environment (Lightformers —
+/** Turntable viewer. A procedural studio Environment (Lightformers,
  *  no external HDRI) gives reflections + brand-blue/violet rim light that
  *  define the silhouette of even a black hoodie against the dark brand scene. */
 export function HoodieViewer({

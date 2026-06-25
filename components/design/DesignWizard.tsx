@@ -11,7 +11,7 @@ import { VIBE_OPTIONS, DENSITY_OPTIONS } from '@/lib/questionnaire/options';
 import { StepHeading, PrimaryButton, GhostButton, SelectTile } from './primitives';
 import { Reveal } from './Reveal';
 
-const STEPS = ['Team', 'Color', 'Vibe', 'Density', 'Extras'] as const;
+const STEPS = ['Team', 'Color', 'Style', 'Patches', 'Extras'] as const;
 const MAX_TEAMS = 3;
 
 export function DesignWizard() {
@@ -26,7 +26,7 @@ export function DesignWizard() {
   const [query, setQuery] = useState('');
 
   // The chosen density bounds how many patches a design carries, so it also
-  // bounds how many must-haves the fan can pin — every pin is guaranteed a slot.
+  // bounds how many must-haves the fan can pin.
   const mustHaveCap = densityBudget(density);
   const cappedMustHaves = useMemo(() => mustHaveIds.slice(0, mustHaveCap), [mustHaveIds, mustHaveCap]);
 
@@ -93,7 +93,7 @@ export function DesignWizard() {
       {/* progress */}
       <header className="relative mx-auto w-full max-w-5xl">
         <div className="flex items-center justify-between">
-          <p className="font-sans text-xs uppercase tracking-[0.3em] text-ink-muted">NBA Summer League × LiveX</p>
+          <p className="font-sans text-xs uppercase tracking-[0.3em] text-ink-muted">NBA Summer League x LiveX</p>
           <p className="font-sans text-xs text-ink-muted">
             Step {step + 1} <span className="opacity-50">/ {STEPS.length}</span>
           </p>
@@ -116,14 +116,14 @@ export function DesignWizard() {
           <div>
             <StepHeading
               eyebrow="Who do you rep?"
-              title="Pick your team"
-              subtitle={`Your #1 team headlines the back. Add up to ${MAX_TEAMS} — tap order sets the ranking.`}
+              title="Who are you wearing?"
+              subtitle={`Your first team goes on the back. Add up to ${MAX_TEAMS} teams; tap order sets the rank.`}
             />
             <div className="mx-auto mt-6 max-w-md">
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search 30 teams…"
+                placeholder="Search 30 teams"
                 className="w-full rounded-full border border-line bg-surface-raised px-5 py-3 font-sans text-sm text-ink outline-none placeholder:text-ink-muted/60 focus:border-brand"
               />
             </div>
@@ -147,7 +147,7 @@ export function DesignWizard() {
                 );
               })}
               {filteredTeams.length === 0 && (
-                <p className="col-span-full py-8 text-center font-sans text-sm text-ink-muted">No team matches “{query}”.</p>
+                <p className="col-span-full py-8 text-center font-sans text-sm text-ink-muted">No teams found for &quot;{query}&quot;.</p>
               )}
             </div>
           </div>
@@ -155,7 +155,7 @@ export function DesignWizard() {
 
         {step === 1 && (
           <div>
-            <StepHeading eyebrow="The canvas" title="Choose your colorway" subtitle="Premium heavyweight fleece in four finishes." />
+            <StepHeading eyebrow="Color" title="Choose the hoodie color" subtitle="Four heavyweight fleece options." />
             <div className="mx-auto mt-8 grid max-w-3xl grid-cols-2 gap-3 sm:grid-cols-4">
               {HOODIE_COLORS.map((c) => (
                 <SelectTile key={c.id} selected={hoodieColor === c.id} onClick={() => setHoodieColor(c.id)}>
@@ -172,7 +172,7 @@ export function DesignWizard() {
 
         {step === 2 && (
           <div>
-            <StepHeading eyebrow="The energy" title="What's the vibe?" subtitle="Steers which patches we pull and how they're styled." />
+            <StepHeading eyebrow="Style" title="Choose the look" subtitle="This controls the patch mix." />
             <div className="mx-auto mt-8 grid max-w-3xl grid-cols-1 gap-3 sm:grid-cols-2">
               {VIBE_OPTIONS.map((v) => (
                 <SelectTile key={v.id} selected={vibe === v.id} onClick={() => setVibe(v.id)}>
@@ -189,7 +189,7 @@ export function DesignWizard() {
 
         {step === 3 && (
           <div>
-            <StepHeading eyebrow="The volume" title="How loud?" subtitle="From a single hero graphic to a full patch party." />
+            <StepHeading eyebrow="Patch count" title="How many patches?" subtitle="Keep it clean or fill the sleeves." />
             <div className="mx-auto mt-8 grid max-w-3xl grid-cols-1 gap-3 sm:grid-cols-3">
               {DENSITY_OPTIONS.map((d) => (
                 <SelectTile key={d.id} selected={density === d.id} onClick={() => setDensity(d.id)}>
@@ -206,11 +206,11 @@ export function DesignWizard() {
           <div>
             <StepHeading
               eyebrow="One more thing"
-              title="Any must-haves? (optional)"
-              subtitle={`Pin the patches you want guaranteed — your #1 pick goes front-and-center on the chest. Up to ${mustHaveCap} at ${density} density, or let us surprise you.`}
+              title="Want specific patches?"
+              subtitle={`Pick patches to include. Your first pick goes on the chest. Up to ${mustHaveCap} for ${density}. You can also skip this.`}
             />
             <p className="mt-3 text-center font-sans text-xs uppercase tracking-[0.2em] text-ink-muted">
-              {cappedMustHaves.length} / {mustHaveCap} pinned
+              {cappedMustHaves.length} / {mustHaveCap} selected
             </p>
             <div className="mx-auto mt-4 grid max-h-[44vh] max-w-3xl grid-cols-3 gap-2.5 overflow-y-auto pr-1 sm:grid-cols-4">
               <SelectTile
@@ -218,7 +218,7 @@ export function DesignWizard() {
                 onClick={() => setMustHaveIds([])}
                 className="items-center justify-center"
               >
-                <span className="py-4 text-center font-sans text-sm font-semibold text-ink">✨ Surprise me</span>
+                <span className="py-4 text-center font-sans text-sm font-semibold text-ink">Skip this</span>
               </SelectTile>
               {FEATURED_PATCHES.map((p) => {
                 const rank = cappedMustHaves.indexOf(p.id);
@@ -246,14 +246,14 @@ export function DesignWizard() {
 
       {/* nav */}
       <footer className="relative mx-auto flex w-full max-w-5xl items-center justify-between">
-        {step > 0 ? <GhostButton onClick={() => setStep((s) => s - 1)}>← Back</GhostButton> : <span />}
+        {step > 0 ? <GhostButton onClick={() => setStep((s) => s - 1)}>Back</GhostButton> : <span />}
         {isLast ? (
           <PrimaryButton onClick={() => setRevealed(true)} disabled={teams.length === 0}>
-            Reveal my drop →
+            Show my hoodie
           </PrimaryButton>
         ) : (
           <PrimaryButton onClick={() => setStep((s) => s + 1)} disabled={!canAdvance}>
-            Next →
+            Next
           </PrimaryButton>
         )}
       </footer>

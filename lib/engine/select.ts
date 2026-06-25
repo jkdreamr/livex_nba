@@ -5,7 +5,7 @@ import {
 } from '@/lib/catalog';
 import { isHarmonious } from './harmony';
 
-// Patch budget per tier — equals DENSITY_MAX so the count the fan is promised
+// Patch budget per tier. Equals DENSITY_MAX so the count the fan is promised
 // ("up to N patches") is exactly what they get, and "maximal" fills all 10
 // zones. assignZones still clamps to the number of available zones/candidates.
 const DENSITY_TARGET: Record<Density, number> = { minimal: 1, balanced: 4, maximal: 10 };
@@ -29,7 +29,7 @@ export function buildCandidates(answers: QuestionnaireAnswers): string[] {
   const seen = new Set<string>();
   // A candidate is admitted once, only if it survives the colour-harmony
   // invariant against the fabric (checkInvariants enforces this on every patch,
-  // so an unharmonious graphic — even an explicit must-have — can never be
+  // so an unharmonious graphic, even an explicit must-have, can never be
   // placed; it is dropped here and a later candidate fills the slot instead).
   const push = (g?: Graphic) => {
     if (!g || seen.has(g.id)) return;
@@ -38,7 +38,7 @@ export function buildCandidates(answers: QuestionnaireAnswers): string[] {
     ordered.push(g.id);
   };
 
-  // 1. must-haves (explicit picks), in the fan's priority order — they take the
+  // 1. must-haves (explicit picks), in the fan's priority order. They take the
   //    highest-priority zones (front chest first), so the #1 pick is front-and-centre.
   for (const id of answers.mustHaveIds ?? []) push(placementById(id));
   // 2. remaining ranked teams (skip the #1 team that took the back slot)

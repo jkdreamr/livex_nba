@@ -9,10 +9,10 @@ export interface TeamOption {
 }
 
 /**
- * All 30 canonical NBA franchises, A→Z. Derived from the one `team`-tagged
+ * All 30 canonical NBA franchises, A-Z. Derived from the one `team`-tagged
  * placement graphic per franchise (see `teamPatch()`), so the picker can never
  * drift from the approved catalog. Chicago Bulls is included here even though it
- * has no back graphic — the engine falls back to the Summer League logo on the
+ * has no back graphic; the engine falls back to the Summer League logo on the
  * back for Bulls fans (see `resolveBack()`).
  */
 export const TEAMS: TeamOption[] = PLACEMENT_GRAPHIC_CATALOG
@@ -48,7 +48,7 @@ const FEATURED_PATCH_IDS = [
 ] as const;
 
 /**
- * A curated set of fun/Vegas patches offered as the optional "must-have" in the
+ * A short set of fun/Vegas patches offered as the optional "must-have" in the
  * questionnaire. Every id is validated against the live catalog at module load,
  * so a renamed/removed graphic surfaces immediately instead of 404-ing later.
  */
