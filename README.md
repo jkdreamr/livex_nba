@@ -25,7 +25,7 @@ Routes:
 
 | Route | What it is |
 |---|---|
-| `/` | Branded landing — "Design Your Drop" |
+| `/` | Branded animated landing — scroll-driven 3D hero, video reels, CTA |
 | `/design` | The five-step questionnaire → 3D reveal (the whole fan experience) |
 | `/preview` | Dev-only sandbox for tuning the 3D viewer against any spec |
 | `/api/generate` | `POST` endpoint — `QuestionnaireAnswers` → `DesignSpec` |
@@ -38,6 +38,45 @@ npm run test:watch  # vitest watch mode
 npm run typecheck   # tsc --noEmit
 npm run lint        # eslint .
 ```
+
+## Landing Page
+
+The `/` route is a scroll-driven animated landing page. A fixed full-viewport 3D canvas sits behind the DOM; as the user scrolls, a LeBron model rotates through choreographed act keyframes.
+
+### How to add a video
+
+1. Drop `<id>.mp4` into `/public/videos/` (e.g. `/public/videos/reel-1.mp4`).
+2. Optionally add a poster frame at `/public/videos/posters/<id>.jpg`.
+3. In `lib/landing/landing.config.ts`, update the matching entry in `LANDING_SECTIONS`:
+
+```ts
+{ id: 'reel-1', kind: 'video', headline: 'BUILT FOR THE MOMENT',
+  videoSrc: '/videos/reel-1.mp4',
+  poster: '/videos/posters/reel-1.jpg', // optional
+  videoMode: 'play', // 'play' (auto plays in viewport) | 'scrub' (tied to scroll)
+  theme: 'dark' },
+```
+
+Before any video is added, each slot shows a designed pulse placeholder (intentional — it looks fine in prod too).
+
+### How to swap the hero model
+
+The hero model is served from `/public/models/lebron.glb`. To replace it:
+
+```bash
+node scripts/build-lebron.mjs --src=<path/to/source.fbx>
+```
+
+Requirements: Blender installed at `/Applications/Blender.app` and `@gltf-transform/cli` available via `npx`. The script converts the FBX to GLB via Blender, then runs Draco compression + WebP texture optimisation. Update `public/models/lebron-LICENSE.txt` with the new model's licence before any public launch.
+
+### How to add the logos
+
+`BrandLockup` reads two SVG files from `/public/logos/`. Drop in:
+
+- `/public/logos/livex-ai.svg` — LiveX AI wordmark
+- `/public/logos/nba-summer-league.svg` — NBA Summer League badge
+
+No config change is needed. If either file is missing, a mono text fallback renders in its place.
 
 ## Architecture
 
