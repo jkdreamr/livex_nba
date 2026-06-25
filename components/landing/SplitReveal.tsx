@@ -3,7 +3,8 @@ import { useRef } from 'react';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { SplitText } from 'gsap/SplitText';
-gsap.registerPlugin(useGSAP, SplitText);
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+gsap.registerPlugin(useGSAP, SplitText, ScrollTrigger);
 export function SplitReveal({ text, className = '', as = 'h2' }: { text: string; className?: string; as?: 'h1' | 'h2' }) {
   const ref = useRef<HTMLHeadingElement>(null);
   useGSAP(() => {

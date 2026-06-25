@@ -14,6 +14,7 @@ export function Cursor() {
       gsap.to(dot.current, { scale: mode ? 3.2 : 1, duration: 0.3 });
       if (label.current) label.current.textContent = mode === 'rotate' ? 'drag to rotate' : mode === 'grow' ? '' : '';
     };
+    gsap.set(dot.current, { x: -100, y: -100 });
     window.addEventListener('mousemove', move);
     return () => { window.removeEventListener('mousemove', move); document.documentElement.classList.remove('lx-cursor'); };
   }, []);

@@ -1,8 +1,12 @@
 'use client';
-import { useRef, type ReactNode } from 'react';
+import { useRef, useEffect, type ReactNode } from 'react';
 import { gsap } from 'gsap';
 export function Magnetic({ children, strength = 0.35 }: { children: ReactNode; strength?: number }) {
   const ref = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    return () => { if (el) gsap.killTweensOf(el); };
+  }, []);
   const onMove = (e: React.MouseEvent) => {
     const el = ref.current; if (!el) return;
     const r = el.getBoundingClientRect();
