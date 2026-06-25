@@ -31,12 +31,13 @@ function PatchBackdrop() {
         loop
         playsInline
         preload="auto"
-        className="absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 object-cover opacity-[0.18]"
+        className="absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 object-cover opacity-[0.6]"
       >
         <source src={PATCH_BACKDROP_SRC} type="video/mp4" />
       </video>
-      {/* scrim keeps the patch tiles readable over the footage */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.45)_0%,rgba(0,0,0,0.84)_100%)]" />
+      {/* light scrim so the gameplay reads clearly, with a touch more darkening
+          at the very top/bottom edges to keep the heading and footer legible */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.08)_0%,rgba(0,0,0,0.5)_100%)]" />
     </div>
   );
 }

@@ -3,7 +3,9 @@ import type { NextRequest } from 'next/server';
 // Server-only: the OpenRouter key never reaches the client. The browser talks
 // only to this route, which proxies to OpenRouter and streams text back.
 const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions';
-const MODEL = process.env.OPENROUTER_CHAT_MODEL || 'openrouter/owl-alpha';
+// .trim() guards against stray whitespace/tabs pasted into the env var value
+// (a leading tab makes OpenRouter reject the model ID with a 400).
+const MODEL = (process.env.OPENROUTER_CHAT_MODEL || 'openrouter/owl-alpha').trim();
 const MAX_HISTORY = 16; // last N turns kept (bounds prompt size / cost)
 const MAX_CHARS = 4000; // per-message clamp
 const MAX_TOKENS = 600; // response cap
@@ -42,7 +44,7 @@ function textResponse(text: string): Response {
 }
 
 export async function POST(req: NextRequest): Promise<Response> {
-  const key = process.env.OPENROUTER_API_KEY;
+  const key = process.env.OPENROUTER_API_KEY?.trim();
   if (!key) {
     return textResponse(
       "The assistant isn't switched on yet — an OPENROUTER_API_KEY needs to be set. In the meantime, head to Design and build your Summer League hoodie!",
@@ -72,7 +74,7 @@ export async function POST(req: NextRequest): Promise<Response> {
       headers: {
         Authorization: `Bearer ${key}`,
         'Content-Type': 'application/json',
-        'HTTP-Referer': process.env.OPENROUTER_SITE_URL || 'https://livex.ai',
+        'HTTP-Referer': (process.env.OPENROUTER_SITE_URL || 'https://livex.ai').trim(),
         'X-Title': 'LiveX x NBA Summer League', // ASCII only — header values must not carry non-Latin-1 chars
       },
       body: JSON.stringify({
@@ -92,7 +94,9 @@ export async function POST(req: NextRequest): Promise<Response> {
     const detail = await upstream.text().catch(() => '');
     console.error(`[chat] OpenRouter ${upstream.status} for model "${MODEL}": ${detail.slice(0, 800)}`);
     let msg = 'The assistant hit a snag reaching the model. Please try again.';
-    if (upstream.status === 401 || upstream.status === 403) {
+    if (upstream.status === 400) {
+      msg = 'The assistant is misconfigured — the chat model id looks invalid (check OPENROUTER_CHAT_MODEL).';
+    } else if (upstream.status === 401 || upstream.status === 403) {
       msg = 'The assistant is misconfigured — the OpenRouter API key looks invalid.';
     } else if (upstream.status === 404) {
       // Free / stealth models (owl-alpha) need prompt logging enabled.
