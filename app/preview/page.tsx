@@ -5,20 +5,36 @@ import { useMemo, useState } from 'react';
 import { generate } from '@/lib/engine/generate';
 import type { Density, HoodieColor, Vibe } from '@/lib/catalog/types';
 
-const HoodieViewer = dynamic<{ spec: import('@/lib/catalog/types').DesignSpec }>(
-  () => import('@/components/three/HoodieViewer').then((m) => m.HoodieViewer),
-  { ssr: false, loading: () => <div className="grid h-full place-items-center text-ink-muted">Loading 3D…</div> },
-);
+const HoodieViewer = dynamic<{
+  spec: import('@/lib/catalog/types').DesignSpec;
+  autoRotate?: boolean;
+  spinY?: number;
+}>(() => import('@/components/three/HoodieViewer').then((m) => m.HoodieViewer), {
+  ssr: false,
+  loading: () => <div className="grid h-full place-items-center text-ink-muted">Loading 3D…</div>,
+});
 
 const COLORS: HoodieColor[] = ['bone', 'black', 'grey', 'white'];
 const DENSITIES: Density[] = ['minimal', 'balanced', 'maximal'];
 const VIBES: Vibe[] = ['classic', 'vegas', 'streetwear', 'playful'];
+const ANGLES: { label: string; y: number }[] = [
+  { label: 'front', y: 0 },
+  { label: 'right', y: -Math.PI / 2 },
+  { label: 'back', y: Math.PI },
+  { label: 'left', y: Math.PI / 2 },
+];
 
-// Dev preview: tweak inputs and watch the engine + 3D update live.
+const chip = (active: boolean) =>
+  `rounded-full px-3 py-1.5 font-sans text-sm capitalize ${
+    active ? 'bg-brand text-white' : 'bg-surface-raised text-ink-muted'
+  }`;
+
 export default function PreviewPage() {
   const [color, setColor] = useState<HoodieColor>('black');
   const [density, setDensity] = useState<Density>('maximal');
   const [vibe, setVibe] = useState<Vibe>('vegas');
+  const [spin, setSpin] = useState(0);
+  const [auto, setAuto] = useState(false);
 
   const spec = useMemo(
     () =>
@@ -43,45 +59,44 @@ export default function PreviewPage() {
         </p>
       </div>
 
-      <div className="absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 flex-wrap justify-center gap-2 rounded-2xl border border-line bg-surface/80 p-3 backdrop-blur">
+      <div className="absolute bottom-6 left-1/2 z-10 flex max-w-[92vw] -translate-x-1/2 flex-wrap justify-center gap-2 rounded-2xl border border-line bg-surface/80 p-3 backdrop-blur">
         {COLORS.map((c) => (
-          <button
-            key={c}
-            onClick={() => setColor(c)}
-            className={`rounded-full px-3 py-1.5 font-sans text-sm capitalize ${
-              color === c ? 'bg-brand text-white' : 'bg-surface-raised text-ink-muted'
-            }`}
-          >
+          <button key={c} data-color={c} onClick={() => setColor(c)} className={chip(color === c)}>
             {c}
           </button>
         ))}
         <span className="w-px self-stretch bg-line" />
         {DENSITIES.map((d) => (
-          <button
-            key={d}
-            onClick={() => setDensity(d)}
-            className={`rounded-full px-3 py-1.5 font-sans text-sm capitalize ${
-              density === d ? 'bg-brand text-white' : 'bg-surface-raised text-ink-muted'
-            }`}
-          >
+          <button key={d} data-density={d} onClick={() => setDensity(d)} className={chip(density === d)}>
             {d}
           </button>
         ))}
         <span className="w-px self-stretch bg-line" />
         {VIBES.map((v) => (
-          <button
-            key={v}
-            onClick={() => setVibe(v)}
-            className={`rounded-full px-3 py-1.5 font-sans text-sm capitalize ${
-              vibe === v ? 'bg-brand text-white' : 'bg-surface-raised text-ink-muted'
-            }`}
-          >
+          <button key={v} data-vibe={v} onClick={() => setVibe(v)} className={chip(vibe === v)}>
             {v}
           </button>
         ))}
+        <span className="w-px self-stretch bg-line" />
+        {ANGLES.map((a) => (
+          <button
+            key={a.label}
+            data-spin={a.label}
+            onClick={() => {
+              setAuto(false);
+              setSpin(a.y);
+            }}
+            className={chip(!auto && spin === a.y)}
+          >
+            {a.label}
+          </button>
+        ))}
+        <button data-spin="auto" onClick={() => setAuto((v) => !v)} className={chip(auto)}>
+          ⟳ spin
+        </button>
       </div>
 
-      <HoodieViewer spec={spec} />
+      <HoodieViewer spec={spec} autoRotate={auto} spinY={spin} />
     </main>
   );
 }

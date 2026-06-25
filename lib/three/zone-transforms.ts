@@ -21,17 +21,18 @@ export interface ZoneTransform {
 // Body RoundedBox is ~[1.5 w, 1.9 h, 0.7 d]: front face z≈+0.37, back face z≈-0.37.
 // Sleeve RoundedBoxes are ~[0.44 w, 1.5 h, 0.46 d] in their own local space.
 export const ZONE_3D: Record<BackZone | PatchZone, ZoneTransform> = {
-  back_center: { mesh: 'body', position: [0, 0.02, -0.38], rotation: [0, Math.PI, 0], scale: 0.86 },
-  back_upper: { mesh: 'body', position: [0, 0.64, -0.38], rotation: [0, Math.PI, 0], scale: 0.4 },
-  front_chest: { mesh: 'body', position: [-0.34, 0.52, 0.38], rotation: [0, 0, 0], scale: 0.36 },
+  back_center: { mesh: 'body', position: [0, -0.05, -0.31], rotation: [0, Math.PI, 0], scale: 0.78 },
+  back_upper: { mesh: 'body', position: [0, 0.52, -0.31], rotation: [0, Math.PI, 0], scale: 0.3 },
+  front_chest: { mesh: 'body', position: [-0.28, 0.46, 0.31], rotation: [0, 0, 0], scale: 0.3 },
 
-  left_sleeve_1: { mesh: 'leftSleeve', position: [-0.24, 0.46, 0.0], rotation: [0, -Math.PI / 2, 0], scale: 0.3 },
-  left_sleeve_2: { mesh: 'leftSleeve', position: [-0.24, 0.12, 0.0], rotation: [0, -Math.PI / 2, 0], scale: 0.3 },
-  left_sleeve_3: { mesh: 'leftSleeve', position: [-0.24, -0.22, 0.0], rotation: [0, -Math.PI / 2, 0], scale: 0.3 },
-  left_sleeve_4: { mesh: 'leftSleeve', position: [-0.24, -0.56, 0.0], rotation: [0, -Math.PI / 2, 0], scale: 0.3 },
+  // sleeve decals are in the sleeve RoundedBox's local space (outer face x≈∓0.2)
+  left_sleeve_1: { mesh: 'leftSleeve', position: [-0.21, 0.46, 0.0], rotation: [0, -Math.PI / 2, 0], scale: 0.26 },
+  left_sleeve_2: { mesh: 'leftSleeve', position: [-0.21, 0.12, 0.0], rotation: [0, -Math.PI / 2, 0], scale: 0.26 },
+  left_sleeve_3: { mesh: 'leftSleeve', position: [-0.21, -0.24, 0.0], rotation: [0, -Math.PI / 2, 0], scale: 0.26 },
+  left_sleeve_4: { mesh: 'leftSleeve', position: [-0.21, -0.58, 0.0], rotation: [0, -Math.PI / 2, 0], scale: 0.26 },
 
-  right_sleeve_1: { mesh: 'rightSleeve', position: [0.24, 0.46, 0.0], rotation: [0, Math.PI / 2, 0], scale: 0.3 },
-  right_sleeve_2: { mesh: 'rightSleeve', position: [0.24, 0.12, 0.0], rotation: [0, Math.PI / 2, 0], scale: 0.3 },
-  right_sleeve_3: { mesh: 'rightSleeve', position: [0.24, -0.22, 0.0], rotation: [0, Math.PI / 2, 0], scale: 0.3 },
-  right_sleeve_4: { mesh: 'rightSleeve', position: [0.24, -0.56, 0.0], rotation: [0, Math.PI / 2, 0], scale: 0.3 },
+  right_sleeve_1: { mesh: 'rightSleeve', position: [0.21, 0.46, 0.0], rotation: [0, Math.PI / 2, 0], scale: 0.26 },
+  right_sleeve_2: { mesh: 'rightSleeve', position: [0.21, 0.12, 0.0], rotation: [0, Math.PI / 2, 0], scale: 0.26 },
+  right_sleeve_3: { mesh: 'rightSleeve', position: [0.21, -0.24, 0.0], rotation: [0, Math.PI / 2, 0], scale: 0.26 },
+  right_sleeve_4: { mesh: 'rightSleeve', position: [0.21, -0.58, 0.0], rotation: [0, Math.PI / 2, 0], scale: 0.26 },
 };

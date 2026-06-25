@@ -60,7 +60,7 @@ export function Hoodie({ spec }: { spec: DesignSpec }) {
   return (
     <group>
       {/* torso */}
-      <RoundedBox args={[1.5, 1.9, 0.7]} radius={0.2} smoothness={5} castShadow receiveShadow>
+      <RoundedBox args={[1.34, 2.0, 0.6]} radius={0.22} smoothness={5} castShadow receiveShadow>
         <meshStandardMaterial {...fabric} />
         {on('body').map((d) => (
           <GraphicDecal key={d.key} file={d.file} t={d.t} />
@@ -68,60 +68,60 @@ export function Hoodie({ spec }: { spec: DesignSpec }) {
       </RoundedBox>
 
       {/* hood */}
-      <mesh position={[0, 1.04, -0.18]} rotation={[0.55, 0, 0]} castShadow>
-        <sphereGeometry args={[0.47, 32, 24, 0, Math.PI * 2, 0, Math.PI / 1.7]} />
+      <mesh position={[0, 1.12, -0.16]} rotation={[0.55, 0, 0]} castShadow>
+        <sphereGeometry args={[0.46, 32, 24, 0, Math.PI * 2, 0, Math.PI / 1.7]} />
         <meshStandardMaterial {...fabric} side={THREE.DoubleSide} />
       </mesh>
 
       {/* collar / neck rib */}
-      <mesh position={[0, 0.92, 0.0]} rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[0.34, 0.075, 16, 40]} />
+      <mesh position={[0, 1.0, 0.0]} rotation={[Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[0.32, 0.07, 16, 40]} />
         <meshStandardMaterial {...fabric} roughness={0.99} />
       </mesh>
 
-      {/* left sleeve */}
-      <group position={[-0.92, 0.18, 0]} rotation={[0, 0, 0.3]}>
-        <RoundedBox args={[0.44, 1.5, 0.46]} radius={0.16} smoothness={4} castShadow>
+      {/* left sleeve — attached at the shoulder, draping down-and-out */}
+      <group position={[-0.66, 0.62, 0]} rotation={[0, 0, 0.42]}>
+        <RoundedBox args={[0.4, 1.5, 0.42]} radius={0.15} smoothness={4} position={[-0.18, -0.6, 0]} castShadow>
           <meshStandardMaterial {...fabric} />
           {on('leftSleeve').map((d) => (
             <GraphicDecal key={d.key} file={d.file} t={d.t} />
           ))}
         </RoundedBox>
         {/* cuff */}
-        <mesh position={[0, -0.82, 0]} rotation={[Math.PI / 2, 0, 0]}>
-          <torusGeometry args={[0.2, 0.06, 12, 28]} />
+        <mesh position={[-0.18, -1.32, 0]} rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[0.18, 0.055, 12, 28]} />
           <meshStandardMaterial {...fabric} roughness={0.99} />
         </mesh>
       </group>
 
       {/* right sleeve */}
-      <group position={[0.92, 0.18, 0]} rotation={[0, 0, -0.3]}>
-        <RoundedBox args={[0.44, 1.5, 0.46]} radius={0.16} smoothness={4} castShadow>
+      <group position={[0.66, 0.62, 0]} rotation={[0, 0, -0.42]}>
+        <RoundedBox args={[0.4, 1.5, 0.42]} radius={0.15} smoothness={4} position={[0.18, -0.6, 0]} castShadow>
           <meshStandardMaterial {...fabric} />
           {on('rightSleeve').map((d) => (
             <GraphicDecal key={d.key} file={d.file} t={d.t} />
           ))}
         </RoundedBox>
-        <mesh position={[0, -0.82, 0]} rotation={[Math.PI / 2, 0, 0]}>
-          <torusGeometry args={[0.2, 0.06, 12, 28]} />
+        <mesh position={[0.18, -1.32, 0]} rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[0.18, 0.055, 12, 28]} />
           <meshStandardMaterial {...fabric} roughness={0.99} />
         </mesh>
       </group>
 
       {/* kangaroo pocket */}
       <RoundedBox
-        args={[0.92, 0.46, 0.14]}
+        args={[0.84, 0.44, 0.12]}
         radius={0.06}
         smoothness={4}
-        position={[0, -0.52, 0.34]}
+        position={[0, -0.58, 0.3]}
         castShadow
       >
         <meshStandardMaterial {...fabric} />
       </RoundedBox>
 
       {/* waist rib */}
-      <mesh position={[0, -0.96, 0]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.76, 0.76, 0.12, 40, 1, true]} />
+      <mesh position={[0, -1.02, 0]} rotation={[Math.PI / 2, 0, 0]}>
+        <cylinderGeometry args={[0.68, 0.68, 0.12, 40, 1, true]} />
         <meshStandardMaterial {...fabric} roughness={0.99} side={THREE.DoubleSide} />
       </mesh>
     </group>
