@@ -50,10 +50,14 @@ All brand tokens live in `app/globals.css` inside the `@theme {}` block.
 ### Hoodie Colors (4)
 `bone` | `black` | `grey` | `white` — defined in `lib/catalog/hoodie-colors.ts` with hex fabric values.
 
-### Graphic Catalog (seed subset — Plan 2 delivers the full set)
-- **Back graphics** (`lib/catalog/back-graphics.ts`): seed has 5 items; Plan 2 target is **33**.
-- **Placement graphics** (`lib/catalog/placement-graphics.ts`): Plan 2 target is **94**.
-- IDs are stable slug strings (e.g. `back_01_las-vegas-summer-league`, `patch_01_lvsl`).
+### Graphic Catalog (full set from `assets/catalog.json`)
+- **Back graphics** (`lib/catalog/back-graphics.ts`): **33 items** — 4 non-team + 29 franchise logos.
+- **Placement graphics** (`lib/catalog/placement-graphics.ts`): **94 items** — 30 franchise logos + 64 non-team patches.
+- Both catalogs load from `@/assets/catalog.json` (pipeline: `extract.py` → `build_catalog.py`).
+- IDs are stable slug strings (e.g. `back_01_las-vegas-summer-league`, `plc_01_martini`).
+- Each `Graphic` carries a `file` field: a path under `public/` (e.g. `/logos/back/back_05_hawks.png`).
+- **Chicago Bulls (`bulls`) is intentionally absent from the back catalog** — no Bulls back graphic exists in the source PDF. The engine falls back to the Summer League logo for Bulls fans on the back.
+- Exactly one placement graphic per franchise carries a `team` slug (the canonical logo for `teamPatch()` lookups).
 
 ### Zones
 - **Back zone:** exactly one — `back_center` (type `BackZone`).
@@ -74,6 +78,7 @@ All brand tokens live in `app/globals.css` inside the `@theme {}` block.
    - `balanced` → max **4** patches
    - `maximal` → max **10** patches
 5. **Color harmony** — every patch must have at least one `dominantColor` whose WCAG contrast ratio against the fabric hex is ≥ 1.6. Enforced by `isHarmonious()` in `lib/engine/harmony.ts`.
+   - **Back graphic is intentionally NOT harmony-filtered.** `resolveBack()` always places the #1 ranked team's official logo (or the Summer League fallback) on the back — team identity must win. Contrast-gating the back graphic would suppress real team logos. Only placement patches are harmony-filtered. `luminance()` (and therefore `contrastRatio`) throws with a clear error on a non-6-hex input to catch malformed pipeline colours early.
 6. **Deterministic engine** — given the same `QuestionnaireAnswers`, `generate()` must return the identical `DesignSpec`. Sorting is by `id.localeCompare`.
 
 ## Engine Architecture

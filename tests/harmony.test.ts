@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { isHarmonious, contrastRatio } from '@/lib/engine/harmony';
+import { isHarmonious, contrastRatio, luminanceOf } from '@/lib/engine/harmony';
 
 describe('harmony', () => {
   it('contrastRatio is symmetric and ~21 for black/white', () => {
@@ -17,5 +17,21 @@ describe('harmony', () => {
   });
   it('grey hoodie accepts mid-to-high contrast', () => {
     expect(isHarmonious('grey', ['#1D428A'])).toBe(true);
+  });
+
+  describe('luminance hex guard', () => {
+    it('throws on 3-digit shorthand hex', () => {
+      expect(() => luminanceOf('#FFF')).toThrow('6-digit hex');
+    });
+    it('throws on a CSS named color', () => {
+      expect(() => luminanceOf('red')).toThrow('6-digit hex');
+    });
+    it('throws on an empty string', () => {
+      expect(() => luminanceOf('')).toThrow('6-digit hex');
+    });
+    it('does NOT throw on a valid 6-digit hex', () => {
+      expect(() => luminanceOf('#FFFFFF')).not.toThrow();
+      expect(() => luminanceOf('#000000')).not.toThrow();
+    });
   });
 });
