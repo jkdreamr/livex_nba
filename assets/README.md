@@ -103,6 +103,6 @@ interface Graphic {
 ### Notable facts
 
 - **33 back graphics**: 4 non-team (Summer League, NBA, city text) + 29 team logos.
-- **94 placement graphics**: 30 franchise logos (one `team`-tagged each) + 64 non-team patches.
+- **94 placement graphics**: 30 canonical franchise logos (one `team`-tagged each) + 4 team alternates + 60 non-team patches.
 - **Chicago Bulls (`bulls`) is intentionally absent from the back catalog** — no Bulls back graphic appeared in the source PDF. Bulls fans get the Summer League fallback logo on the back; the Bulls placement patch is still available for hoodie placement zones.
 - All `dominantColors` are 6-digit hex strings (`#RRGGBB`). The engine's `luminance()` function throws on non-6-hex input.

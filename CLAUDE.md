@@ -52,7 +52,7 @@ All brand tokens live in `app/globals.css` inside the `@theme {}` block.
 
 ### Graphic Catalog (full set from `assets/catalog.json`)
 - **Back graphics** (`lib/catalog/back-graphics.ts`): **33 items** — 4 non-team + 29 franchise logos.
-- **Placement graphics** (`lib/catalog/placement-graphics.ts`): **94 items** — 30 franchise logos + 64 non-team patches.
+- **Placement graphics** (`lib/catalog/placement-graphics.ts`): **94 items** — 30 canonical franchise logos (one `team`-tagged each) + 4 team alternates + 60 non-team patches.
 - Both catalogs load from `@/assets/catalog.json` (pipeline: `extract.py` → `build_catalog.py`).
 - IDs are stable slug strings (e.g. `back_01_las-vegas-summer-league`, `plc_01_martini`).
 - Each `Graphic` carries a `file` field: a path under `public/` (e.g. `/logos/back/back_05_hawks.png`).

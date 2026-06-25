@@ -147,7 +147,7 @@ def contact_sheet(thumbs, cols: int, path: str):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--src", default="/Users/joshuakoo/Downloads/NBA Patch options -_ ONLY USE STEP 2")
+    ap.add_argument("--src", required=True, help="folder containing the two source PDFs")
     ap.add_argument("--repo", default=os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     args = ap.parse_args()
 
