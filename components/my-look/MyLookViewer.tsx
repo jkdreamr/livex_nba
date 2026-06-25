@@ -9,7 +9,7 @@ import { HoodieGLB } from '@/components/three/HoodieGLB';
 function TryOnModel({ spec }: { spec: DesignSpec }) {
   return (
     <Center>
-      <group position={[0, -0.08, 0]} scale={2.55}>
+      <group position={[0, -0.12, 0]} scale={1.92}>
         <HoodieGLB spec={spec} />
       </group>
     </Center>
@@ -18,7 +18,7 @@ function TryOnModel({ spec }: { spec: DesignSpec }) {
 
 export function MyLookViewer({ spec }: { spec: DesignSpec }) {
   return (
-    <Canvas camera={{ position: [0, 0.58, 3.35], fov: 25 }} shadows dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
+    <Canvas camera={{ position: [0, 0.2, 5.35], fov: 30 }} shadows dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
       <color attach="background" args={['#05060b']} />
       <ambientLight intensity={0.38} />
       <directionalLight position={[1.8, 3.6, 2.4]} intensity={2.35} castShadow />
@@ -30,7 +30,7 @@ export function MyLookViewer({ spec }: { spec: DesignSpec }) {
         </Environment>
         <TryOnModel spec={spec} />
       </Suspense>
-      <ContactShadows position={[0, -1.28, 0]} opacity={0.3} scale={3.2} blur={2.6} far={2.4} />
+      <ContactShadows position={[0, -1.5, 0]} opacity={0.3} scale={3.6} blur={2.8} far={2.6} />
     </Canvas>
   );
 }
