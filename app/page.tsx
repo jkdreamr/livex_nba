@@ -11,6 +11,7 @@ import { SectionRenderer } from '@/components/landing/SectionRenderer';
 import { useLebronActs } from '@/components/landing/useLebronActs';
 import { usePageTransition } from '@/components/landing/PageTransition';
 import { LANDING_SECTIONS } from '@/lib/landing/landing.config';
+import { useCapability } from '@/lib/landing/use-capability';
 
 const HeroCanvas = dynamic(
   () => import('@/components/landing/HeroCanvas').then((m) => m.HeroCanvas),
@@ -19,15 +20,16 @@ const HeroCanvas = dynamic(
 
 export default function Home() {
   const [ready, setReady] = useState(false);
-  useLebronActs(ready);
+  const cap = useCapability();
+  useLebronActs(ready && !cap.reducedMotion);
   const { start, Overlay } = usePageTransition();
   const onStart = useCallback(() => start('/design'), [start]);
   return (
-    <SmoothScroll>
+    <SmoothScroll reduced={cap.reducedMotion}>
       <Preloader onDone={() => setReady(true)} />
       <Cursor />
       <GrainOverlay />
-      <HeroCanvas />
+      <HeroCanvas tier={cap.tier} reducedMotion={cap.reducedMotion} />
       <main className="relative z-10">
         {LANDING_SECTIONS.map((s) => <SectionRenderer key={s.id} section={s} onStart={onStart} />)}
         <Marquee items={['NBA SUMMER LEAGUE', 'LAS VEGAS 2026', 'DESIGN YOUR DROP', 'LIVEX AI']} />
