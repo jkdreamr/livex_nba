@@ -4,7 +4,12 @@ import { assignZones } from './zones';
 import { buildRationale } from './rationale';
 import { designSpecSchema, checkInvariants } from './schema';
 
-export class EngineError extends Error {}
+export class EngineError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'EngineError';
+  }
+}
 
 export function generate(answers: QuestionnaireAnswers): DesignSpec {
   const backId = resolveBack(answers);
@@ -22,7 +27,7 @@ export function generate(answers: QuestionnaireAnswers): DesignSpec {
   };
 
   const parsed = designSpecSchema.safeParse(spec);
-  if (!parsed.success) throw new EngineError(`schema: ${parsed.error.message}`);
+  if (!parsed.success) throw new EngineError(`schema: ${JSON.stringify(parsed.error.issues)}`);
   const violations = checkInvariants(spec);
   if (violations.length) throw new EngineError(`invariants: ${violations.join('; ')}`);
   return spec;
