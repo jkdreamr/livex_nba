@@ -23,8 +23,9 @@
 ## File Structure
 
 ```
-package.json, tsconfig.json, next.config.mjs, tailwind.config.ts,
-  postcss.config.mjs, vitest.config.ts, .eslintrc.json, .env.example, .gitignore
+package.json, tsconfig.json, next.config.ts, postcss.config.mjs,
+  vitest.config.ts, eslint.config.mjs, .env.example, .gitignore
+  (Tailwind v4: brand theme lives in app/globals.css @theme — no tailwind.config.ts)
 app/
   layout.tsx                 root layout: fonts + brand shell
   page.tsx                   placeholder landing (real flow in Plan 3)
@@ -150,66 +151,53 @@ git commit -m "chore: scaffold Next.js app with Vitest, Tailwind, strict TS"
 
 ---
 
-### Task 2: Brand design system (tokens + fonts + shell)
+### Task 2: Brand design system (Tailwind v4 theme + fonts + shell)
 
 **Files:**
-- Modify: `tailwind.config.ts`, `app/globals.css`, `app/layout.tsx`, `app/page.tsx`
-- Create: `lib/design-tokens.ts`
+- Modify: `app/globals.css`, `app/layout.tsx`, `app/page.tsx`
 
 **Interfaces:**
-- Consumes: Task 1 scaffold.
-- Produces: Tailwind tokens (`bg-brand`, `text-ink`, `bg-surface`…), `--lx-*` CSS variables, Poppins + Archivo loaded, a dark branded shell.
+- Consumes: Task 1 scaffold (**Tailwind v4** — CSS-based config; there is no `tailwind.config.ts`).
+- Produces: Tailwind v4 theme utilities (`bg-brand`, `text-ink`, `bg-surface`, `font-display`, `font-sans`…) generated from `@theme`, the `--lx-glow` CSS variable, Poppins + Archivo loaded, a dark branded shell. **Removes all `create-next-app` boilerplate** (white `--background`, dark-mode media query, Arial body font, Geist fonts, default metadata, marketing links).
 
-- [ ] **Step 1: Create `lib/design-tokens.ts`** (single source for JS-side use).
+- [ ] **Step 1: Replace `app/globals.css` entirely.** Tailwind v4 defines theme tokens in CSS via `@theme` (no JS config). This also deletes the scaffold's white `--background`, dark-mode media query, and Arial body font.
 
-```ts
-export const tokens = {
-  brand: '#2845E7',      // verified from livex new logo blue.svg
-  brandDeep: '#0A2A66',
-  bg: '#000000',
-  surface: '#0B0D14',
-  surfaceRaised: '#12151F',
-  ink: '#F5F7FA',
-  inkMuted: '#9AA3B2',
-  line: '#1E2230',
-} as const;
-export type TokenName = keyof typeof tokens;
+```css
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #2845E7;          /* verified from livex new logo blue.svg */
+  --color-brand-deep: #0A2A66;
+  --color-bg: #000000;
+  --color-surface: #0B0D14;
+  --color-surface-raised: #12151F;
+  --color-ink: #F5F7FA;
+  --color-ink-muted: #9AA3B2;
+  --color-line: #1E2230;
+  --font-sans: var(--font-poppins), system-ui, sans-serif;
+  --font-display: var(--font-archivo), var(--font-poppins), sans-serif;
+}
+
+:root {
+  --lx-glow: radial-gradient(60% 60% at 50% 0%, rgba(40, 69, 231, 0.45), transparent 70%);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
 ```
 
-- [ ] **Step 2: Wire Tailwind theme.** In `tailwind.config.ts` set `content` to include `./app/**/*` and `./components/**/*`, and extend colors:
-
-```ts
-import type { Config } from 'tailwindcss';
-import { tokens } from './lib/design-tokens';
-
-export default {
-  content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}'],
-  theme: {
-    extend: {
-      colors: {
-        brand: tokens.brand, 'brand-deep': tokens.brandDeep,
-        bg: tokens.bg, surface: tokens.surface, 'surface-raised': tokens.surfaceRaised,
-        ink: tokens.ink, 'ink-muted': tokens.inkMuted, line: tokens.line,
-      },
-      fontFamily: {
-        sans: ['var(--font-poppins)', 'system-ui', 'sans-serif'],
-        display: ['var(--font-archivo)', 'var(--font-poppins)', 'sans-serif'],
-      },
-    },
-  },
-  plugins: [],
-} satisfies Config;
-```
-
-- [ ] **Step 3: Load fonts in `app/layout.tsx`.** Both via `next/font/google` — no manual font files: **Poppins** (UI/body) + **Archivo** (display headlines; athletic grotesque for NBA energy).
+- [ ] **Step 2: Replace `app/layout.tsx` entirely** — load Poppins + Archivo via `next/font/google` (no manual font files) and set brand metadata. This removes the scaffold's Geist fonts and "Create Next App" metadata.
 
 ```tsx
 import type { Metadata } from 'next';
 import { Poppins, Archivo } from 'next/font/google';
 import './globals.css';
 
-const poppins = Poppins({ subsets: ['latin'], weight: ['400','500','600','700'], variable: '--font-poppins' });
-const archivo = Archivo({ subsets: ['latin'], weight: ['400','600','700','800','900'], variable: '--font-archivo' });
+const poppins = Poppins({ subsets: ['latin'], weight: ['400', '500', '600', '700'], variable: '--font-poppins' });
+const archivo = Archivo({ subsets: ['latin'], weight: ['400', '600', '700', '800', '900'], variable: '--font-archivo' });
 
 export const metadata: Metadata = {
   title: 'NBA Summer League × LiveX — Design Your Drop',
@@ -225,19 +213,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 }
 ```
 
-- [ ] **Step 4: Brand CSS variables in `app/globals.css`** (after the Tailwind directives):
-
-```css
-@tailwind base; @tailwind components; @tailwind utilities;
-:root {
-  --lx-brand: #2845E7; --lx-bg: #000000; --lx-surface: #0B0D14;
-  --lx-ink: #F5F7FA; --lx-ink-muted: #9AA3B2;
-  --lx-glow: radial-gradient(60% 60% at 50% 0%, rgba(40,69,231,.45), transparent 70%);
-}
-body { background: var(--lx-bg); }
-```
-
-- [ ] **Step 5: Replace `app/page.tsx`** with a branded shell that proves tokens + fonts render (the real flow arrives in Plan 3).
+- [ ] **Step 3: Replace `app/page.tsx` entirely** with a branded shell that proves tokens + fonts render (the real flow arrives in Plan 3). This removes the scaffold's marketing links.
 
 ```tsx
 export default function Home() {
@@ -259,13 +235,13 @@ export default function Home() {
 }
 ```
 
-- [ ] **Step 6: Verify.** Run `npm run dev`, open `/`, confirm true-black bg, blue glow, Archivo headline, Poppins body. Run `npm run lint` and `npm run typecheck` — both clean.
+- [ ] **Step 4: Verify.** Run `npm run build` (NOT `npm run dev` — it never exits). Build must succeed. Run `npm run lint` and `npm run typecheck` — both clean. Confirm no boilerplate remains: `grep -riE 'geist|create next app|vercel\.com|#ffffff' app/` returns nothing.
 
-- [ ] **Step 7: Commit.**
+- [ ] **Step 5: Commit.**
 
 ```bash
 git add -A
-git commit -m "feat: brand design system — verified LiveX tokens, Poppins + Archivo"
+git commit -m "feat: brand design system — verified LiveX tokens (Tailwind v4), Poppins + Archivo"
 ```
 
 ---
