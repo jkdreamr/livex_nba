@@ -5,7 +5,7 @@ import { Magnetic } from '../Magnetic';
 import type { LandingSection } from '@/lib/landing/landing.config';
 export function ContentSection({ section }: { section: LandingSection }) {
   return (
-    <section className="relative grid min-h-dvh items-center px-6 md:px-16">
+    <section aria-label="The drop" className="relative grid min-h-dvh items-center px-6 md:px-16">
       <div className="max-w-2xl">
         <span className="font-mono text-xs text-brand">(02 — THE DROP)</span>
         <SplitReveal text={section.headline ?? ''} className="mt-3 font-[family-name:var(--font-anton)] text-6xl uppercase leading-[0.9] text-ink md:text-8xl" />

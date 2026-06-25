@@ -14,6 +14,7 @@ export function ScrollVideo({ section }: { section: LandingSection }) {
 
   useGSAP(() => {
     if (!hasVideo || !vid.current) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return; // poster only — no autoplay/scrub under reduced motion
     const v = vid.current;
     if (mode === 'scrub') {
       const set = () => ScrollTrigger.create({

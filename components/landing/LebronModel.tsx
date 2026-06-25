@@ -9,7 +9,7 @@ import { poseAtProgress } from '@/lib/landing/acts';
 const MODEL = '/models/lebron.glb';
 const DEG = Math.PI / 180;
 
-export function LebronModel({ onIntensity }: { onIntensity?: (v: number) => void }) {
+export function LebronModel({ onIntensity, reducedMotion = false }: { onIntensity?: (v: number) => void; reducedMotion?: boolean }) {
   const { scene } = useGLTF(MODEL);
   const ref = useRef<THREE.Group>(null);
   const idle = useRef(0);
@@ -18,8 +18,12 @@ export function LebronModel({ onIntensity }: { onIntensity?: (v: number) => void
     const g = ref.current;
     if (!g) return;
     const pose = poseAtProgress(scrollState.progress);
-    idle.current += delta * 0.15; // gentle idle drift layered on the act rotation
-    g.rotation.y = pose.rotationY * DEG + Math.sin(idle.current) * 0.03;
+    if (reducedMotion) {
+      g.rotation.y = pose.rotationY * DEG;
+    } else {
+      idle.current += delta * 0.15;
+      g.rotation.y = pose.rotationY * DEG + Math.sin(idle.current) * 0.03;
+    }
     g.position.set(pose.position[0], pose.position[1], pose.position[2]);
     g.scale.setScalar(pose.scale);
     onIntensity?.(pose.intensity);

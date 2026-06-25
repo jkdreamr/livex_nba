@@ -12,7 +12,7 @@ interface HeroCanvasProps {
   reducedMotion?: boolean;
 }
 
-export function HeroCanvas({ tier = 'high' }: HeroCanvasProps) {
+export function HeroCanvas({ tier = 'high', reducedMotion = false }: HeroCanvasProps) {
   const keyRef = useRef<THREE.DirectionalLight>(null);
   const isLow = tier === 'low';
   return (
@@ -33,7 +33,7 @@ export function HeroCanvas({ tier = 'high' }: HeroCanvasProps) {
           <spotLight position={[0, 8, 2]} angle={0.5} penumbra={1} intensity={2.0} color="#ffffff" />
         )}
         <Suspense fallback={null}>
-          <LebronModel onIntensity={(v) => { if (keyRef.current) keyRef.current.intensity = 2.6 * v; }} />
+          <LebronModel onIntensity={(v) => { if (keyRef.current) keyRef.current.intensity = 2.6 * v; }} reducedMotion={reducedMotion} />
           <Environment preset="city" />
         </Suspense>
         <ContactShadows position={[0, -1.6, 0]} opacity={0.55} scale={9} blur={3} far={4} color="#000000" />
