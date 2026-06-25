@@ -44,4 +44,17 @@ describe('schema + invariants', () => {
     ]};
     expect(checkInvariants(s).some(e => e.startsWith('low-contrast patch'))).toBe(true);
   });
+  it('checkInvariants flags a patch placed in back_center (runtime guard)', () => {
+    const s = { ...valid, patches: [
+      { id: 'plc_40_flamingo', zone: 'back_center', scale: 0.5, rotationDeg: 0 },
+    ] } as unknown as DesignSpec;
+    expect(checkInvariants(s)).toContain('invalid patch zone: back_center');
+  });
+  it('schema rejects out-of-range scale and rotationDeg', () => {
+    expect(designSpecSchema.safeParse({ ...valid, patches: [{ id: 'plc_40_flamingo', zone: 'front_chest', scale: 2.0, rotationDeg: 0 }] }).success).toBe(false);
+    expect(designSpecSchema.safeParse({ ...valid, patches: [{ id: 'plc_40_flamingo', zone: 'front_chest', scale: 0.5, rotationDeg: 270 }] }).success).toBe(false);
+  });
+  it('schema rejects a wrong schemaVersion', () => {
+    expect(designSpecSchema.safeParse({ ...valid, meta: { ...valid.meta, schemaVersion: '2.0' } }).success).toBe(false);
+  });
 });

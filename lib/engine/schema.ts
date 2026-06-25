@@ -32,11 +32,11 @@ export function checkInvariants(spec: DesignSpec): string[] {
 
   const seen = new Set<string>();
   for (const p of spec.patches) {
-    if (!placementById(p.id)) errors.push(`patch.id not in catalog: ${p.id}`);
+    const g = placementById(p.id);
+    if (!g) errors.push(`patch.id not in catalog: ${p.id}`);
     if (!(PATCH_ZONE_PRIORITY as string[]).includes(p.zone)) errors.push(`invalid patch zone: ${p.zone}`);
     if (seen.has(p.zone)) errors.push(`duplicate patch zone: ${p.zone}`);
     seen.add(p.zone);
-    const g = placementById(p.id);
     if (g && !isHarmonious(spec.hoodieColor, g.dominantColors)) {
       errors.push(`low-contrast patch ${p.id} on ${spec.hoodieColor}`);
     }
