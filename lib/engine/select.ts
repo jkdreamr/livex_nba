@@ -5,7 +5,10 @@ import {
 } from '@/lib/catalog';
 import { isHarmonious } from './harmony';
 
-const DENSITY_TARGET: Record<Density, number> = { minimal: 1, balanced: 3, maximal: 8 };
+// Patch budget per tier — equals DENSITY_MAX so the count the fan is promised
+// ("up to N patches") is exactly what they get, and "maximal" fills all 10
+// zones. assignZones still clamps to the number of available zones/candidates.
+const DENSITY_TARGET: Record<Density, number> = { minimal: 1, balanced: 4, maximal: 10 };
 export const densityBudget = (d: Density): number => DENSITY_TARGET[d];
 
 export function resolveBack(answers: QuestionnaireAnswers): string {
@@ -23,10 +26,21 @@ export function resolveBack(answers: QuestionnaireAnswers): string {
 
 export function buildCandidates(answers: QuestionnaireAnswers): string[] {
   const ordered: string[] = [];
-  const push = (g?: Graphic) => { if (g && !ordered.includes(g.id)) ordered.push(g.id); };
+  const seen = new Set<string>();
+  // A candidate is admitted once, only if it survives the colour-harmony
+  // invariant against the fabric (checkInvariants enforces this on every patch,
+  // so an unharmonious graphic — even an explicit must-have — can never be
+  // placed; it is dropped here and a later candidate fills the slot instead).
+  const push = (g?: Graphic) => {
+    if (!g || seen.has(g.id)) return;
+    if (!isHarmonious(answers.hoodieColor, g.dominantColors)) return;
+    seen.add(g.id);
+    ordered.push(g.id);
+  };
 
-  // 1. must-have (if valid)
-  if (answers.mustHaveId) push(placementById(answers.mustHaveId));
+  // 1. must-haves (explicit picks), in the fan's priority order — they take the
+  //    highest-priority zones (front chest first), so the #1 pick is front-and-centre.
+  for (const id of answers.mustHaveIds ?? []) push(placementById(id));
   // 2. remaining ranked teams (skip the #1 team that took the back slot)
   for (const slug of answers.teamsRanked.slice(1)) push(teamPatch(slug));
   // 3. Vegas / Summer League identity, deterministic by id
@@ -38,9 +52,5 @@ export function buildCandidates(answers: QuestionnaireAnswers): string[] {
     .filter(g => g.category === 'fun' && g.mood.includes(answers.vibe))
     .sort((a, b) => a.id.localeCompare(b.id)).forEach(push);
 
-  // harmony filter against the chosen fabric
-  return ordered.filter(id => {
-    const g = placementById(id);
-    return g ? isHarmonious(answers.hoodieColor, g.dominantColors) : false;
-  });
+  return ordered;
 }

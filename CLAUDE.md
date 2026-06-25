@@ -106,6 +106,56 @@ app/api/generate/route.ts   — POST /api/generate → calls generate()
 app/layout.tsx, app/page.tsx, app/globals.css — branded shell
 ```
 
+## Landing Page Architecture
+
+The `/` route is a scroll-driven, 3D animated landing page. Key facts for agents working on it:
+
+### Fixed Canvas + DOM layers
+- `HeroCanvas` (`components/landing/HeroCanvas.tsx`) — a full-viewport R3F `<Canvas>` with `fixed inset-0 -z-10` (behind the DOM). Dynamically imported with `ssr: false` in `app/page.tsx`.
+- The DOM content (`<main className="relative z-10">`) scrolls over the fixed canvas; the model reacts to scroll via a singleton rather than a React prop to avoid re-render overhead.
+
+### Scroll-state singleton
+- `lib/landing/scroll-state.ts` exports `scrollState = { progress: 0 }` — a mutable object, not React state.
+- `useLebronActs(enabled)` (`components/landing/useLebronActs.ts`) sets up one GSAP ScrollTrigger that maps scroll position 0..1 into `scrollState.progress`. It is enabled only after the preloader clears and only when `reducedMotion` is false.
+- `LebronModel` reads `scrollState.progress` inside `useFrame` every tick — zero React re-renders on scroll.
+
+### Act keyframes + `poseAtProgress`
+- `ACT_KEYFRAMES` in `lib/landing/landing.config.ts` — array of `ActKeyframe` (`at`, `rotationY`, `position`, `scale`, `intensity`) covering scroll 0..1 (0..720° rotation, landing front-facing).
+- `poseAtProgress(progress, keys?)` (`lib/landing/acts.ts`) cubic-ease-interpolates between the two bracketing keyframes and returns a `LebronPose`. Always import from `lib/landing/acts.ts`; never call `Math.random` or `Date.now` here.
+- The key light intensity is driven by `pose.intensity` via a callback (`onIntensity`) passed to `LebronModel`.
+
+### Smooth scroll + GSAP ticker sync
+- `SmoothScroll` (`components/landing/SmoothScroll.tsx`) wraps `ReactLenis` (from `lenis/react`) with `autoRaf: false`, then drives Lenis via `gsap.ticker.add(update)` — this keeps Lenis and ScrollTrigger on the same tick, preventing jitter.
+- When `reduced=true` (from `useCapability()`) the lerp is set to `1` (instant) and `useLebronActs` is disabled.
+
+### Postprocessing
+- `EffectComposer` + `Bloom` (`@react-three/postprocessing`) are loaded on the `high` tier only. Low tier (coarse pointer + narrow viewport) skips them.
+
+### Config-driven sections
+- `LANDING_SECTIONS` (`lib/landing/landing.config.ts`) drives the entire page order. `SectionRenderer` maps `kind` → component (`hero` | `video` | `content` | `cta`).
+- `ScrollVideo` supports two modes: `play` (plays/pauses on viewport enter/leave) and `scrub` (maps scroll progress to `video.currentTime`). Shows a designed pulse placeholder when `videoSrc` is absent.
+
+### Video drop-in workflow
+1. Drop `<id>.mp4` into `/public/videos/` (and optionally a poster at `/public/videos/posters/<id>.jpg`).
+2. In `LANDING_SECTIONS` (in `lib/landing/landing.config.ts`), set `videoSrc: '/videos/<id>.mp4'` and optionally `poster: '/videos/posters/<id>.jpg'` on the matching section.
+3. Set `videoMode: 'play'` (default) or `'scrub'`.
+4. No other changes required.
+
+### Hero model pipeline
+- Model served from `/public/models/lebron.glb`.
+- To swap: run `node scripts/build-lebron.mjs --src=<path/to/source.fbx>`. Requires Blender at `/Applications/Blender.app` and `@gltf-transform/cli` (Draco + WebP).
+- Replace the output at `public/models/lebron.glb`. The LICENSE note at `public/models/lebron-LICENSE.txt` must be updated for any non-placeholder model.
+
+### Logos
+- `BrandLockup` (`components/landing/BrandLockup.tsx`) reads `/public/logos/livex-ai.svg` and `/public/logos/nba-summer-league.svg`. Drop the SVGs there — no config change needed.
+
+### Fallbacks
+- `useCapability()` (`lib/landing/use-capability.ts`) — detects `prefers-reduced-motion` and coarse-pointer/narrow-viewport (`low` tier). Returns `{ reducedMotion, tier }` used in `app/page.tsx` to configure `SmoothScroll`, `HeroCanvas`, and `useLebronActs`.
+- `Preloader` (`components/landing/Preloader.tsx`) — tied to drei `useProgress`. A 2 s safety timer fires `reveal()` when `!active`, so it can never stick on a warm cache.
+
+### Page transition
+- `usePageTransition()` (`components/landing/PageTransition.tsx`) — GSAP brand-blue overlay wipes up before `router.push('/design')`.
+
 ## Patterns to Avoid
 
 - **No `Math.random()`, `Date.now()`, or any I/O in the engine.** The engine (`lib/engine/`) must be pure and deterministic. Randomness breaks reproducibility and breaks tests.

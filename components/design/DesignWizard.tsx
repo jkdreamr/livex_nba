@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useMemo, useState } from 'react';
 import { generate } from '@/lib/engine/generate';
+import { densityBudget } from '@/lib/engine/select';
 import type { Density, DesignSpec, HoodieColor, QuestionnaireAnswers, Vibe } from '@/lib/catalog/types';
 import { HOODIE_COLORS } from '@/lib/catalog/hoodie-colors';
 import { TEAMS, FEATURED_PATCHES } from '@/lib/catalog/teams';
@@ -21,12 +22,17 @@ export function DesignWizard() {
   const [hoodieColor, setHoodieColor] = useState<HoodieColor>('black');
   const [vibe, setVibe] = useState<Vibe>('vegas');
   const [density, setDensity] = useState<Density>('balanced');
-  const [mustHaveId, setMustHaveId] = useState<string | undefined>(undefined);
+  const [mustHaveIds, setMustHaveIds] = useState<string[]>([]);
   const [query, setQuery] = useState('');
 
+  // The chosen density bounds how many patches a design carries, so it also
+  // bounds how many must-haves the fan can pin — every pin is guaranteed a slot.
+  const mustHaveCap = densityBudget(density);
+  const cappedMustHaves = useMemo(() => mustHaveIds.slice(0, mustHaveCap), [mustHaveIds, mustHaveCap]);
+
   const answers: QuestionnaireAnswers = useMemo(
-    () => ({ hoodieColor, teamsRanked: teams, density, vibe, mustHaveId }),
-    [hoodieColor, teams, density, vibe, mustHaveId],
+    () => ({ hoodieColor, teamsRanked: teams, density, vibe, mustHaveIds: cappedMustHaves }),
+    [hoodieColor, teams, density, vibe, cappedMustHaves],
   );
 
   const spec: DesignSpec | null = useMemo(() => {
@@ -47,6 +53,14 @@ export function DesignWizard() {
           : prev,
     );
 
+  const toggleMustHave = (id: string) =>
+    setMustHaveIds((prev) => {
+      const capped = prev.slice(0, mustHaveCap);
+      if (capped.includes(id)) return capped.filter((x) => x !== id);
+      if (capped.length >= mustHaveCap) return capped; // density cap reached
+      return [...capped, id];
+    });
+
   const canAdvance = step !== 0 || teams.length > 0;
   const isLast = step === STEPS.length - 1;
 
@@ -63,7 +77,7 @@ export function DesignWizard() {
           setHoodieColor('black');
           setVibe('vegas');
           setDensity('balanced');
-          setMustHaveId(undefined);
+          setMustHaveIds([]);
           setQuery('');
         }}
       />
@@ -192,26 +206,39 @@ export function DesignWizard() {
           <div>
             <StepHeading
               eyebrow="One more thing"
-              title="A must-have? (optional)"
-              subtitle="Guarantee one fun patch makes the cut — or let us surprise you."
+              title="Any must-haves? (optional)"
+              subtitle={`Pin the patches you want guaranteed — your #1 pick goes front-and-center on the chest. Up to ${mustHaveCap} at ${density} density, or let us surprise you.`}
             />
-            <div className="mx-auto mt-6 grid max-w-3xl grid-cols-3 gap-2.5 sm:grid-cols-4">
-              <SelectTile selected={mustHaveId === undefined} onClick={() => setMustHaveId(undefined)} className="items-center justify-center">
+            <p className="mt-3 text-center font-sans text-xs uppercase tracking-[0.2em] text-ink-muted">
+              {cappedMustHaves.length} / {mustHaveCap} pinned
+            </p>
+            <div className="mx-auto mt-4 grid max-h-[44vh] max-w-3xl grid-cols-3 gap-2.5 overflow-y-auto pr-1 sm:grid-cols-4">
+              <SelectTile
+                selected={cappedMustHaves.length === 0}
+                onClick={() => setMustHaveIds([])}
+                className="items-center justify-center"
+              >
                 <span className="py-4 text-center font-sans text-sm font-semibold text-ink">✨ Surprise me</span>
               </SelectTile>
-              {FEATURED_PATCHES.map((p) => (
-                <SelectTile
-                  key={p.id}
-                  selected={mustHaveId === p.id}
-                  onClick={() => setMustHaveId(p.id)}
-                  className="items-center"
-                >
-                  <div className="relative mx-auto h-16 w-16">
-                    <Image src={p.file} alt={p.label} fill sizes="64px" className="object-contain" />
-                  </div>
-                  <span className="mt-2 w-full text-center font-sans text-xs text-ink-muted">{p.label}</span>
-                </SelectTile>
-              ))}
+              {FEATURED_PATCHES.map((p) => {
+                const rank = cappedMustHaves.indexOf(p.id);
+                const selected = rank >= 0;
+                return (
+                  <SelectTile
+                    key={p.id}
+                    selected={selected}
+                    disabled={!selected && cappedMustHaves.length >= mustHaveCap}
+                    badge={selected ? rank + 1 : undefined}
+                    onClick={() => toggleMustHave(p.id)}
+                    className="items-center"
+                  >
+                    <div className="relative mx-auto h-16 w-16">
+                      <Image src={p.file} alt={p.label} fill sizes="64px" className="object-contain" />
+                    </div>
+                    <span className="mt-2 w-full text-center font-sans text-xs text-ink-muted">{p.label}</span>
+                  </SelectTile>
+                );
+              })}
             </div>
           </div>
         )}

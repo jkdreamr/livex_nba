@@ -4,5 +4,5 @@ export const answersSchema = z.object({
   teamsRanked: z.array(z.string()).default([]),
   density: z.enum(['minimal', 'balanced', 'maximal']),
   vibe: z.enum(['classic', 'vegas', 'streetwear', 'playful']),
-  mustHaveId: z.string().optional(),
+  mustHaveIds: z.array(z.string()).optional(),
 });

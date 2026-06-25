@@ -54,23 +54,26 @@ export function SelectTile({
   children,
   badge,
   className = '',
+  disabled = false,
 }: {
   selected: boolean;
   onClick: () => void;
   children: ReactNode;
   badge?: ReactNode;
   className?: string;
+  disabled?: boolean;
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
+      disabled={disabled}
       aria-pressed={selected}
       className={`group relative flex flex-col rounded-2xl border p-4 text-left transition ${
         selected
           ? 'border-brand bg-brand/10 ring-1 ring-brand'
           : 'border-line bg-surface-raised hover:border-ink-muted/50'
-      } ${className}`}
+      } ${disabled ? 'cursor-not-allowed opacity-35' : ''} ${className}`}
     >
       {badge && (
         <span className="absolute right-3 top-3 flex h-6 w-6 items-center justify-center rounded-full bg-brand text-[11px] font-bold text-white">
