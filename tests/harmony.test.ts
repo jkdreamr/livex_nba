@@ -12,8 +12,8 @@ describe('harmony', () => {
   it('accepts a graphic with any high-contrast dominant color on black', () => {
     expect(isHarmonious('black', ['#0A0A0A', '#FFC72C'])).toBe(true);
   });
-  it('rejects near-white graphic on white hoodie', () => {
-    expect(isHarmonious('white', ['#F4F4F2'])).toBe(false);
+  it('rejects near-bone graphic on bone hoodie', () => {
+    expect(isHarmonious('bone', ['#EFE8D8'])).toBe(false);
   });
   it('grey hoodie accepts mid-to-high contrast', () => {
     expect(isHarmonious('grey', ['#1D428A'])).toBe(true);

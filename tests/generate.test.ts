@@ -6,7 +6,7 @@ import type { QuestionnaireAnswers } from '@/lib/catalog/types';
 const cases: QuestionnaireAnswers[] = [
   { hoodieColor: 'black', teamsRanked: ['celtics','mavericks'], density: 'maximal', vibe: 'vegas', mustHaveIds: ['plc_40_flamingo'] },
   { hoodieColor: 'bone',  teamsRanked: [], density: 'minimal', vibe: 'classic' },
-  { hoodieColor: 'white', teamsRanked: ['warriors'], density: 'balanced', vibe: 'playful' },
+  { hoodieColor: 'bone', teamsRanked: ['warriors'], density: 'balanced', vibe: 'playful' },
   { hoodieColor: 'grey',  teamsRanked: ['mavericks'], density: 'maximal', vibe: 'streetwear' },
 ];
 

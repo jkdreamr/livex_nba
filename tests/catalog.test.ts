@@ -7,8 +7,8 @@ import { teamBackGraphic, teamPatch, placementByMood } from '@/lib/catalog';
 const HEX = /^#[0-9A-Fa-f]{6}$/;
 
 describe('catalog', () => {
-  it('has 4 hoodie colors, each with a fabric hex', () => {
-    expect(HOODIE_COLORS.map(c => c.id).sort()).toEqual(['black','bone','grey','white']);
+  it('has 3 hoodie colors, each with a fabric hex', () => {
+    expect(HOODIE_COLORS.map(c => c.id).sort()).toEqual(['black','bone','grey']);
     for (const c of HOODIE_COLORS) expect(FABRIC_HEX[c.id]).toMatch(HEX);
   });
   it('back zone is back_center; 10 patch zones; 9-zone is the 8-zone subset', () => {

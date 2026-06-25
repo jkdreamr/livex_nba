@@ -47,8 +47,8 @@ All brand tokens live in `app/globals.css` inside the `@theme {}` block.
 
 ## Catalog and Zone Data Model
 
-### Hoodie Colors (4)
-`bone` | `black` | `grey` | `white` — defined in `lib/catalog/hoodie-colors.ts` with hex fabric values.
+### Hoodie Colors (3)
+`bone` | `black` | `grey` — defined in `lib/catalog/hoodie-colors.ts` with hex fabric values. (White was removed per the updated Summer League colors PDF.)
 
 ### Graphic Catalog (full set from `assets/catalog.json`)
 - **Back graphics** (`lib/catalog/back-graphics.ts`): **33 items** — 4 non-team + 29 franchise logos.

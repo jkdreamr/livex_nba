@@ -158,12 +158,13 @@ Turning five answers into a manufacturable design is two distinct problems: **se
 
 The back hero is deliberately **not** harmony-filtered. Contrast-gating it would suppress real team logos (e.g. a dark logo on black), and the fan explicitly asked for that team — so it always goes on.
 
-**Placement candidates** (`buildCandidates`). An *ordered* candidate list is assembled by descending intent. Each graphic is admitted at most once and only if it clears harmony (see below), so the list is de-duplicated and fabric-safe as it is built:
+**Placement candidates** (`buildCandidates`). An *ordered* candidate list is assembled by descending intent. Each graphic is admitted at most once and only if it clears harmony (see below), so the list is de-duplicated and fabric-safe as it is built. **Team identity leads the design** — the teams the fan picked outrank the optional add-ons:
 
-1. **Must-haves** — the patches the fan pinned (`mustHaveIds`), **in their tap order**. They lead the list, so they claim the highest-priority zones (the #1 pick lands front-and-center on the chest). The fan may pin as many as the density allows (see cap below); each pin is guaranteed a slot rather than competing with auto-fillers.
-2. **Remaining ranked teams** — `teamPatch()` for `teamsRanked[1..]` (the #1 team already owns the back), in the fan's ranked order.
-3. **Event identity** — all `vegas` + `summer_league` patches, sorted by `id`, so every design reads as *Summer League*.
-4. **Vibe fun patches** — `fun` patches whose `mood[]` includes the chosen `vibe`, sorted by `id` (Vegas → dice/Strip, Playful → flamingo/rainbow, etc.).
+1. **Remaining ranked teams** — `teamPatch()` for `teamsRanked[1..]` (the #1 team already owns the back), in the fan's ranked order. **Team picks take priority**, so they claim the most prominent zones first (front chest, then upper back).
+2. **Must-have add-ons** — the patches the fan pinned in the Extras step (`mustHaveIds`), **in their tap order**, placed after the team patches. The fan may pin as many as the density allows (see cap below).
+3. **"Surprise" fillers** — `vegas` + `summer_league` identity patches and `fun` patches whose `mood[]` includes the chosen `vibe`, **ordered by colour affinity to the #1 team** (`paletteDistance`, `lib/engine/harmony.ts`): the fillers whose palette best matches the team the fan reps come first (e.g. a Lakers fan's surprises skew purple/gold; a Celtics fan's skew green), with a deterministic `id` tiebreak. With no team chosen, the distance is a constant so it falls back to a pure `id` sort.
+
+**Placement is colour- and priority-aware; the placement *options* never change.** The ten patch zones are fixed (`PATCH_ZONE_PRIORITY`); only *which* candidate fills *which* zone is tuned — by candidate order. Because team patches lead, the recognizable marks land in the prominent zones (chest, upper back), and the colour-matched surprises fill the sleeves.
 
 **Harmony is a hard invariant, not a soft preference.** A candidate is admitted only if **at least one** of its `dominantColors` has a WCAG contrast ratio ≥ **1.6** against the fabric hex (`isHarmonious`, `lib/engine/harmony.ts`; full WCAG relative luminance, sRGB → linear `0.2126 R + 0.7152 G + 0.0722 B`). `checkInvariants` re-asserts this on every patch in the final spec, so **even an explicit must-have cannot bypass it** — a pinned patch that would vanish into the fabric is dropped and the next candidate fills the slot. This protects the physical product (an invisible embroidered patch is a defect). The back hero is the sole exception — it is never contrast-gated, because suppressing a real team logo would be worse than low contrast. (`luminance()` throws on a malformed non-6-hex colour to catch bad pipeline data early.)
 
@@ -177,7 +178,7 @@ The back hero is deliberately **not** harmony-filtered. Contrast-gating it would
 front_chest → back_upper → left_sleeve_1 ↔ right_sleeve_1 → … → left_sleeve_4 ↔ right_sleeve_4
 ```
 
-The i-th candidate lands in the i-th zone, taking `min(budget, candidates, zones)` patches. Because must-haves lead the candidate list, they take the most prominent zones first — pin order **is** placement order: pin #1 → `front_chest`, pin #2 → `back_upper`, then down the sleeves. Sleeves are filled **alternating left/right** so a half-empty design still looks balanced. Invariants (`checkInvariants`) then guarantee: exactly one back graphic in `back_center`, only approved catalog ids, every patch zone valid and unique, harmony on every patch, and the density cap respected.
+The i-th candidate lands in the i-th zone, taking `min(budget, candidates, zones)` patches. Because team patches lead the candidate list, the recognizable team marks take the most prominent zones first — #2 team → `front_chest`, #3 team → `back_upper`, then the must-have add-ons and the colour-matched surprise fillers down the sleeves. Sleeves are filled **alternating left/right** so a half-empty design still looks balanced. Invariants (`checkInvariants`) then guarantee: exactly one back graphic in `back_center`, only approved catalog ids, every patch zone valid and unique, harmony on every patch, and the density cap respected.
 
 **3D embroidered placement** (`lib/three/zone-transforms.ts` + `components/three/HoodieGLB.tsx`). The spec's abstract zones become physical, conformed graphics on the GLB hoodie:
 
@@ -205,7 +206,7 @@ Request body: `QuestionnaireAnswers` (JSON)
 }
 ```
 
-`mustHaveIds` is optional — an ordered list of placement-catalog ids the fan wants guaranteed (pin order = placement priority; see the algorithm section). Each must still pass harmony and fits within the density cap.
+`mustHaveIds` is optional — an ordered list of placement-catalog ids the fan pins as add-ons. They are placed **after** the picked teams' patches (team identity leads) but ahead of the colour-matched surprise fillers; see the algorithm section. Each must still pass harmony and fits within the density cap.
 
 Response:
 - **200 (success):** `{ "spec": { ...DesignSpec } }` (the spec is nested under a `spec` key)

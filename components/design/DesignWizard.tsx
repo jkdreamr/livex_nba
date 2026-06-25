@@ -10,6 +10,7 @@ import { TEAMS, FEATURED_PATCHES } from '@/lib/catalog/teams';
 import { VIBE_OPTIONS, DENSITY_OPTIONS } from '@/lib/questionnaire/options';
 import { StepHeading, PrimaryButton, GhostButton, SelectTile } from './primitives';
 import { Reveal } from './Reveal';
+import { LandingLink } from '@/components/navigation/LandingLink';
 
 const STEPS = ['Team', 'Color', 'Style', 'Patches', 'Extras'] as const;
 const MAX_TEAMS = 3;
@@ -89,9 +90,10 @@ export function DesignWizard() {
   return (
     <main className="relative flex min-h-dvh flex-col px-5 pb-8 pt-6">
       <div className="pointer-events-none absolute inset-0" style={{ background: 'var(--lx-glow)' }} />
+      <LandingLink />
 
       {/* progress */}
-      <header className="relative mx-auto w-full max-w-5xl">
+      <header className="relative mx-auto w-full max-w-5xl pl-14 sm:pl-0">
         <div className="flex items-center justify-between">
           <p className="font-sans text-xs uppercase tracking-[0.3em] text-ink-muted">NBA Summer League x LiveX</p>
           <p className="font-sans text-xs text-ink-muted">

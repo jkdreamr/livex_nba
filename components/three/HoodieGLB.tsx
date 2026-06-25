@@ -22,7 +22,7 @@ const DEPTH = 0.08;
 // never be seen from the front. Because it stays strictly inside the outer
 // shell, it's hidden from every exterior angle. Being inset in depth, it
 // always sits IN FRONT of the back logos from the cavity side but BEHIND them
-// from the back, so the back graphics still read perfectly from behind.
+// from the back, so the back graphics still read cleanly from behind.
 const SHELL_SCALE: [number, number, number] = [0.9, 1.0, 0.68];
 
 /** Tangent-frame Euler from a surface normal: local +z = outward normal

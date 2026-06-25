@@ -38,9 +38,9 @@ describe('schema + invariants', () => {
     ]};
     expect(checkInvariants(s).some(e => e.startsWith('patch count'))).toBe(true);
   });
-  it('rejects a low-contrast patch (yellow star on white)', () => {
+  it('rejects a low-contrast patch (yellow star on bone)', () => {
     const s: DesignSpec = {
-      ...valid, hoodieColor: 'white',
+      ...valid, hoodieColor: 'bone',
       backGraphic: { id: 'back_01_las-vegas-summer-league', zone: 'back_center' },
       patches: [{ id: 'plc_25_star-yellow', zone: 'front_chest', scale: 0.5, rotationDeg: 0 }],
     };

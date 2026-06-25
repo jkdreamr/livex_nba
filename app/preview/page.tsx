@@ -14,7 +14,7 @@ const HoodieViewer = dynamic<{
   loading: () => <div className="grid h-full place-items-center text-ink-muted">Loading 3D</div>,
 });
 
-const COLORS: HoodieColor[] = ['bone', 'black', 'grey', 'white'];
+const COLORS: HoodieColor[] = ['bone', 'black', 'grey'];
 const DENSITIES: Density[] = ['minimal', 'balanced', 'maximal'];
 const VIBES: Vibe[] = ['classic', 'vegas', 'streetwear', 'playful'];
 const ANGLES: { label: string; y: number }[] = [

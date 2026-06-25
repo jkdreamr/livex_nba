@@ -16,11 +16,12 @@ export interface GlbZone {
 
 export const ZONE_GLB: Record<BackZone | PatchZone, GlbZone> = {
   back_center: { position: [0, 1.2, -0.115], normal: [0, 0, -1], scale: 0.26 },
-  // The hood meets the back in a horizontal ridge (~y1.37-1.40): the surface
-  // rolls from straight-back, over the ridge, to down-facing by y1.43. Centred
-  // just below the ridge with a deeper projector so the box reaches across the
-  // fold and the TOP of the logo isn't clipped on the down-curving far side.
-  back_upper: { position: [0, 1.36, -0.072], normal: [0.03, 0.34, -0.94], scale: 0.095, depth: 0.09 },
+  // Upper-back patch, lifted up onto the hood-base ridge (~y1.40) so it clears
+  // the centre-back hero (top ≈ y1.33) with a clean gap instead of touching it.
+  // The deep projector (0.09) reaches across the ridge fold so the TOP of the
+  // logo isn't clipped on the down-curving far side; slightly smaller scale
+  // keeps the separation from the hero.
+  back_upper: { position: [0, 1.4, -0.06], normal: [0.03, 0.34, -0.94], scale: 0.09, depth: 0.09 },
   front_chest: { position: [0.1, 1.25, 0.064], normal: [0.28, 0.34, 0.9], scale: 0.11 },
 
   // OUTER sleeve (normals ≈ ±x), stacked down the side per the PDF

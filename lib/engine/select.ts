@@ -3,7 +3,7 @@ import {
   BACK_GRAPHIC_CATALOG, PLACEMENT_GRAPHIC_CATALOG,
   teamBackGraphic, teamPatch, placementById,
 } from '@/lib/catalog';
-import { isHarmonious } from './harmony';
+import { isHarmonious, paletteDistance } from './harmony';
 
 // Patch budget per tier. Equals DENSITY_MAX so the count the fan is promised
 // ("up to N patches") is exactly what they get, and "maximal" fills all 10
@@ -38,19 +38,29 @@ export function buildCandidates(answers: QuestionnaireAnswers): string[] {
     ordered.push(g.id);
   };
 
-  // 1. must-haves (explicit picks), in the fan's priority order. They take the
-  //    highest-priority zones (front chest first), so the #1 pick is front-and-centre.
-  for (const id of answers.mustHaveIds ?? []) push(placementById(id));
-  // 2. remaining ranked teams (skip the #1 team that took the back slot)
+  // Colour reference = the #1 team's palette, so the auto/"surprise" fillers are
+  // chosen to look good with the team the fan reps. Empty when no team is picked.
+  const topTeam = answers.teamsRanked[0];
+  const teamColors = (topTeam ? teamPatch(topTeam)?.dominantColors : undefined) ?? [];
+
+  // 1. TEAM picks take priority over the optional add-ons: the remaining ranked
+  //    teams (#2..; the #1 team already owns the back). They claim the prime
+  //    zones first (front chest, upper back), so team identity leads the look.
   for (const slug of answers.teamsRanked.slice(1)) push(teamPatch(slug));
-  // 3. Vegas / Summer League identity, deterministic by id
+  // 2. must-have ADD-ONS (the optional Extras picks), in the fan's order.
+  for (const id of answers.mustHaveIds ?? []) push(placementById(id));
+  // 3. "surprise" fillers: Vegas / Summer League identity + vibe-mood fun,
+  //    ORDERED so the colours that match the chosen team come first (closest
+  //    palette first), then deterministic id tiebreak. With no team, distance is
+  //    a constant 0 so it falls back to a pure, deterministic id sort.
   PLACEMENT_GRAPHIC_CATALOG
-    .filter(g => g.category === 'vegas' || g.category === 'summer_league')
-    .sort((a, b) => a.id.localeCompare(b.id)).forEach(push);
-  // 4. vibe(mood)-filtered fun graphics, deterministic by id
-  PLACEMENT_GRAPHIC_CATALOG
-    .filter(g => g.category === 'fun' && g.mood.includes(answers.vibe))
-    .sort((a, b) => a.id.localeCompare(b.id)).forEach(push);
+    .filter(
+      g => g.category === 'vegas' || g.category === 'summer_league'
+        || (g.category === 'fun' && g.mood.includes(answers.vibe)),
+    )
+    .map(g => ({ g, d: teamColors.length ? paletteDistance(g.dominantColors, teamColors) : 0 }))
+    .sort((a, b) => a.d - b.d || a.g.id.localeCompare(b.g.id))
+    .forEach(({ g }) => push(g));
 
   return ordered;
 }

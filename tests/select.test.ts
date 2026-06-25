@@ -18,12 +18,12 @@ describe('select', () => {
     expect(densityBudget('balanced')).toBe(4);
     expect(densityBudget('maximal')).toBe(10);
   });
-  it('must-have is first; remaining teams follow; deduped; harmony-filtered', () => {
+  it('remaining team patches lead, then must-have add-ons; deduped; harmony-filtered', () => {
     const out = buildCandidates({
       ...base, teamsRanked: ['celtics', 'mavericks'], mustHaveIds: ['plc_40_flamingo'],
     });
-    expect(out[0]).toBe('plc_40_flamingo');
-    expect(out).toContain('plc_66_mavericks');   // remaining team (not the #1 back team)
+    expect(out[0]).toBe('plc_66_mavericks');     // team pick takes the prime zone (chest)
+    expect(out).toContain('plc_40_flamingo');    // must-have add-on still present (after teams)
     expect(new Set(out).size).toBe(out.length);    // deduped
     expect(out.every((id) => isHarmonious('black', placementById(id)!.dominantColors))).toBe(true);
   });
@@ -33,11 +33,11 @@ describe('select', () => {
     });
     expect(out.slice(0, 3)).toEqual(['plc_40_flamingo', 'plc_38_poker-chips', 'plc_30_palm-tree']);
   });
-  it('must-haves precede remaining team patches', () => {
+  it('remaining team patches precede must-have add-ons', () => {
     const out = buildCandidates({
       ...base, teamsRanked: ['celtics', 'mavericks'], mustHaveIds: ['plc_40_flamingo'],
     });
-    expect(out.indexOf('plc_40_flamingo')).toBeLessThan(out.indexOf('plc_66_mavericks'));
+    expect(out.indexOf('plc_66_mavericks')).toBeLessThan(out.indexOf('plc_40_flamingo'));
   });
   it('dedupes a must-have that is also a remaining team patch', () => {
     // mavericks canonical patch as an explicit must-have AND mavericks as team #2
@@ -46,12 +46,12 @@ describe('select', () => {
       ...base, teamsRanked: ['celtics', 'mavericks'], mustHaveIds: [mav.id],
     });
     expect(out.filter((id) => id === mav.id)).toHaveLength(1);
-    expect(out[0]).toBe(mav.id); // still honoured at must-have priority
+    expect(out[0]).toBe(mav.id); // still first at team priority
   });
   it('drops an explicit must-have that is not harmonious on the fabric', () => {
-    // yellow star is low-contrast on white and must NOT appear even as a must-have
+    // yellow star is low-contrast on bone and must NOT appear even as a must-have
     const out = buildCandidates({
-      hoodieColor: 'white', teamsRanked: [], density: 'maximal', vibe: 'playful',
+      hoodieColor: 'bone', teamsRanked: [], density: 'maximal', vibe: 'playful',
       mustHaveIds: ['plc_25_star-yellow'],
     });
     expect(out).not.toContain('plc_25_star-yellow');
@@ -63,16 +63,22 @@ describe('select', () => {
     expect(buildCandidates(a)).toEqual(buildCandidates(a));
   });
   it('filters out low-contrast candidates for the chosen hoodie', () => {
-    const out = buildCandidates({ hoodieColor: 'white', teamsRanked: [], density: 'maximal', vibe: 'playful' });
-    // every surviving candidate must be harmonious on white
+    const out = buildCandidates({ hoodieColor: 'bone', teamsRanked: [], density: 'maximal', vibe: 'playful' });
+    // every surviving candidate must be harmonious on bone
     for (const id of out) {
       const g = placementById(id)!;
-      expect(isHarmonious('white', g.dominantColors)).toBe(true);
+      expect(isHarmonious('bone', g.dominantColors)).toBe(true);
     }
-    expect(out).not.toContain('plc_25_star-yellow'); // concrete real low-contrast item on white
+    expect(out).not.toContain('plc_25_star-yellow'); // concrete real low-contrast item on bone
   });
   it('vegas vibe surfaces vegas-mood graphics', () => {
     const out = buildCandidates(base);
     expect(out).toContain('plc_03_welcome-to-las-vegas');
+  });
+  it('orders surprise fillers by the chosen team’s colours (team-aware)', () => {
+    // same answers, different #1 team → different filler ordering (colour-matched).
+    const celtics = buildCandidates({ ...base, teamsRanked: ['celtics'] });
+    const lakers = buildCandidates({ ...base, teamsRanked: ['lakers'] });
+    expect(celtics).not.toEqual(lakers);
   });
 });

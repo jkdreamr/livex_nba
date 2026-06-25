@@ -1,12 +1,15 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import type { DesignSpec, QuestionnaireAnswers } from '@/lib/catalog/types';
 import { backById, placementById } from '@/lib/catalog';
 import { HOODIE_COLORS } from '@/lib/catalog/hoodie-colors';
 import { TEAMS } from '@/lib/catalog/teams';
 import { PrimaryButton, GhostButton } from './primitives';
+import { LandingLink } from '@/components/navigation/LandingLink';
+import { DESIGN_SPEC_SESSION_KEY } from '@/lib/store/design-session';
 
 const HoodieViewer = dynamic<{
   spec: DesignSpec;
@@ -39,6 +42,7 @@ export function Reveal({
   onEdit: () => void;
   onRestart: () => void;
 }) {
+  const router = useRouter();
   const [spin, setSpin] = useState(0);
   const [auto, setAuto] = useState(true);
 
@@ -53,9 +57,15 @@ export function Reveal({
       active ? 'bg-brand text-white' : 'bg-surface-raised text-ink-muted hover:text-ink'
     }`;
 
+  const openMyLook = () => {
+    window.sessionStorage.setItem(DESIGN_SPEC_SESSION_KEY, JSON.stringify(spec));
+    router.push('/my-look');
+  };
+
   return (
     <main className="relative min-h-dvh lg:grid lg:grid-cols-[1.15fr_0.85fr]">
       <div className="pointer-events-none absolute inset-0" style={{ background: 'var(--lx-glow)' }} />
+      <LandingLink />
 
       {/* 3D stage */}
       <section className="relative h-[58vh] lg:h-dvh">
@@ -115,8 +125,9 @@ export function Reveal({
         </p>
 
         <div className="flex flex-wrap gap-3">
-          <PrimaryButton onClick={onEdit}>Edit answers</PrimaryButton>
+          <GhostButton onClick={onEdit}>Edit answers</GhostButton>
           <GhostButton onClick={onRestart}>Start over</GhostButton>
+          <PrimaryButton onClick={openMyLook}>My Look</PrimaryButton>
         </div>
       </section>
     </main>

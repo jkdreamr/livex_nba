@@ -1,4 +1,4 @@
-export type HoodieColor = 'bone' | 'black' | 'grey' | 'white';
+export type HoodieColor = 'bone' | 'black' | 'grey';
 export type Density = 'minimal' | 'balanced' | 'maximal';
 export type Vibe = 'classic' | 'vegas' | 'streetwear' | 'playful';
 export type Mood = 'classic' | 'vegas' | 'streetwear' | 'playful';

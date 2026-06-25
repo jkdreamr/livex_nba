@@ -26,5 +26,34 @@ export function isHarmonious(hoodie: HoodieColor, dominantColors: string[]): boo
   const fabric = FABRIC_HEX[hoodie];
   return dominantColors.some(c => contrastRatio(c, fabric) >= CONTRAST_THRESHOLD);
 }
+
+function rgb(hex: string): [number, number, number] {
+  const s = hex.startsWith('#') ? hex.slice(1) : hex;
+  return [parseInt(s.slice(0, 2), 16), parseInt(s.slice(2, 4), 16), parseInt(s.slice(4, 6), 16)];
+}
+
+/**
+ * Smallest RGB Euclidean distance between any of a graphic's dominant colours
+ * and any of a reference (team) palette's colours. Lower = the graphic's palette
+ * matches the team better, so it "looks good" with the chosen team. Pure and
+ * deterministic. Returns Infinity when either side has no valid 6-hex colour
+ * (so colourless graphics sort last). Used to order the auto/surprise fillers.
+ */
+export function paletteDistance(colors: string[], reference: string[]): number {
+  const valid = (c: string) => /^#?[0-9A-Fa-f]{6}$/.test(c);
+  let best = Infinity;
+  for (const c of colors) {
+    if (!valid(c)) continue;
+    const [r1, g1, b1] = rgb(c);
+    for (const t of reference) {
+      if (!valid(t)) continue;
+      const [r2, g2, b2] = rgb(t);
+      const d = Math.hypot(r1 - r2, g1 - g2, b1 - b2);
+      if (d < best) best = d;
+    }
+  }
+  return best;
+}
+
 /** Exposed for testing; validates the 6-hex guard. */
 export { luminance as luminanceOf };

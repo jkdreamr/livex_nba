@@ -8,7 +8,7 @@ export const DENSITY_MAX: Record<Density, number> = { minimal: 1, balanced: 4, m
 const patchZoneEnum = z.enum(PATCH_ZONE_PRIORITY as [string, ...string[]]);
 
 export const designSpecSchema = z.object({
-  hoodieColor: z.enum(['bone', 'black', 'grey', 'white']),
+  hoodieColor: z.enum(['bone', 'black', 'grey']),
   backGraphic: z.object({ id: z.string().min(1), zone: z.literal('back_center') }),
   patches: z.array(z.object({
     id: z.string().min(1),
