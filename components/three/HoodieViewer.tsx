@@ -1,10 +1,34 @@
 'use client';
 
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, ContactShadows, Center, Environment, Lightformer } from '@react-three/drei';
-import { Suspense } from 'react';
+import { Suspense, useRef } from 'react';
+import * as THREE from 'three';
 import type { DesignSpec } from '@/lib/catalog/types';
 import { HoodieGLB } from './HoodieGLB';
+
+/** The hoodie on a turntable. We spin/orient the GROUP (camera stays fixed at
+ *  the front) so the angle buttons are deterministic — "Back" always shows the
+ *  back regardless of where a prior auto-spin left things. Rotating the outer
+ *  group (not the Centered child) keeps <Center> from re-measuring every frame. */
+function Turntable({ spec, autoRotate, spinY }: { spec: DesignSpec; autoRotate: boolean; spinY: number }) {
+  const ref = useRef<THREE.Group>(null);
+  useFrame((_, delta) => {
+    const g = ref.current;
+    if (!g) return;
+    if (autoRotate) g.rotation.y += delta * 0.5;
+    else g.rotation.y = spinY;
+  });
+  return (
+    <group ref={ref}>
+      <Center>
+        <group scale={2.2}>
+          <HoodieGLB spec={spec} />
+        </group>
+      </Center>
+    </group>
+  );
+}
 
 /** Premium turntable viewer. A procedural studio Environment (Lightformers —
  *  no external HDRI) gives reflections + brand-blue/violet rim light that
@@ -39,11 +63,7 @@ export function HoodieViewer({
       <directionalLight position={[-4, 3, 2]} intensity={0.6} />
 
       <Suspense fallback={null}>
-        <Center>
-          <group rotation={[0, spinY, 0]} scale={2.2}>
-            <HoodieGLB spec={spec} />
-          </group>
-        </Center>
+        <Turntable spec={spec} autoRotate={autoRotate} spinY={spinY} />
 
         {/* Studio env: bright neutral key + SUBTLE brand-coloured rim accents
             (kept low so the hoodie colour stays accurate). */}
@@ -64,8 +84,6 @@ export function HoodieViewer({
         color="#000000"
       />
       <OrbitControls
-        autoRotate={autoRotate}
-        autoRotateSpeed={1.3}
         enablePan={false}
         minDistance={2.8}
         maxDistance={6}

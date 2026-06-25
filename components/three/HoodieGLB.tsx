@@ -13,8 +13,17 @@ const MODEL = '/models/hoodie.glb';
 const FABRIC_RE = /fleece|rib|fabric/i;
 const BODY_MESH = 'Object_8';
 // Shallow projector depth (world units) → conforms to the LOCAL surface curve
-// without smearing across folds.
-const DEPTH = 0.12;
+// only, so a back logo can't punch through a thin layer (hood) to the front.
+const DEPTH = 0.08;
+
+// Interior occluder = a copy of the body shrunk toward its centroid (mostly in
+// DEPTH) so it sits just inside every outer surface. It backs every opening
+// (zipper slit, hood face-hole) with opaque fabric, so a back-panel logo can
+// never be seen from the front. Because it stays strictly inside the outer
+// shell, it's hidden from every exterior angle — and being inset in depth it
+// always sits IN FRONT of the back logos from the cavity side but BEHIND them
+// from the back, so the back graphics still read perfectly from behind.
+const SHELL_SCALE: [number, number, number] = [0.9, 1.0, 0.68];
 
 /** Tangent-frame Euler from a surface normal: local +z = outward normal
  *  (projection axis), local +y = world-up projected onto the tangent plane —
@@ -53,13 +62,9 @@ export function HoodieGLB({ spec }: { spec: DesignSpec }) {
   // Bake every mesh's world transform into its geometry and reparent into a flat
   // identity-space group. Now the body's geometry, the decals, and the rendered
   // mesh all share ONE coordinate frame — no double-transform, no floating.
-  const { flat, body, bodyMatrix, scaleK } = useMemo(() => {
+  const { flat, body } = useMemo(() => {
     const c = scene.clone(true);
     c.updateMatrixWorld(true);
-    let bm = new THREE.Matrix4();
-    c.traverse((o) => {
-      if ((o as THREE.Mesh).isMesh && o.name === BODY_MESH) bm = o.matrixWorld.clone();
-    });
     const group = new THREE.Group();
     let bodyMesh: THREE.Mesh | null = null;
     const meshes: THREE.Mesh[] = [];
@@ -81,9 +86,7 @@ export function HoodieGLB({ spec }: { spec: DesignSpec }) {
       if (m.name === BODY_MESH) bodyMesh = m;
     }
     group.updateMatrixWorld(true);
-    const s = new THREE.Vector3();
-    bm.decompose(new THREE.Vector3(), new THREE.Quaternion(), s);
-    return { flat: group, body: bodyMesh as THREE.Mesh | null, bodyMatrix: bm, scaleK: s.x || 1 };
+    return { flat: group, body: bodyMesh as THREE.Mesh | null };
   }, [scene]);
 
   const color = FABRIC_HEX[spec.hoodieColor];
@@ -107,15 +110,21 @@ export function HoodieGLB({ spec }: { spec: DesignSpec }) {
     if (!body) return [];
     const out: { key: string; file: string; geo: THREE.BufferGeometry }[] = [];
     const make = (file: string, zone: GlbZone, key: string) => {
+      // DecalGeometry reads body.matrixWorld; once mounted that includes the
+      // viewer's scale/rotation. Force identity so the decal is always built in
+      // the baked space the body's geometry already lives in.
+      const saved = body.matrixWorld.clone();
+      body.matrixWorld.identity();
       try {
-        const point = new THREE.Vector3(...zone.position).applyMatrix4(bodyMatrix);
-        const normal = new THREE.Vector3(...zone.normal).transformDirection(bodyMatrix);
-        const size = new THREE.Vector3(zone.scale * scaleK, zone.scale * scaleK, DEPTH);
+        const point = new THREE.Vector3(...zone.position);
+        const normal = new THREE.Vector3(...zone.normal).normalize();
+        const size = new THREE.Vector3(zone.scale, zone.scale, zone.depth ?? DEPTH);
         const geo = new DecalGeometry(body, point, tangentEuler(normal), size);
         if (geo.attributes.position && geo.attributes.position.count > 0) out.push({ key, file, geo });
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.error('DECAL_FAIL', key, (e as Error).message);
+      } catch {
+        // a single bad projection should never break the whole scene
+      } finally {
+        body.matrixWorld.copy(saved);
       }
     };
     const back = backById(spec.backGraphic.id);
@@ -126,11 +135,34 @@ export function HoodieGLB({ spec }: { spec: DesignSpec }) {
       if (g && zone) make(g.file, zone, `${p.zone}-${g.id}`);
     }
     return out;
-  }, [spec, body, bodyMatrix, scaleK]);
+  }, [spec, body]);
+
+  // Interior colour reads slightly darker than the outer fabric (it's in shadow
+  // inside the garment), which keeps openings looking like a real inner lining.
+  const innerColor = useMemo(() => new THREE.Color(color).multiplyScalar(0.7), [color]);
+
+  // Inner-shell occluder: clone the body geometry and scale it about its own
+  // centroid. Rendered scaled-down it hugs the inside of the garment.
+  const shell = useMemo(() => {
+    if (!body) return null;
+    const geo = body.geometry.clone();
+    geo.computeBoundingBox();
+    const c = new THREE.Vector3();
+    geo.boundingBox!.getCenter(c);
+    const [sx, sy, sz] = SHELL_SCALE;
+    // position offset so the scale pivots about the centroid: p·S + offset = c at p=c
+    const offset: [number, number, number] = [c.x * (1 - sx), c.y * (1 - sy), c.z * (1 - sz)];
+    return { geo, offset };
+  }, [body]);
 
   return (
     <group>
       <primitive object={flat} />
+      {shell && (
+        <mesh geometry={shell.geo} position={shell.offset} scale={SHELL_SCALE} renderOrder={0}>
+          <meshStandardMaterial color={innerColor} roughness={1} metalness={0} side={THREE.DoubleSide} />
+        </mesh>
+      )}
       {decals.map((d) => (
         <DecalMesh key={d.key} geometry={d.geo} file={d.file} />
       ))}
