@@ -17,7 +17,11 @@ export interface Graphic {
 export interface HoodieColorDef { id: HoodieColor; label: string; hex: string; }
 export interface QuestionnaireAnswers {
   hoodieColor: HoodieColor; teamsRanked: string[];
-  density: Density; vibe: Vibe; mustHaveId?: string;
+  density: Density; vibe: Vibe;
+  /** Patches the fan explicitly wants, in priority order (tap order). The #1
+   *  pick lands in the highest-priority zone (front chest). Still subject to
+   *  the colour-harmony invariant and the density cap. */
+  mustHaveIds?: string[];
 }
 export interface DesignSpec {
   hoodieColor: HoodieColor;

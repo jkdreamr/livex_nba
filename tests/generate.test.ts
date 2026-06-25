@@ -4,7 +4,7 @@ import { designSpecSchema, checkInvariants } from '@/lib/engine/schema';
 import type { QuestionnaireAnswers } from '@/lib/catalog/types';
 
 const cases: QuestionnaireAnswers[] = [
-  { hoodieColor: 'black', teamsRanked: ['celtics','mavericks'], density: 'maximal', vibe: 'vegas', mustHaveId: 'plc_40_flamingo' },
+  { hoodieColor: 'black', teamsRanked: ['celtics','mavericks'], density: 'maximal', vibe: 'vegas', mustHaveIds: ['plc_40_flamingo'] },
   { hoodieColor: 'bone',  teamsRanked: [], density: 'minimal', vibe: 'classic' },
   { hoodieColor: 'white', teamsRanked: ['warriors'], density: 'balanced', vibe: 'playful' },
   { hoodieColor: 'grey',  teamsRanked: ['mavericks'], density: 'maximal', vibe: 'streetwear' },
@@ -31,5 +31,29 @@ describe('generate', () => {
     const spec = generate(cases[1]!);
     expect(spec.backGraphic.id).toBe('back_01_las-vegas-summer-league');
     expect(spec.patches.length).toBeLessThanOrEqual(1);
+  });
+  it('places multiple must-haves in priority zones, in the fan’s order', () => {
+    const spec = generate({
+      hoodieColor: 'black', teamsRanked: ['celtics'], density: 'balanced', vibe: 'vegas',
+      mustHaveIds: ['plc_40_flamingo', 'plc_38_poker-chips'],
+    });
+    const byZone = Object.fromEntries(spec.patches.map((p) => [p.zone, p.id]));
+    expect(byZone['front_chest']).toBe('plc_40_flamingo');  // #1 pick → chest
+    expect(byZone['back_upper']).toBe('plc_38_poker-chips'); // #2 pick → next zone
+  });
+  it('honours the density cap even when more must-haves are picked', () => {
+    const spec = generate({
+      hoodieColor: 'black', teamsRanked: [], density: 'minimal', vibe: 'vegas',
+      mustHaveIds: ['plc_40_flamingo', 'plc_38_poker-chips', 'plc_30_palm-tree'],
+    });
+    expect(spec.patches.length).toBe(1);                    // minimal = 1 patch
+    expect(spec.patches[0]!.id).toBe('plc_40_flamingo');    // the top-priority must-have wins
+  });
+  it('maximal fills up to all ten zones', () => {
+    const spec = generate({
+      hoodieColor: 'black', teamsRanked: ['celtics'], density: 'maximal', vibe: 'vegas',
+    });
+    expect(spec.patches.length).toBe(10);
+    expect(new Set(spec.patches.map((p) => p.zone)).size).toBe(10);
   });
 });

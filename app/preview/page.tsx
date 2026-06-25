@@ -43,7 +43,7 @@ export default function PreviewPage() {
         teamsRanked: ['celtics', 'warriors', 'lakers'],
         density,
         vibe,
-        mustHaveId: 'plc_40_flamingo',
+        mustHaveIds: ['plc_40_flamingo'],
       }),
     [color, density, vibe],
   );
