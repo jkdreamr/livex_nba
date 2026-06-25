@@ -6,6 +6,7 @@ import { poseAtProgress } from '@/lib/landing/acts';
 export function DevActOverlay() {
   const [, force] = useState(0);
   useEffect(() => {
+    if (process.env.NODE_ENV === 'production') return;
     let raf = 0;
     const tick = () => { force((n) => n + 1); raf = requestAnimationFrame(tick); };
     raf = requestAnimationFrame(tick);
