@@ -158,7 +158,7 @@ git commit -m "chore: scaffold Next.js app with Vitest, Tailwind, strict TS"
 
 **Interfaces:**
 - Consumes: Task 1 scaffold.
-- Produces: Tailwind tokens (`bg-brand`, `text-ink`, `bg-surface`…), `--lx-*` CSS variables, Poppins + Clash Display loaded, a dark branded shell.
+- Produces: Tailwind tokens (`bg-brand`, `text-ink`, `bg-surface`…), `--lx-*` CSS variables, Poppins + Archivo loaded, a dark branded shell.
 
 - [ ] **Step 1: Create `lib/design-tokens.ts`** (single source for JS-side use).
 
@@ -265,7 +265,7 @@ export default function Home() {
 
 ```bash
 git add -A
-git commit -m "feat: brand design system — verified LiveX tokens, Poppins + Clash Display"
+git commit -m "feat: brand design system — verified LiveX tokens, Poppins + Archivo"
 ```
 
 ---
