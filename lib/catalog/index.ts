@@ -3,6 +3,7 @@ import { BACK_GRAPHIC_CATALOG } from './back-graphics';
 import { PLACEMENT_GRAPHIC_CATALOG } from './placement-graphics';
 export { BACK_GRAPHIC_CATALOG } from './back-graphics';
 export { PLACEMENT_GRAPHIC_CATALOG } from './placement-graphics';
+export { ADULT_PATCH_IDS, isKidSafe } from './audience';
 export * from './types';
 
 export const backById = (id: string): Graphic | undefined => BACK_GRAPHIC_CATALOG.find(g => g.id === id);

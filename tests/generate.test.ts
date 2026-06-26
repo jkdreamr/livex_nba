@@ -56,4 +56,19 @@ describe('generate', () => {
     expect(spec.patches.length).toBe(10);
     expect(new Set(spec.patches.map((p) => p.zone)).size).toBe(10);
   });
+  it('carries audience + size onto meta (adult is the default)', () => {
+    const kid = generate({ hoodieColor: 'black', teamsRanked: ['celtics'], density: 'balanced', vibe: 'classic', audience: 'kid', size: 'L' });
+    expect(kid.meta.audience).toBe('kid');
+    expect(kid.meta.size).toBe('L');
+    expect(generate(cases[1]!).meta.audience).toBe('adult'); // defaulted when omitted
+  });
+  it('a kid design never includes an adult-themed patch — even if pinned', () => {
+    const adultIds = ['plc_01_martini', 'plc_04_what-happens-in-vegas', 'plc_10_cherries', 'plc_38_poker-chips'];
+    const spec = generate({
+      hoodieColor: 'black', teamsRanked: ['celtics'], density: 'maximal', vibe: 'vegas',
+      audience: 'kid', mustHaveIds: adultIds,
+    });
+    const found = spec.patches.map((p) => p.id);
+    for (const id of adultIds) expect(found).not.toContain(id);
+  });
 });

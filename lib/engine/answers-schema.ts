@@ -5,4 +5,6 @@ export const answersSchema = z.object({
   density: z.enum(['minimal', 'balanced', 'maximal']),
   vibe: z.enum(['classic', 'vegas', 'streetwear', 'playful']),
   mustHaveIds: z.array(z.string()).optional(),
+  audience: z.enum(['adult', 'kid']).optional(),
+  size: z.string().optional(),
 });

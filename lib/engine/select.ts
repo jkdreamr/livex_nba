@@ -1,7 +1,7 @@
 import type { QuestionnaireAnswers, Density, Graphic } from '@/lib/catalog/types';
 import {
   BACK_GRAPHIC_CATALOG, PLACEMENT_GRAPHIC_CATALOG,
-  teamBackGraphic, teamPatch, placementById, backById,
+  teamBackGraphic, teamPatch, placementById, backById, ADULT_PATCH_IDS,
 } from '@/lib/catalog';
 import { isHarmonious, paletteDistance } from './harmony';
 
@@ -29,12 +29,17 @@ export function resolveBack(answers: QuestionnaireAnswers): string {
 export function buildCandidates(answers: QuestionnaireAnswers): string[] {
   const ordered: string[] = [];
   const seen = new Set<string>();
+  // For a 'kid' wearer, adult-themed patches are excluded everywhere (must-haves
+  // and surprise fillers alike) so the design stays all-ages. The garment is
+  // unisex; this is a content filter, not a fit/size change.
+  const isKid = answers.audience === 'kid';
   // A candidate is admitted once, only if it survives the colour-harmony
   // invariant against the fabric (checkInvariants enforces this on every patch,
   // so an unharmonious graphic, even an explicit must-have, can never be
   // placed; it is dropped here and a later candidate fills the slot instead).
   const push = (g?: Graphic) => {
     if (!g || seen.has(g.id)) return;
+    if (isKid && ADULT_PATCH_IDS.has(g.id)) return;
     if (!isHarmonious(answers.hoodieColor, g.dominantColors)) return;
     seen.add(g.id);
     ordered.push(g.id);

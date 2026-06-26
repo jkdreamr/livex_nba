@@ -108,6 +108,7 @@ export function Reveal({
           <SpecCell label="Back graphic" value={backLabel} />
           <SpecCell label="Style" value={cap(spec.meta.vibe)} />
           <SpecCell label="Patch count" value={`${cap(spec.densityTier)} / ${spec.patches.length} patch${spec.patches.length === 1 ? '' : 'es'}`} />
+          <SpecCell wide label="Size" value={`${answers.audience === 'kid' ? 'Youth' : 'Adult'} · ${answers.size ?? 'M'} · Unisex`} />
         </dl>
 
         {patchLabels.length > 0 && (
@@ -137,9 +138,9 @@ export function Reveal({
   );
 }
 
-function SpecCell({ label, value }: { label: string; value: string }) {
+function SpecCell({ label, value, wide = false }: { label: string; value: string; wide?: boolean }) {
   return (
-    <div className="bg-surface px-4 py-3">
+    <div className={`bg-surface px-4 py-3 ${wide ? 'col-span-2' : ''}`}>
       <dt className="font-sans text-[11px] uppercase tracking-[0.15em] text-ink-muted">{label}</dt>
       <dd className="mt-0.5 font-sans text-sm font-medium text-ink">{value}</dd>
     </div>

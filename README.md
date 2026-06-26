@@ -8,7 +8,7 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38bdf8?logo=tailwindcss)
 ![Tests](https://img.shields.io/badge/tests-vitest-6e9f18?logo=vitest)
 
-Because the hoodies are physically manufactured, what the viewer shows is what gets made. The whole path — branded landing → five-step questionnaire → 3D reveal — sits on top of a **pure, fully-tested rules engine** and an **approved-catalog data model**.
+Because the hoodies are physically manufactured, what the viewer shows is what gets made. The whole path — branded landing → six-step questionnaire → 3D reveal — sits on top of a **pure, fully-tested rules engine** and an **approved-catalog data model**.
 
 ## Table of Contents
 
@@ -26,7 +26,8 @@ Because the hoodies are physically manufactured, what the viewer shows is what g
 
 ## Features
 
-- **Five-step questionnaire** — team(s), colorway, vibe, patch density, and optional must-have patches. Fans can also **rep the league** (Las Vegas Summer League / Summer League / NBA) instead of a single franchise.
+- **Six-step questionnaire** — team(s), colorway, size, vibe, patch density, and optional must-have patches. Fans can also **rep the league** (Las Vegas Summer League / Summer League / NBA) instead of a single franchise.
+- **Unisex sizing, all-ages content** — the garment is unisex (no gendered cut); fans pick Adult/Kid + a size. A **Kid** audience keeps the design all-ages by excluding adult-themed patches (alcohol / gambling / the Vegas-adult tagline). Size is an order detail and never changes the design.
 - **Deterministic design engine** — identical answers always produce an identical `DesignSpec`. No randomness, no I/O, fully unit-tested.
 - **Color-aware patch selection** — patches are contrast-checked against the fabric (WCAG) so nothing disappears, and "surprise" fillers are matched to the chosen team's palette.
 - **Photorealistic 3D reveal** — every graphic is projected onto the GLB hoodie with `DecalGeometry` so it conforms to the curved fabric like embroidery, with an inner-shell occluder preventing back-logo bleed-through.
@@ -76,7 +77,7 @@ npm start         # serve the built app
 | Route | What it is |
 |---|---|
 | `/` | Branded animated landing — scroll-driven 3D hero, video reels, CTA |
-| `/design` | The five-step questionnaire → 3D reveal (the whole fan experience) |
+| `/design` | The six-step questionnaire → 3D reveal (the whole fan experience) |
 | `/my-look` | Camera-based "my look" preview of a generated design |
 | `/preview` | Dev-only sandbox for tuning the 3D viewer against any spec |
 | `POST /api/generate` | `QuestionnaireAnswers` → `DesignSpec` (programmatic / parity testing) |
@@ -109,7 +110,7 @@ lib/landing/      — landing-page config, scroll state, act keyframes
 lib/questionnaire/options.ts — vibe + density option metadata for the wizard
 
 components/design/            — the fan-facing flow (client)
-  DesignWizard.tsx  → five-step questionnaire; team step also offers league/event picks; patch step plays a low-opacity gameplay backdrop (PATCH_BACKDROP_SRC)
+  DesignWizard.tsx  → six-step questionnaire; team step also offers league/event picks; size step sets Adult/Kid + unisex size; every step runs a low-opacity gameplay backdrop (BACKDROP_SRC)
   Reveal.tsx        → result screen: rotating 3D hoodie + design breakdown
   primitives.tsx    → shared UI (SelectTile, buttons, headings)
 
@@ -170,6 +171,8 @@ The back hero is deliberately **not** harmony-filtered. Contrast-gating it would
 
 **Harmony is a hard invariant, not a soft preference.** A candidate is admitted only if **at least one** of its `dominantColors` has a WCAG contrast ratio ≥ **1.6** against the fabric hex (`isHarmonious`, `lib/engine/harmony.ts`; full WCAG relative luminance, sRGB → linear `0.2126 R + 0.7152 G + 0.0722 B`). `checkInvariants` re-asserts this on every patch in the final spec, so **even an explicit must-have cannot bypass it** — a pinned patch that would vanish into the fabric is dropped and the next candidate fills the slot. This protects the physical product (an invisible embroidered patch is a defect). The back hero is the sole exception — it is never contrast-gated, because suppressing a real team logo would be worse than low contrast. (`luminance()` throws on a malformed non-6-hex colour to catch bad pipeline data early.)
 
+**All-ages content filter** (`audience`). When the wearer audience is `kid`, adult-themed patches (`ADULT_PATCH_IDS` in `lib/catalog/audience.ts` — alcohol, gambling, the Vegas-adult tagline) are excluded from **every** source: must-haves *and* surprise fillers (the Extras picker hides them too). The garment is unisex, so this is purely a content gate — it never changes the cut or the chosen size. Adult is the default when no audience is given, so existing behaviour is unchanged.
+
 **Density budget** (`densityBudget`). The number of patches per tier: `minimal → 1`, `balanced → 4`, `maximal → 10`. This equals the hard cap (`DENSITY_MAX`), so the count the fan is promised ("up to N patches") is exactly what they get, and **maximal fills all ten zones**. The questionnaire caps must-have pins at this same number, so every pinned patch is guaranteed to appear.
 
 ### 2. Placement — where they go
@@ -216,11 +219,15 @@ Request body — `QuestionnaireAnswers` (JSON):
   "teamsRanked": ["warriors", "celtics"],
   "density": "balanced",
   "vibe": "classic",
-  "mustHaveIds": ["plc_40_flamingo", "plc_30_palm-tree"]
+  "mustHaveIds": ["plc_40_flamingo", "plc_30_palm-tree"],
+  "audience": "adult",
+  "size": "M"
 }
 ```
 
 `mustHaveIds` is optional — an ordered list of placement-catalog ids the fan pins as add-ons. They are placed **after** the picked teams' patches (team identity leads) but ahead of the colour-matched surprise fillers. Each must still pass harmony and fit within the density cap.
+
+`audience` (`adult` | `kid`, default `adult`) and `size` are optional. `kid` excludes adult-themed patches from the design; `size` is unisex order metadata that doesn't affect the design. Both are echoed back on `spec.meta`.
 
 Responses:
 

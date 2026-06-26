@@ -84,6 +84,14 @@ describe('select', () => {
     const out = buildCandidates(base);
     expect(out).toContain('plc_03_welcome-to-las-vegas');
   });
+  it('drops adult-themed patches for a kid audience, keeps them for adults', () => {
+    const adultIds = ['plc_01_martini', 'plc_04_what-happens-in-vegas', 'plc_10_cherries', 'plc_38_poker-chips'];
+    const a = { ...base, density: 'maximal' as const, mustHaveIds: adultIds };
+    const adult = buildCandidates(a);
+    const kid = buildCandidates({ ...a, audience: 'kid' });
+    for (const id of adultIds) expect(adult).toContain(id);    // all harmonious on black → admitted for adults
+    for (const id of adultIds) expect(kid).not.toContain(id);  // excluded for kids everywhere
+  });
   it('orders surprise fillers by the chosen team’s colours (team-aware)', () => {
     // same answers, different #1 team → different filler ordering (colour-matched).
     const celtics = buildCandidates({ ...base, teamsRanked: ['celtics'] });

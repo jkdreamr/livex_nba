@@ -23,7 +23,13 @@ export function generate(answers: QuestionnaireAnswers): DesignSpec {
     patches,
     densityTier: answers.density,
     rationale: buildRationale(answers, backId, patches.map(p => p.id)),
-    meta: { favoriteTeamsRanked: answers.teamsRanked, vibe: answers.vibe, schemaVersion: '1.0' },
+    meta: {
+      favoriteTeamsRanked: answers.teamsRanked,
+      vibe: answers.vibe,
+      audience: answers.audience ?? 'adult',
+      size: answers.size,
+      schemaVersion: '1.0',
+    },
   };
 
   const parsed = designSpecSchema.safeParse(spec);

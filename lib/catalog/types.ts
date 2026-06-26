@@ -1,4 +1,5 @@
 export type HoodieColor = 'bone' | 'black' | 'grey';
+export type Audience = 'adult' | 'kid';
 export type Density = 'minimal' | 'balanced' | 'maximal';
 export type Vibe = 'classic' | 'vegas' | 'streetwear' | 'playful';
 export type Mood = 'classic' | 'vegas' | 'streetwear' | 'playful';
@@ -22,6 +23,13 @@ export interface QuestionnaireAnswers {
    *  pick lands in the highest-priority zone (front chest). Still subject to
    *  the colour-harmony invariant and the density cap. */
   mustHaveIds?: string[];
+  /** Wearer audience. The garment is unisex; this only affects content — 'kid'
+   *  keeps the design all-ages by excluding adult-themed patches. Defaults to
+   *  'adult' when omitted. */
+  audience?: Audience;
+  /** Unisex size id (e.g. 'M', 'XL'). An order detail — it does NOT change the
+   *  design the engine produces. */
+  size?: string;
 }
 export interface DesignSpec {
   hoodieColor: HoodieColor;
@@ -29,5 +37,5 @@ export interface DesignSpec {
   patches: Array<{ id: string; zone: PatchZone; scale: number; rotationDeg: number }>;
   densityTier: Density;
   rationale: string;
-  meta: { favoriteTeamsRanked: string[]; vibe: string; schemaVersion: '1.0' };
+  meta: { favoriteTeamsRanked: string[]; vibe: string; audience?: Audience; size?: string; schemaVersion: '1.0' };
 }

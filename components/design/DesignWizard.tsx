@@ -4,15 +4,16 @@ import Image from 'next/image';
 import { useMemo, useState } from 'react';
 import { generate } from '@/lib/engine/generate';
 import { densityBudget } from '@/lib/engine/select';
-import type { Density, DesignSpec, HoodieColor, QuestionnaireAnswers, Vibe } from '@/lib/catalog/types';
+import type { Audience, Density, DesignSpec, HoodieColor, QuestionnaireAnswers, Vibe } from '@/lib/catalog/types';
 import { HOODIE_COLORS } from '@/lib/catalog/hoodie-colors';
 import { TEAMS, FEATURE_OPTIONS, FEATURED_PATCHES } from '@/lib/catalog/teams';
-import { VIBE_OPTIONS, DENSITY_OPTIONS } from '@/lib/questionnaire/options';
+import { isKidSafe } from '@/lib/catalog';
+import { VIBE_OPTIONS, DENSITY_OPTIONS, AUDIENCE_OPTIONS, SIZES_BY_AUDIENCE, DEFAULT_SIZE } from '@/lib/questionnaire/options';
 import { StepHeading, PrimaryButton, GhostButton, SelectTile } from './primitives';
 import { Reveal } from './Reveal';
 import { LandingLink } from '@/components/navigation/LandingLink';
 
-const STEPS = ['Team', 'Color', 'Style', 'Patches', 'Extras'] as const;
+const STEPS = ['Team', 'Color', 'Size', 'Style', 'Patches', 'Extras'] as const;
 const MAX_TEAMS = 3;
 
 // A full-bleed, low-opacity backdrop of Summer League gameplay that runs behind
@@ -49,10 +50,21 @@ export function DesignWizard() {
 
   const [teams, setTeams] = useState<string[]>([]);
   const [hoodieColor, setHoodieColor] = useState<HoodieColor>('black');
+  const [audience, setAudience] = useState<Audience>('adult');
+  const [size, setSize] = useState<string>('M');
   const [vibe, setVibe] = useState<Vibe>('vegas');
   const [density, setDensity] = useState<Density>('balanced');
   const [mustHaveIds, setMustHaveIds] = useState<string[]>([]);
   const [query, setQuery] = useState('');
+
+  // Switching audience keeps size valid for the band and, for kids, drops any
+  // adult-themed patches already pinned (the engine filters them too, but this
+  // keeps the Extras counter honest).
+  const chooseAudience = (next: Audience) => {
+    setAudience(next);
+    if (!SIZES_BY_AUDIENCE[next].includes(size)) setSize(DEFAULT_SIZE[next]);
+    if (next === 'kid') setMustHaveIds((prev) => prev.filter(isKidSafe));
+  };
 
   // The chosen density bounds how many patches a design carries, so it also
   // bounds how many must-haves the fan can pin.
@@ -60,8 +72,8 @@ export function DesignWizard() {
   const cappedMustHaves = useMemo(() => mustHaveIds.slice(0, mustHaveCap), [mustHaveIds, mustHaveCap]);
 
   const answers: QuestionnaireAnswers = useMemo(
-    () => ({ hoodieColor, teamsRanked: teams, density, vibe, mustHaveIds: cappedMustHaves }),
-    [hoodieColor, teams, density, vibe, cappedMustHaves],
+    () => ({ hoodieColor, teamsRanked: teams, density, vibe, mustHaveIds: cappedMustHaves, audience, size }),
+    [hoodieColor, teams, density, vibe, cappedMustHaves, audience, size],
   );
 
   const spec: DesignSpec | null = useMemo(() => {
@@ -104,6 +116,8 @@ export function DesignWizard() {
           setStep(0);
           setTeams([]);
           setHoodieColor('black');
+          setAudience('adult');
+          setSize('M');
           setVibe('vegas');
           setDensity('balanced');
           setMustHaveIds([]);
@@ -235,6 +249,34 @@ export function DesignWizard() {
 
         {step === 2 && (
           <div>
+            <StepHeading
+              eyebrow="Fit"
+              title="Who's it for?"
+              subtitle="The hoodie is unisex — just pick a size. Kid keeps the design all-ages."
+            />
+            <div className="mx-auto mt-7 grid max-w-md grid-cols-2 gap-3">
+              {AUDIENCE_OPTIONS.map((a) => (
+                <SelectTile key={a.id} selected={audience === a.id} onClick={() => chooseAudience(a.id)}>
+                  <span className="font-display text-lg font-semibold text-ink">{a.label}</span>
+                  <p className="mt-1.5 font-sans text-sm text-ink-muted">{a.blurb}</p>
+                </SelectTile>
+              ))}
+            </div>
+            <p className="mt-7 text-center font-sans text-[11px] uppercase tracking-[0.25em] text-ink-muted">
+              {audience === 'kid' ? 'Youth size' : 'Adult size'}
+            </p>
+            <div className="mx-auto mt-3 grid max-w-md grid-cols-3 gap-2.5 sm:grid-cols-6">
+              {SIZES_BY_AUDIENCE[audience].map((s) => (
+                <SelectTile key={s} selected={size === s} onClick={() => setSize(s)} className="items-center justify-center">
+                  <span className="py-2 font-display text-base font-semibold text-ink">{s}</span>
+                </SelectTile>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {step === 3 && (
+          <div>
             <StepHeading eyebrow="Style" title="Choose the look" subtitle="This controls the patch mix." />
             <div className="mx-auto mt-8 grid max-w-3xl grid-cols-1 gap-3 sm:grid-cols-2">
               {VIBE_OPTIONS.map((v) => (
@@ -250,7 +292,7 @@ export function DesignWizard() {
           </div>
         )}
 
-        {step === 3 && (
+        {step === 4 && (
           <div>
             <StepHeading eyebrow="Patch count" title="How many patches?" subtitle="Keep it clean or fill the sleeves." />
             <div className="mx-auto mt-8 grid max-w-3xl grid-cols-1 gap-3 sm:grid-cols-3">
@@ -265,7 +307,7 @@ export function DesignWizard() {
           </div>
         )}
 
-        {step === 4 && (
+        {step === 5 && (
           <div>
             <StepHeading
               eyebrow="One more thing"
@@ -283,7 +325,7 @@ export function DesignWizard() {
               >
                 <span className="py-4 text-center font-sans text-sm font-semibold text-ink">Skip this</span>
               </SelectTile>
-              {FEATURED_PATCHES.map((p) => {
+              {FEATURED_PATCHES.filter((p) => audience === 'adult' || isKidSafe(p.id)).map((p) => {
                 const rank = cappedMustHaves.indexOf(p.id);
                 const selected = rank >= 0;
                 return (

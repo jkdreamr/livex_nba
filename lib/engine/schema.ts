@@ -21,6 +21,8 @@ export const designSpecSchema = z.object({
   meta: z.object({
     favoriteTeamsRanked: z.array(z.string()),
     vibe: z.string(),
+    audience: z.enum(['adult', 'kid']).optional(),
+    size: z.string().optional(),
     schemaVersion: z.literal('1.0'),
   }),
 });
