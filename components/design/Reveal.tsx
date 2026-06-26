@@ -87,7 +87,7 @@ export function Reveal({
 
   const title = answers.teamsRanked[0] ? teamLabel(answers.teamsRanked[0]) : 'Summer League';
   const colorLabel = HOODIE_COLORS.find((c) => c.id === answers.hoodieColor)?.label ?? answers.hoodieColor;
-  const summary = `${colorLabel} · ${cap(answers.vibe)} · ${answers.audience === 'kid' ? 'Youth' : 'Adult'} ${answers.size ?? 'M'}`;
+  const summary = `${colorLabel} · ${cap(answers.vibe)}`;
   const detailSpec = detail ? specs[detail] : null;
 
   return (

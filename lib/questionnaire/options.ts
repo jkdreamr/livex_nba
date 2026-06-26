@@ -1,25 +1,5 @@
-import type { Audience, Density, Vibe } from '@/lib/catalog/types';
+import type { Density, Vibe } from '@/lib/catalog/types';
 import { PLACEMENT_GRAPHIC_CATALOG } from '@/lib/catalog/placement-graphics';
-
-export interface AudienceOption {
-  id: Audience;
-  label: string;
-  blurb: string;
-}
-
-export const AUDIENCE_OPTIONS: AudienceOption[] = [
-  { id: 'adult', label: 'Adult', blurb: 'Standard unisex fit.' },
-  { id: 'kid', label: 'Kid', blurb: 'Youth sizing, and the design stays all-ages.' },
-];
-
-/** Unisex size ranges per audience. Size is an order detail; it never changes
- *  the design the engine produces. */
-export const SIZES_BY_AUDIENCE: Record<Audience, string[]> = {
-  adult: ['XS', 'S', 'M', 'L', 'XL', '2XL'],
-  kid: ['XS', 'S', 'M', 'L'],
-};
-
-export const DEFAULT_SIZE: Record<Audience, string> = { adult: 'M', kid: 'M' };
 
 export interface VibeOption {
   id: Vibe;

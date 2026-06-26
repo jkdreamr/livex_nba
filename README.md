@@ -8,7 +8,7 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38bdf8?logo=tailwindcss)
 ![Tests](https://img.shields.io/badge/tests-vitest-6e9f18?logo=vitest)
 
-Because the hoodies are physically manufactured, what the viewer shows is what gets made. The whole path — branded landing → four-step questionnaire → 3D reveal — sits on top of a **pure, fully-tested rules engine** and an **approved-catalog data model**.
+Because the hoodies are physically manufactured, what the viewer shows is what gets made. The whole path — branded landing → three-step questionnaire → 3D reveal — sits on top of a **pure, fully-tested rules engine** and an **approved-catalog data model**.
 
 ## Table of Contents
 
@@ -26,8 +26,7 @@ Because the hoodies are physically manufactured, what the viewer shows is what g
 
 ## Features
 
-- **Four-step questionnaire** — team(s), colorway, size, and style. The patch mix is generated for you; at the reveal you pick the density (Minimal / Balanced / Maximal) and can **Regenerate** for a fresh set. Fans can also **rep the league** (Las Vegas Summer League / Summer League / NBA) instead of a single franchise.
-- **Unisex sizing, all-ages content** — the garment is unisex (no gendered cut); fans pick Adult/Kid + a size. A **Kid** audience keeps the design all-ages by excluding adult-themed patches (alcohol / gambling / the Vegas-adult tagline). Size is an order detail and never changes the design.
+- **Three-step questionnaire** — team(s), colorway, and style. The patch mix is generated for you; at the reveal you pick the density (Minimal / Balanced / Maximal) and can **Regenerate** for a fresh set. Fans can also **rep the league** (Las Vegas Summer League / Summer League / NBA) instead of a single franchise.
 - **Deterministic design engine** — identical answers always produce an identical `DesignSpec`. No randomness, no I/O, fully unit-tested.
 - **Color-aware patch selection** — patches are contrast-checked against the fabric (WCAG) so nothing disappears, and "surprise" fillers are matched to the chosen team's palette.
 - **Photorealistic 3D reveal** — every graphic is projected onto the GLB hoodie with `DecalGeometry` so it conforms to the curved fabric like embroidery, with an inner-shell occluder preventing back-logo bleed-through.
@@ -77,7 +76,7 @@ npm start         # serve the built app
 | Route | What it is |
 |---|---|
 | `/` | Branded animated landing — scroll-driven 3D hero, video reels, CTA |
-| `/design` | The four-step questionnaire → 3D reveal (the whole fan experience) |
+| `/design` | The three-step questionnaire → 3D reveal (the whole fan experience) |
 | `/preview` | Dev-only sandbox for tuning the 3D viewer against any spec |
 | `POST /api/generate` | `QuestionnaireAnswers` → `DesignSpec` (programmatic / parity testing) |
 | `POST /api/chat` | Server proxy for the assistant — keeps the OpenRouter key server-side |
@@ -109,7 +108,7 @@ lib/landing/      — landing-page config, scroll state, act keyframes
 lib/questionnaire/options.ts — vibe + density option metadata for the wizard
 
 components/design/            — the fan-facing flow (client)
-  DesignWizard.tsx  → four-step questionnaire (team / color / size / style); team step also offers league/event picks; style step previews each vibe's stickers; every step runs a low-opacity gameplay backdrop (BACKDROP_SRC)
+  DesignWizard.tsx  → three-step questionnaire (team / color / style); team step also offers league/event picks; style step previews each vibe's stickers; every step runs a low-opacity gameplay backdrop (BACKDROP_SRC)
   Reveal.tsx        → result screen: three side-by-side hoodies (Minimal/Balanced/Maximal) to compare + pick, Regenerate (re-roll patches), and Send over → a "sending" screen
   primitives.tsx    → shared UI (SelectTile, buttons, headings)
 

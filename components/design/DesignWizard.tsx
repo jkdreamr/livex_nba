@@ -2,15 +2,15 @@
 
 import Image from 'next/image';
 import { useMemo, useState } from 'react';
-import type { Audience, HoodieColor, QuestionnaireAnswers, Vibe } from '@/lib/catalog/types';
+import type { HoodieColor, QuestionnaireAnswers, Vibe } from '@/lib/catalog/types';
 import { HOODIE_COLORS } from '@/lib/catalog/hoodie-colors';
 import { TEAMS, FEATURE_OPTIONS } from '@/lib/catalog/teams';
-import { VIBE_OPTIONS, AUDIENCE_OPTIONS, SIZES_BY_AUDIENCE, DEFAULT_SIZE } from '@/lib/questionnaire/options';
+import { VIBE_OPTIONS } from '@/lib/questionnaire/options';
 import { StepHeading, PrimaryButton, GhostButton, SelectTile } from './primitives';
 import { Reveal } from './Reveal';
 import { LandingLink } from '@/components/navigation/LandingLink';
 
-const STEPS = ['Team', 'Color', 'Size', 'Style'] as const;
+const STEPS = ['Team', 'Color', 'Style'] as const;
 const MAX_TEAMS = 3;
 
 // A full-bleed, low-opacity backdrop of Summer League gameplay that runs behind
@@ -46,23 +46,15 @@ export function DesignWizard() {
 
   const [teams, setTeams] = useState<string[]>([]);
   const [hoodieColor, setHoodieColor] = useState<HoodieColor>('black');
-  const [audience, setAudience] = useState<Audience>('adult');
-  const [size, setSize] = useState<string>('M');
   const [vibe, setVibe] = useState<Vibe>('vegas');
   const [query, setQuery] = useState('');
-
-  // Switching audience just keeps the chosen size valid for the new band.
-  const chooseAudience = (next: Audience) => {
-    setAudience(next);
-    if (!SIZES_BY_AUDIENCE[next].includes(size)) setSize(DEFAULT_SIZE[next]);
-  };
 
   // Patches and the patch count (density) are decided automatically and tuned at
   // the reveal — `density: 'balanced'` is just the starting mix the reveal opens
   // on; the fan switches Minimal / Balanced / Maximal there.
   const answers: QuestionnaireAnswers = useMemo(
-    () => ({ hoodieColor, teamsRanked: teams, density: 'balanced', vibe, audience, size }),
-    [hoodieColor, teams, vibe, audience, size],
+    () => ({ hoodieColor, teamsRanked: teams, density: 'balanced', vibe }),
+    [hoodieColor, teams, vibe],
   );
 
   const toggleTeam = (slug: string) =>
@@ -87,8 +79,6 @@ export function DesignWizard() {
           setStep(0);
           setTeams([]);
           setHoodieColor('black');
-          setAudience('adult');
-          setSize('M');
           setVibe('vegas');
           setQuery('');
         }}
@@ -217,34 +207,6 @@ export function DesignWizard() {
         )}
 
         {step === 2 && (
-          <div>
-            <StepHeading
-              eyebrow="Fit"
-              title="Who's it for?"
-              subtitle="The hoodie is unisex, just pick a size. Kid keeps the design all-ages."
-            />
-            <div className="mx-auto mt-7 grid max-w-md grid-cols-2 gap-3">
-              {AUDIENCE_OPTIONS.map((a) => (
-                <SelectTile key={a.id} selected={audience === a.id} onClick={() => chooseAudience(a.id)}>
-                  <span className="font-display text-lg font-semibold text-ink">{a.label}</span>
-                  <p className="mt-1.5 font-sans text-sm text-ink-muted">{a.blurb}</p>
-                </SelectTile>
-              ))}
-            </div>
-            <p className="mt-7 text-center font-sans text-[11px] uppercase tracking-[0.25em] text-ink-muted">
-              {audience === 'kid' ? 'Youth size' : 'Adult size'}
-            </p>
-            <div className="mx-auto mt-3 grid max-w-md grid-cols-3 gap-2.5 sm:grid-cols-6">
-              {SIZES_BY_AUDIENCE[audience].map((s) => (
-                <SelectTile key={s} selected={size === s} onClick={() => setSize(s)} className="items-center justify-center">
-                  <span className="py-2 font-display text-base font-semibold text-ink">{s}</span>
-                </SelectTile>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {step === 3 && (
           <div>
             <StepHeading eyebrow="Style" title="Choose the look" subtitle="Each style pulls in its own kind of stickers." />
             <div className="mx-auto mt-8 grid max-w-3xl grid-cols-1 gap-3 sm:grid-cols-2">
