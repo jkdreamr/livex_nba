@@ -24,14 +24,18 @@ export const ZONE_GLB: Record<BackZone | PatchZone, GlbZone> = {
   back_upper: { position: [0, 1.4, -0.06], normal: [0.03, 0.34, -0.94], scale: 0.09, depth: 0.09 },
   front_chest: { position: [0.1, 1.25, 0.064], normal: [0.28, 0.34, 0.9], scale: 0.11 },
 
-  // OUTER sleeve (normals ≈ ±x), stacked down the side per the PDF
-  left_sleeve_1: { position: [-0.205, 1.18, 0], normal: [-0.99, -0.02, 0.14], scale: 0.085 },
-  left_sleeve_2: { position: [-0.243, 1.04, 0], normal: [-0.95, -0.3, -0.1], scale: 0.085 },
-  left_sleeve_3: { position: [-0.251, 0.92, 0], normal: [-0.95, 0.16, 0.28], scale: 0.08 },
-  left_sleeve_4: { position: [-0.225, 1.11, 0], normal: [-0.97, -0.12, 0.05], scale: 0.075 },
+  // OUTER sleeve (normals ≈ ±x): four patches marching evenly DOWN the side of
+  // each sleeve, top → cuff, with a uniform smaller scale and ~0.10 spacing so
+  // adjacent patches never touch. The fill order (1→4) descends, so a maximal
+  // design reads as an even column; lighter densities just use the top zones.
+  // x widens slightly toward the cuff as the sleeve angles outward.
+  left_sleeve_1: { position: [-0.202, 1.205, 0], normal: [-0.99, -0.02, 0.14], scale: 0.069 },
+  left_sleeve_2: { position: [-0.228, 1.1, 0], normal: [-0.97, -0.19, 0.02], scale: 0.069 },
+  left_sleeve_3: { position: [-0.248, 0.995, 0], normal: [-0.95, -0.1, 0.06], scale: 0.069 },
+  left_sleeve_4: { position: [-0.252, 0.89, 0], normal: [-0.95, 0.16, 0.27], scale: 0.069 },
 
-  right_sleeve_1: { position: [0.231, 1.18, 0], normal: [0.99, 0.07, -0.12], scale: 0.085 },
-  right_sleeve_2: { position: [0.251, 1.04, 0], normal: [0.99, 0.06, -0.08], scale: 0.085 },
-  right_sleeve_3: { position: [0.249, 0.92, 0], normal: [0.91, -0.1, 0.4], scale: 0.08 },
-  right_sleeve_4: { position: [0.24, 1.11, 0], normal: [0.99, 0, 0], scale: 0.075 },
+  right_sleeve_1: { position: [0.228, 1.205, 0], normal: [0.99, 0.07, -0.12], scale: 0.069 },
+  right_sleeve_2: { position: [0.248, 1.1, 0], normal: [0.99, 0.05, -0.08], scale: 0.069 },
+  right_sleeve_3: { position: [0.251, 0.995, 0], normal: [0.96, 0, 0.12], scale: 0.069 },
+  right_sleeve_4: { position: [0.249, 0.89, 0], normal: [0.92, -0.1, 0.36], scale: 0.069 },
 };
