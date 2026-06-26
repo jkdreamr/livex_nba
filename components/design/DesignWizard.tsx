@@ -2,26 +2,22 @@
 
 import Image from 'next/image';
 import { useMemo, useState } from 'react';
-import { generate } from '@/lib/engine/generate';
-import { densityBudget } from '@/lib/engine/select';
-import type { Audience, Density, DesignSpec, HoodieColor, QuestionnaireAnswers, Vibe } from '@/lib/catalog/types';
+import type { Audience, HoodieColor, QuestionnaireAnswers, Vibe } from '@/lib/catalog/types';
 import { HOODIE_COLORS } from '@/lib/catalog/hoodie-colors';
-import { TEAMS, FEATURE_OPTIONS, FEATURED_PATCHES } from '@/lib/catalog/teams';
-import { isKidSafe } from '@/lib/catalog';
-import { VIBE_OPTIONS, DENSITY_OPTIONS, AUDIENCE_OPTIONS, SIZES_BY_AUDIENCE, DEFAULT_SIZE } from '@/lib/questionnaire/options';
+import { TEAMS, FEATURE_OPTIONS } from '@/lib/catalog/teams';
+import { VIBE_OPTIONS, AUDIENCE_OPTIONS, SIZES_BY_AUDIENCE, DEFAULT_SIZE } from '@/lib/questionnaire/options';
 import { StepHeading, PrimaryButton, GhostButton, SelectTile } from './primitives';
 import { Reveal } from './Reveal';
 import { LandingLink } from '@/components/navigation/LandingLink';
 
-const STEPS = ['Team', 'Color', 'Size', 'Style', 'Patches', 'Extras'] as const;
+const STEPS = ['Team', 'Color', 'Size', 'Style'] as const;
 const MAX_TEAMS = 3;
 
 // A full-bleed, low-opacity backdrop of Summer League gameplay that runs behind
-// the whole questionnaire (every step, "Who are you wearing?" → "Want specific
-// patches?"), so the flow feels immersive without hurting legibility. Mounted
-// once for the wizard so it plays continuously across steps. Swap BACKDROP_SRC
-// for other footage (drop it in /public/videos). Degrades to the scrim alone if
-// the file is missing.
+// the whole questionnaire (every step), so the flow feels immersive without
+// hurting legibility. Mounted once so it plays continuously across steps. Swap
+// BACKDROP_SRC for other footage (drop it in /public/videos). Degrades to the
+// scrim alone if the file is missing.
 const BACKDROP_SRC = '/videos/patch-bg.mp4';
 
 function FlowBackdrop() {
@@ -53,37 +49,21 @@ export function DesignWizard() {
   const [audience, setAudience] = useState<Audience>('adult');
   const [size, setSize] = useState<string>('M');
   const [vibe, setVibe] = useState<Vibe>('vegas');
-  const [density, setDensity] = useState<Density>('balanced');
-  const [mustHaveIds, setMustHaveIds] = useState<string[]>([]);
   const [query, setQuery] = useState('');
 
-  // Switching audience keeps size valid for the band and, for kids, drops any
-  // adult-themed patches already pinned (the engine filters them too, but this
-  // keeps the Extras counter honest).
+  // Switching audience just keeps the chosen size valid for the new band.
   const chooseAudience = (next: Audience) => {
     setAudience(next);
     if (!SIZES_BY_AUDIENCE[next].includes(size)) setSize(DEFAULT_SIZE[next]);
-    if (next === 'kid') setMustHaveIds((prev) => prev.filter(isKidSafe));
   };
 
-  // The chosen density bounds how many patches a design carries, so it also
-  // bounds how many must-haves the fan can pin.
-  const mustHaveCap = densityBudget(density);
-  const cappedMustHaves = useMemo(() => mustHaveIds.slice(0, mustHaveCap), [mustHaveIds, mustHaveCap]);
-
+  // Patches and the patch count (density) are decided automatically and tuned at
+  // the reveal — `density: 'balanced'` is just the starting mix the reveal opens
+  // on; the fan switches Minimal / Balanced / Maximal there.
   const answers: QuestionnaireAnswers = useMemo(
-    () => ({ hoodieColor, teamsRanked: teams, density, vibe, mustHaveIds: cappedMustHaves, audience, size }),
-    [hoodieColor, teams, density, vibe, cappedMustHaves, audience, size],
+    () => ({ hoodieColor, teamsRanked: teams, density: 'balanced', vibe, audience, size }),
+    [hoodieColor, teams, vibe, audience, size],
   );
-
-  const spec: DesignSpec | null = useMemo(() => {
-    if (!revealed || teams.length === 0) return null;
-    try {
-      return generate(answers);
-    } catch {
-      return null;
-    }
-  }, [revealed, teams.length, answers]);
 
   const toggleTeam = (slug: string) =>
     setTeams((prev) =>
@@ -94,21 +74,12 @@ export function DesignWizard() {
           : prev,
     );
 
-  const toggleMustHave = (id: string) =>
-    setMustHaveIds((prev) => {
-      const capped = prev.slice(0, mustHaveCap);
-      if (capped.includes(id)) return capped.filter((x) => x !== id);
-      if (capped.length >= mustHaveCap) return capped; // density cap reached
-      return [...capped, id];
-    });
-
   const canAdvance = step !== 0 || teams.length > 0;
   const isLast = step === STEPS.length - 1;
 
-  if (revealed && spec) {
+  if (revealed && teams.length > 0) {
     return (
       <Reveal
-        spec={spec}
         answers={answers}
         onEdit={() => setRevealed(false)}
         onRestart={() => {
@@ -119,8 +90,6 @@ export function DesignWizard() {
           setAudience('adult');
           setSize('M');
           setVibe('vegas');
-          setDensity('balanced');
-          setMustHaveIds([]);
           setQuery('');
         }}
       />
@@ -277,7 +246,7 @@ export function DesignWizard() {
 
         {step === 3 && (
           <div>
-            <StepHeading eyebrow="Style" title="Choose the look" subtitle="This controls the patch mix." />
+            <StepHeading eyebrow="Style" title="Choose the look" subtitle="Each style pulls in its own kind of stickers." />
             <div className="mx-auto mt-8 grid max-w-3xl grid-cols-1 gap-3 sm:grid-cols-2">
               {VIBE_OPTIONS.map((v) => (
                 <SelectTile key={v.id} selected={vibe === v.id} onClick={() => setVibe(v.id)}>
@@ -286,64 +255,16 @@ export function DesignWizard() {
                     <span className="font-display text-lg font-semibold text-ink">{v.label}</span>
                   </div>
                   <p className="mt-2 font-sans text-sm text-ink-muted">{v.blurb}</p>
+                  {/* example stickers this style surfaces */}
+                  <div className="mt-3 flex gap-1.5">
+                    {v.preview.map((src) => (
+                      <span key={src} className="relative block h-9 w-9 shrink-0 overflow-hidden rounded-lg border border-line bg-surface-raised">
+                        <Image src={src} alt="" fill sizes="36px" className="object-contain p-1" />
+                      </span>
+                    ))}
+                  </div>
                 </SelectTile>
               ))}
-            </div>
-          </div>
-        )}
-
-        {step === 4 && (
-          <div>
-            <StepHeading eyebrow="Patch count" title="How many patches?" subtitle="Keep it clean or fill the sleeves." />
-            <div className="mx-auto mt-8 grid max-w-3xl grid-cols-1 gap-3 sm:grid-cols-3">
-              {DENSITY_OPTIONS.map((d) => (
-                <SelectTile key={d.id} selected={density === d.id} onClick={() => setDensity(d.id)}>
-                  <span className="font-display text-lg font-semibold text-ink">{d.label}</span>
-                  <p className="mt-2 font-sans text-sm text-ink-muted">{d.blurb}</p>
-                  <span className="mt-3 font-sans text-xs uppercase tracking-wide text-brand">up to {d.max} patches</span>
-                </SelectTile>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {step === 5 && (
-          <div>
-            <StepHeading
-              eyebrow="One more thing"
-              title="Want specific patches?"
-              subtitle={`Pick patches to include. Your first pick goes on the chest. Up to ${mustHaveCap} for ${density}. You can also skip this.`}
-            />
-            <p className="mt-3 text-center font-sans text-xs uppercase tracking-[0.2em] text-ink-muted">
-              {cappedMustHaves.length} / {mustHaveCap} selected
-            </p>
-            <div className="mx-auto mt-4 grid max-h-[44vh] max-w-3xl grid-cols-3 gap-2.5 overflow-y-auto pr-1 sm:grid-cols-4">
-              <SelectTile
-                selected={cappedMustHaves.length === 0}
-                onClick={() => setMustHaveIds([])}
-                className="items-center justify-center"
-              >
-                <span className="py-4 text-center font-sans text-sm font-semibold text-ink">Skip this</span>
-              </SelectTile>
-              {FEATURED_PATCHES.filter((p) => audience === 'adult' || isKidSafe(p.id)).map((p) => {
-                const rank = cappedMustHaves.indexOf(p.id);
-                const selected = rank >= 0;
-                return (
-                  <SelectTile
-                    key={p.id}
-                    selected={selected}
-                    disabled={!selected && cappedMustHaves.length >= mustHaveCap}
-                    badge={selected ? rank + 1 : undefined}
-                    onClick={() => toggleMustHave(p.id)}
-                    className="items-center"
-                  >
-                    <div className="relative mx-auto h-16 w-16">
-                      <Image src={p.file} alt={p.label} fill sizes="64px" className="object-contain" />
-                    </div>
-                    <span className="mt-2 w-full text-center font-sans text-xs text-ink-muted">{p.label}</span>
-                  </SelectTile>
-                );
-              })}
             </div>
           </div>
         )}

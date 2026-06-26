@@ -30,6 +30,11 @@ export interface QuestionnaireAnswers {
   /** Unisex size id (e.g. 'M', 'XL'). An order detail — it does NOT change the
    *  design the engine produces. */
   size?: string;
+  /** Re-roll seed. Same answers + same seed always yield the same design
+   *  (determinism preserved); bumping it cycles the auto "surprise" fillers to a
+   *  fresh variation while the team identity (back + team patches) stays put.
+   *  Defaults to 0. */
+  seed?: number;
 }
 export interface DesignSpec {
   hoodieColor: HoodieColor;

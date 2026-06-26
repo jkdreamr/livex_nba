@@ -29,6 +29,10 @@ body {
 }
 
 @media (pointer: fine) { html.lx-cursor, html.lx-cursor * { cursor: none; } }
+
+/* "Sending over" progress bar — fills, then holds near-full while the order is
+   handed off (the screen stays put). */
+@keyframes lx-send-fill { from { width: 6%; } to { width: 92%; } }
 /* The chat widget is a normal UI surface — restore the native cursor over it
    even on the landing (where the custom dot otherwise hides every cursor).
    Higher specificity than the rule above so it wins; the custom dot also hides

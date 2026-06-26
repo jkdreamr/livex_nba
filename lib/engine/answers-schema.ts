@@ -7,4 +7,5 @@ export const answersSchema = z.object({
   mustHaveIds: z.array(z.string()).optional(),
   audience: z.enum(['adult', 'kid']).optional(),
   size: z.string().optional(),
+  seed: z.number().int().nonnegative().optional(),
 });

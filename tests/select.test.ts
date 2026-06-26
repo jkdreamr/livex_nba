@@ -65,6 +65,14 @@ describe('select', () => {
     });
     expect(out).not.toContain('plc_25_star-yellow');
   });
+  it('seed re-rolls the surprise fillers (Regenerate) yet stays deterministic; team picks lead', () => {
+    const a = { ...base, teamsRanked: ['celtics', 'lakers'], density: 'maximal' as const };
+    const s0 = buildCandidates({ ...a, seed: 0 });
+    const s1 = buildCandidates({ ...a, seed: 1 });
+    expect(s0).not.toEqual(s1);                                              // different seed → different mix
+    expect(buildCandidates({ ...a, seed: 3 })).toEqual(buildCandidates({ ...a, seed: 3 })); // same seed → identical
+    expect(s0[0]).toBe(s1[0]);                                              // #2 team patch still leads (identity stays)
+  });
   it('is deterministic for the same answers', () => {
     const a: QuestionnaireAnswers = {
       ...base, teamsRanked: ['celtics', 'lakers'], mustHaveIds: ['plc_40_flamingo', 'plc_30_palm-tree'],

@@ -63,14 +63,23 @@ export function buildCandidates(answers: QuestionnaireAnswers): string[] {
   //    ORDERED so the colours that match the chosen team come first (closest
   //    palette first), then deterministic id tiebreak. With no team, distance is
   //    a constant 0 so it falls back to a pure, deterministic id sort.
-  PLACEMENT_GRAPHIC_CATALOG
+  const fillers = PLACEMENT_GRAPHIC_CATALOG
     .filter(
       g => g.category === 'vegas' || g.category === 'summer_league'
         || (g.category === 'fun' && g.mood.includes(answers.vibe)),
     )
     .map(g => ({ g, d: teamColors.length ? paletteDistance(g.dominantColors, teamColors) : 0 }))
-    .sort((a, b) => a.d - b.d || a.g.id.localeCompare(b.g.id))
-    .forEach(({ g }) => push(g));
+    .sort((a, b) => a.d - b.d || a.g.id.localeCompare(b.g.id));
+
+  // "Regenerate": rotating the sorted fillers by a seed-derived offset deals a
+  // fresh window of surprise patches each press, while staying fully
+  // deterministic for a given (answers, seed). seed 0 keeps the best
+  // colour-matched picks first; the team patches above are untouched, so the
+  // fan's identity stays put across re-rolls.
+  const seed = answers.seed ?? 0;
+  const off = fillers.length ? (seed * 7) % fillers.length : 0;
+  const rolled = off ? [...fillers.slice(off), ...fillers.slice(0, off)] : fillers;
+  rolled.forEach(({ g }) => push(g));
 
   return ordered;
 }

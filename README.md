@@ -8,7 +8,7 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38bdf8?logo=tailwindcss)
 ![Tests](https://img.shields.io/badge/tests-vitest-6e9f18?logo=vitest)
 
-Because the hoodies are physically manufactured, what the viewer shows is what gets made. The whole path — branded landing → six-step questionnaire → 3D reveal — sits on top of a **pure, fully-tested rules engine** and an **approved-catalog data model**.
+Because the hoodies are physically manufactured, what the viewer shows is what gets made. The whole path — branded landing → four-step questionnaire → 3D reveal — sits on top of a **pure, fully-tested rules engine** and an **approved-catalog data model**.
 
 ## Table of Contents
 
@@ -26,7 +26,7 @@ Because the hoodies are physically manufactured, what the viewer shows is what g
 
 ## Features
 
-- **Six-step questionnaire** — team(s), colorway, size, vibe, patch density, and optional must-have patches. Fans can also **rep the league** (Las Vegas Summer League / Summer League / NBA) instead of a single franchise.
+- **Four-step questionnaire** — team(s), colorway, size, and style. The patch mix is generated for you; at the reveal you pick the density (Minimal / Balanced / Maximal) and can **Regenerate** for a fresh set. Fans can also **rep the league** (Las Vegas Summer League / Summer League / NBA) instead of a single franchise.
 - **Unisex sizing, all-ages content** — the garment is unisex (no gendered cut); fans pick Adult/Kid + a size. A **Kid** audience keeps the design all-ages by excluding adult-themed patches (alcohol / gambling / the Vegas-adult tagline). Size is an order detail and never changes the design.
 - **Deterministic design engine** — identical answers always produce an identical `DesignSpec`. No randomness, no I/O, fully unit-tested.
 - **Color-aware patch selection** — patches are contrast-checked against the fabric (WCAG) so nothing disappears, and "surprise" fillers are matched to the chosen team's palette.
@@ -77,8 +77,7 @@ npm start         # serve the built app
 | Route | What it is |
 |---|---|
 | `/` | Branded animated landing — scroll-driven 3D hero, video reels, CTA |
-| `/design` | The six-step questionnaire → 3D reveal (the whole fan experience) |
-| `/my-look` | Camera-based "my look" preview of a generated design |
+| `/design` | The four-step questionnaire → 3D reveal (the whole fan experience) |
 | `/preview` | Dev-only sandbox for tuning the 3D viewer against any spec |
 | `POST /api/generate` | `QuestionnaireAnswers` → `DesignSpec` (programmatic / parity testing) |
 | `POST /api/chat` | Server proxy for the assistant — keeps the OpenRouter key server-side |
@@ -110,8 +109,8 @@ lib/landing/      — landing-page config, scroll state, act keyframes
 lib/questionnaire/options.ts — vibe + density option metadata for the wizard
 
 components/design/            — the fan-facing flow (client)
-  DesignWizard.tsx  → six-step questionnaire; team step also offers league/event picks; size step sets Adult/Kid + unisex size; every step runs a low-opacity gameplay backdrop (BACKDROP_SRC)
-  Reveal.tsx        → result screen: rotating 3D hoodie + design breakdown
+  DesignWizard.tsx  → four-step questionnaire (team / color / size / style); team step also offers league/event picks; style step previews each vibe's stickers; every step runs a low-opacity gameplay backdrop (BACKDROP_SRC)
+  Reveal.tsx        → result screen: three side-by-side hoodies (Minimal/Balanced/Maximal) to compare + pick, Regenerate (re-roll patches), and Send over → a "sending" screen
   primitives.tsx    → shared UI (SelectTile, buttons, headings)
 
 components/three/             — the 3D viewer
@@ -164,16 +163,16 @@ The back hero is deliberately **not** harmony-filtered. Contrast-gating it would
 **Placement candidates** (`buildCandidates`). An *ordered* candidate list is assembled by descending intent. Each graphic is admitted at most once and only if it clears harmony (see below), so the list is de-duplicated and fabric-safe as it is built. **Team identity leads the design** — the teams the fan picked outrank the optional add-ons:
 
 1. **Remaining ranked teams** — `teamPatch()` for `teamsRanked[1..]` (the #1 team already owns the back), in the fan's ranked order. **Team picks take priority**, so they claim the most prominent zones first (front chest, then upper back).
-2. **Must-have add-ons** — the patches the fan pinned in the Extras step (`mustHaveIds`), **in their tap order**, placed after the team patches. The fan may pin as many as the density allows (see cap below).
+2. **Must-have add-ons** — optional patches passed via `mustHaveIds` (an API input; the questionnaire auto-generates patches and no longer exposes a manual picker), **in order**, placed after the team patches. Capped to the density budget (see below).
 3. **"Surprise" fillers** — `vegas` + `summer_league` identity patches and `fun` patches whose `mood[]` includes the chosen `vibe`, **ordered by colour affinity to the #1 pick** (`paletteDistance`, `lib/engine/harmony.ts`): the fillers whose palette best matches what the fan reps come first (e.g. a Lakers fan's surprises skew purple/gold; a Celtics fan's skew green), with a deterministic `id` tiebreak. A league/event pick uses that back graphic's palette as the colour reference; with nothing chosen, the distance is a constant so it falls back to a pure `id` sort.
 
 **Placement is colour- and priority-aware; the placement *options* never change.** The ten patch zones are fixed (`PATCH_ZONE_PRIORITY`); only *which* candidate fills *which* zone is tuned — by candidate order. Because team patches lead, the recognizable marks land in the prominent zones (chest, upper back), and the colour-matched surprises fill the sleeves.
 
 **Harmony is a hard invariant, not a soft preference.** A candidate is admitted only if **at least one** of its `dominantColors` has a WCAG contrast ratio ≥ **1.6** against the fabric hex (`isHarmonious`, `lib/engine/harmony.ts`; full WCAG relative luminance, sRGB → linear `0.2126 R + 0.7152 G + 0.0722 B`). `checkInvariants` re-asserts this on every patch in the final spec, so **even an explicit must-have cannot bypass it** — a pinned patch that would vanish into the fabric is dropped and the next candidate fills the slot. This protects the physical product (an invisible embroidered patch is a defect). The back hero is the sole exception — it is never contrast-gated, because suppressing a real team logo would be worse than low contrast. (`luminance()` throws on a malformed non-6-hex colour to catch bad pipeline data early.)
 
-**All-ages content filter** (`audience`). When the wearer audience is `kid`, adult-themed patches (`ADULT_PATCH_IDS` in `lib/catalog/audience.ts` — alcohol, gambling, the Vegas-adult tagline) are excluded from **every** source: must-haves *and* surprise fillers (the Extras picker hides them too). The garment is unisex, so this is purely a content gate — it never changes the cut or the chosen size. Adult is the default when no audience is given, so existing behaviour is unchanged.
+**All-ages content filter** (`audience`). When the wearer audience is `kid`, adult-themed patches (`ADULT_PATCH_IDS` in `lib/catalog/audience.ts` — alcohol, gambling, the Vegas-adult tagline) are excluded from **every** source: must-haves *and* surprise fillers. The garment is unisex, so this is purely a content gate — it never changes the cut or the chosen size. Adult is the default when no audience is given, so existing behaviour is unchanged.
 
-**Density budget** (`densityBudget`). The number of patches per tier: `minimal → 1`, `balanced → 4`, `maximal → 10`. This equals the hard cap (`DENSITY_MAX`), so the count the fan is promised ("up to N patches") is exactly what they get, and **maximal fills all ten zones**. The questionnaire caps must-have pins at this same number, so every pinned patch is guaranteed to appear.
+**Density budget** (`densityBudget`). The number of patches per tier: `minimal → 1`, `balanced → 4`, `maximal → 10`. This equals the hard cap (`DENSITY_MAX`), so the count the fan is promised ("up to N patches") is exactly what they get, and **maximal fills all ten zones**. The density is chosen at the reveal (Minimal / Balanced / Maximal); any `mustHaveIds` are capped to this number so every pinned patch fits.
 
 ### 2. Placement — where they go
 
