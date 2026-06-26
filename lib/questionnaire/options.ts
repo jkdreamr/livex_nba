@@ -8,7 +8,7 @@ export interface AudienceOption {
 
 export const AUDIENCE_OPTIONS: AudienceOption[] = [
   { id: 'adult', label: 'Adult', blurb: 'Standard unisex fit.' },
-  { id: 'kid', label: 'Kid', blurb: 'Youth sizing — and the design stays all-ages.' },
+  { id: 'kid', label: 'Kid', blurb: 'Youth sizing, and the design stays all-ages.' },
 ];
 
 /** Unisex size ranges per audience. Size is an order detail; it never changes

@@ -162,7 +162,7 @@ export function DesignWizard() {
             <StepHeading
               eyebrow="Who do you rep?"
               title="Who are you wearing?"
-              subtitle={`Your first pick goes on the back. Rep the league or pick up to ${MAX_TEAMS} teams — tap order sets the rank.`}
+              subtitle={`Your first pick goes on the back. Rep the league or pick up to ${MAX_TEAMS} teams. Tap order sets the rank.`}
             />
 
             {/* League / event options for fans who don't rep a single franchise. */}
@@ -233,7 +233,7 @@ export function DesignWizard() {
         {step === 1 && (
           <div>
             <StepHeading eyebrow="Color" title="Choose the hoodie color" subtitle="Three heavyweight fleece options." />
-            <div className="mx-auto mt-8 grid max-w-3xl grid-cols-2 gap-3 sm:grid-cols-4">
+            <div className="mx-auto mt-8 grid max-w-2xl grid-cols-3 gap-3">
               {HOODIE_COLORS.map((c) => (
                 <SelectTile key={c.id} selected={hoodieColor === c.id} onClick={() => setHoodieColor(c.id)}>
                   <span
@@ -252,7 +252,7 @@ export function DesignWizard() {
             <StepHeading
               eyebrow="Fit"
               title="Who's it for?"
-              subtitle="The hoodie is unisex — just pick a size. Kid keeps the design all-ages."
+              subtitle="The hoodie is unisex, just pick a size. Kid keeps the design all-ages."
             />
             <div className="mx-auto mt-7 grid max-w-md grid-cols-2 gap-3">
               {AUDIENCE_OPTIONS.map((a) => (

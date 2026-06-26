@@ -24,25 +24,25 @@ const ALL_30_FRANCHISE_SLUGS = [
 ] as const;
 
 /**
- * 29 back-graphic team slugs: all 30 franchises except 'bulls'
- * (Chicago Bulls is intentionally absent from the back catalog per the source PDF).
+ * Back-graphic team slugs now cover all 30 franchises: 29 from the source PDF
+ * plus Chicago Bulls, which reuses its official placement logo on the back.
  */
-const BACK_29_TEAM_SLUGS = ALL_30_FRANCHISE_SLUGS.filter(s => s !== 'bulls');
+const BACK_TEAM_SLUGS = ALL_30_FRANCHISE_SLUGS;
 
 const HEX_RE = /^#[0-9A-Fa-f]{6}$/;
 
 describe('catalog-full integrity', () => {
-  it('has exactly 33 back graphics and 94 placement graphics', () => {
-    expect(BACK_GRAPHIC_CATALOG).toHaveLength(33);
+  it('has exactly 34 back graphics and 94 placement graphics', () => {
+    expect(BACK_GRAPHIC_CATALOG).toHaveLength(34); // 33 from the PDF + reused Bulls back
     expect(PLACEMENT_GRAPHIC_CATALOG).toHaveLength(94);
   });
 
-  it('all 127 ids are unique across both catalogs', () => {
+  it('all 128 ids are unique across both catalogs', () => {
     const allIds = [
       ...BACK_GRAPHIC_CATALOG.map(g => g.id),
       ...PLACEMENT_GRAPHIC_CATALOG.map(g => g.id),
     ];
-    expect(new Set(allIds).size).toBe(127);
+    expect(new Set(allIds).size).toBe(128);
   });
 
   it('every entry has a non-empty file starting with /logos/', () => {
@@ -94,17 +94,17 @@ describe('catalog-full integrity', () => {
     expect(teamMap.size).toBe(30);
   });
 
-  it('back contains exactly 29 team slugs (every franchise except bulls)', () => {
+  it('back contains all 30 franchise team slugs (Bulls reuses its placement logo)', () => {
     const backTeams = BACK_GRAPHIC_CATALOG
       .filter(g => g.team != null)
       .map(g => g.team as string);
     const backTeamSet = new Set(backTeams);
 
-    expect(backTeamSet.size).toBe(29);
-    for (const slug of BACK_29_TEAM_SLUGS) {
+    expect(backTeamSet.size).toBe(30);
+    for (const slug of BACK_TEAM_SLUGS) {
       expect(backTeamSet.has(slug), `back missing team: ${slug}`).toBe(true);
     }
-    // Bulls intentionally absent from back catalog (Chicago Bulls, per source PDF)
-    expect(backTeamSet.has('bulls'), 'bulls must NOT appear in back catalog').toBe(false);
+    // Bulls now appears on the back via its reused placement logo
+    expect(backTeamSet.has('bulls'), 'bulls must appear in back catalog').toBe(true);
   });
 });
